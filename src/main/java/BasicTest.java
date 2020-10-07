@@ -5,5 +5,6 @@ public class BasicTest {
         System.out.println("GUO jiadong testing");
         System.out.println("Yuxuan ZONG testing");
         System.out.println("Gong CHEN testing");
+        System.out.println("Gong CHEN testing again");
     }
 }
