@@ -6,6 +6,8 @@ public class BasicTest {
         System.out.println("Yuxuan ZONG testing");
         System.out.println("Gong CHEN testing");
         System.out.println("Gong CHEN testing again");
+        System.out.println("Muye HE testing again");
+        System.out.println("Gong CHEN testing again and again");
     }
 }
 
