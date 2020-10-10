@@ -23,4 +23,102 @@ HOURS
 MINUTES
 }
 
+'Pour l'IHM
+
+class Controller{
++ Controller()
++ loadMap() or changeMap()
++ loadRequest()
+'+ addRequest()
+'+ deleteRequest()
++calculateRoute()
++ confirmRoute()
++ undo()
++ redo()
+'+ zoomIn()
+'+ zoomOut()
+}
+
+Controller --> "-currentState 0..1"State
+
+interface State{
++ loadMap()
++ loadRequest()
++ selectFile()
++ calculateRoute()
++ confirmRoute()
++ undo()
++ redo()
+'addRequest()
+'deleteRequest()
+'zoomIn()
+'zoomOut()
++ rightClick()
++ leftClick()
+' leftClick for cancel???
+}
+
+initialState ..> State
+loadMapState ..> State
+loadRequestState ..> State
+confirmRouteState ..> State
+calculateRouteState ..> State
+
+class initialState{
++ initialState()
++ loadMap()
++ loadRequest()
++ calculateRoute()
++ confirmRoute()
++ undo()
++ redo()
+'addRequest()
+'deleteRequest()
+'zoomIn()
+'zoomOut()
+}
+
+class loadMapState{
++ loadMapState1()
+'to cancel
++ rightClick()
+'to select
++ leftDoubleClick()
+}
+
+class loadRequestState{
++ loadRequestState1()
+'to cancel
++ rightClick()
+'to select
++ leftDoubleClick()
+}
+
+class calculateRouteState{
++ calculateRouteState()
+}
+
+class confirmRouteState{
++ confirmRouteState()
+}
+
+interface ActionListener{}
+
+buttonListener ..> ActionListener
+buttonListener --> Controller
+mouseListener ..> ActionListener
+mouseListener --> Controller
+
+class buttonListener{
+- controller:Controller
++ actionPerformed(ActionEvent e)
+}
+
+class mouseListener{
+- controller:Controller
++ actionPerformed(ActionEvent e)
+}
+
+
+
 @enduml
