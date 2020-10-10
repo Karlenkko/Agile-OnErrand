@@ -35,7 +35,7 @@ loadMapState -up-> initialState : doubleLeftClick()
 loadMapState -up-> initialState : rightClick()
 
 State loadMapState{
-    loadMapState:entry/r = new XMLFileOpener();
+    loadMapState:entry/xml = new XMLFileOpener();
 }
 
 'loadRequestState
@@ -46,7 +46,7 @@ loadRequestState -> initialState : rightClick()
 
 
 State loadRequestState{
-    loadRequestState:entry/r = new XMLFileOpener();
+    loadRequestState:entry/xml = new XMLFileOpener();
 }
 
 'confirmRouteState
@@ -55,7 +55,7 @@ confirmRouteState -down-> initialState
 
 State confirmRouteState{
     '创建一个class用于执行确定route 但是不清楚class的名称
-     confirmRouteState:new confirmation();
+     confirmRouteState:entry/conf = new confirmation();
 }
 
 'calculateRouteState
@@ -65,6 +65,6 @@ calculateRouteState -down-> initialState
 
 State calculateRouteState{
     '创建一个class来计算 但是不清楚class的名称
-    calculateRouteState:new iaCalculation();
+    calculateRouteState:entry/ia = new iaCalculation();
 }
 @enduml
