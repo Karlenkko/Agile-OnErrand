@@ -1,22 +1,70 @@
 @startuml
-scale 350 width
-[*] --> NotShooting
+'scale 350 width
+'[*] --> NotShooting
+'
+'state NotShooting {
+'  [*] --> Idle
+'  Idle --> Configuring : EvConfig
+'  Configuring --> Idle : EvConfig
+'}
+'
+'state Configuring {
+'  [*] --> NewValueSelection
+'  NewValueSelection --> NewValuePreview : EvNewValue
+'  NewValuePreview --> NewValueSelection : EvNewValueRejected
+'  NewValuePreview --> NewValueSelection : EvNewValueSaved
+'
+'  state NewValuePreview {
+'     State1 -> State2
+'  }
+'
+'}
 
-state NotShooting {
-  [*] --> Idle
-  Idle --> Configuring : EvConfig
-  Configuring --> Idle : EvConfig
+
+'For IHM'
+
+[*] -> initialState
+State initialState{
+
 }
 
-state Configuring {
-  [*] --> NewValueSelection
-  NewValueSelection --> NewValuePreview : EvNewValue
-  NewValuePreview --> NewValueSelection : EvNewValueRejected
-  NewValuePreview --> NewValueSelection : EvNewValueSaved
+'loadMapState
 
-  state NewValuePreview {
-     State1 -> State2
-  }
+initialState -down-> loadMapState : loadMap()
+loadMapState -up-> initialState : doubleLeftClick()
+loadMapState -up-> initialState : rightClick()
 
+State loadMapState{
+    loadMapState:entry/r = new XMLFileOpener();
+}
+
+'loadRequestState
+
+initialState -up-> loadRequestState : loadRequest()
+loadRequestState -> initialState : doubleLeftClick()
+loadRequestState -> initialState : rightClick()
+
+
+State loadRequestState{
+    loadRequestState:entry/r = new XMLFileOpener();
+}
+
+'confirmRouteState
+initialState -left-> confirmRouteState : confirmRoute()
+confirmRouteState -down-> initialState
+
+State confirmRouteState{
+    '创建一个class用于执行确定route 但是不清楚class的名称
+     confirmRouteState:new confirmation();
+}
+
+'calculateRouteState
+
+initialState -> calculateRouteState : calculateRoute()
+calculateRouteState -down-> initialState
+
+State calculateRouteState{
+    '创建一个class来计算 但是不清楚class的名称
+    calculateRouteState:new iaCalculation();
 }
 @enduml
