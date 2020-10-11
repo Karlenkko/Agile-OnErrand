@@ -1,4 +1,7 @@
+
 @startuml
+
+
 left to right direction
 
 :Manager of Delivery: as User
@@ -12,7 +15,13 @@ rectangle System {
     usecase (Change Order of Request) as UC5
     usecase (Delete Request) as UC6
     usecase (Confirm Route) as UC7
+package System{
+:File System: as fs
 }
+package Application {
+    usecase "Select Map" as UC1
+    usecase "Load map" as UC2
+    usecase "Load list of requests" as UC3
 
 User --> (UC1)
 User --> (UC2)
@@ -21,10 +30,40 @@ User --> (UC4)
 User --> (UC5)
 User --> (UC6)
 User --> (UC7)
+    UC1 ..> UC2 : include
+    UC1 ..> UC3 : include
 
 (UC1) --> Admin
 (UC7) --> Admin
 
+    usecase "Calculate route" as UC4
+    usecase "Validate route" as UC5
+    usecase "Add request" as UC6
+    usecase "Change order of requests" as UC7
+    usecase "Delete request" as UC8
+    usecase "Produce route map" as UC9
 
+    UC5 ..>UC9 : include
+}
+User -[hidden]->Application
+User ---> UC1
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+Application -[hidden]> System
+fs -> UC2
+fs -> UC3
+fs -> UC6
+fs -> UC8
+'note left of UC1
+'the very first step
+'of using the application
+'end note
+
+'note "This note is connected\nto several objects." as N2
+'(Start) .. N2
+'N2 .. (Use)
 
 @enduml
