@@ -1,70 +1,63 @@
 @startuml
-'scale 350 width
-'[*] --> NotShooting
-'
-'state NotShooting {
-'  [*] --> Idle
-'  Idle --> Configuring : EvConfig
-'  Configuring --> Idle : EvConfig
-'}
-'
-'state Configuring {
-'  [*] --> NewValueSelection
-'  NewValueSelection --> NewValuePreview : EvNewValue
-'  NewValuePreview --> NewValueSelection : EvNewValueRejected
-'  NewValuePreview --> NewValueSelection : EvNewValueSaved
-'
-'  state NewValuePreview {
-'     State1 -> State2
-'  }
-'
-'}
+hide empty description
 
+[*] -down-> InitialState
+InitialState -down-> LoadState : loadMap()
 
-'For IHM'
+InitialState : entry / requestListChanged = true
 
-[*] -> initialState
-State initialState{
+state CancelMap
+CancelMap : do / backToPreviousState()
 
+state LoadState {
+    [*] -down-> MapState1
+'    MapState1 : entry / isLoaded = isLoaded()
+
+    MapState1 -right-> MapState2 : select()
+    MapState1 -up-> CancelMap : cancel()
+    MapState2 : entry / map = readMap()
+
+    MapState2 : do / displayMap(map)
+    MapState2 : exit / clearRequest()
+
+    MapState2 -up-> MapState1 : changeMap() / clearMap()
+
+    MapState2 -down-> RequestState1 : loadRequest()
+    RequestState1 -down-> RequestState2 : select()
+    RequestState1 -up-> MapState2 : cancel()
+    RequestState2 -up-> RequestState1 : cancel() / clearRequest()
+
+    RequestState1 -left-> MapState1 : changeMap() / clearMap()
+    RequestState2 -left-> MapState1 : changeMap() /clearMap()
+
+    RequestState2 : entry / requestList = readRequest()
+    RequestState2 : do / displayRequest(requestList)
 }
 
-'loadMapState
+'CancelMap -up-> InitialState : [ !isLoaded ]
+'CancelMap -left-> MapState2 : [ isLoaded ]
 
-initialState -down-> loadMapState : loadMap()
-loadMapState -up-> initialState : doubleLeftClick()
-loadMapState -up-> initialState : rightClick()
+RequestState2 -down-> OperationalState : calculate()
 
-State loadMapState{
-    loadMapState:entry/xml = new XMLFileOpener();
-}
+OperationalState -up-> OperationalState : rightClick() / requestListChanged = false
+OperationalState -up-> LoadState : changeMap() / clearMap()
+state OperationalState {
+    [*] -down-> CalculateState
+    CalculateState : entry / route = calculateRoute(map, requestList, requestListChanged )
+    CalculateState : do / displayRoute(route)
+    CalculateState : exit / requestListChanged = false
 
-'loadRequestState
+    CalculateState -down-> AddRequestState1 : addRequest()
+    AddRequestState1 -down-> AddRequestState2 : leftClick(pickUpPoint)
+    AddRequestState2 -down-> AddRequestState3 : leftClick(deliveryPoint)
+    AddRequestState3 -down-> AddRequestState4 : fillRequestInfo()
+    AddRequestState4 : entry / request = new Request()
+    AddRequestState4 : do / requestListChanged = true, requestList.add(request)
+    AddRequestState4 -left->CalculateState : cancel()
 
-initialState -up-> loadRequestState : loadRequest()
-loadRequestState -> initialState : doubleLeftClick()
-loadRequestState -> initialState : rightClick()
+    CalculateState -down-> deleteState1 : selectRequest() / \n selectedRequest = requestList.get(id)
+    deleteState1 -up-> CalculateState : deleteRequest() / \n requestList.remove(selectedRequest), \n requestListChanged = true
 
-
-State loadRequestState{
-    loadRequestState:entry/xml = new XMLFileOpener();
-}
-
-'confirmRouteState
-initialState -left-> confirmRouteState : confirmRoute()
-confirmRouteState -down-> initialState
-
-State confirmRouteState{
-    '创建一个class用于执行确定route 但是不清楚class的名称
-     confirmRouteState:entry/conf = new confirmation();
-}
-
-'calculateRouteState
-
-initialState -> calculateRouteState : calculateRoute()
-calculateRouteState -down-> initialState
-
-State calculateRouteState{
-    '创建一个class来计算 但是不清楚class的名称
-    calculateRouteState:entry/ia = new iaCalculation();
+    CalculateState -up-> CalculateState : generateNavigationRoute()
 }
 @enduml
