@@ -52,7 +52,7 @@ state OperationalState {
     AddRequestState2 -down-> AddRequestState3 : leftClick(deliveryPoint)
     AddRequestState3 -down-> AddRequestState4 : fillRequestInfo()
     AddRequestState4 : entry / request = new Request()
-    AddRequestState4 : do / requestListChanged = true, requestList.add(request)
+    AddRequestState4 -left-> CalculateState : confirm() / requestListChanged = true, requestList.add(request)
     AddRequestState4 -left->CalculateState : cancel()
 
     CalculateState -down-> deleteState1 : selectRequest() / \n selectedRequest = requestList.get(id)
