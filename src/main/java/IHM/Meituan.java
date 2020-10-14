@@ -24,7 +24,7 @@ public class Meituan {
     JPanel pBottom = new JPanel();
     Box bTop = Box.createHorizontalBox();
     Box bTopRight = Box.createVerticalBox();
-    JPanel mapShow = new JPanel();
+    MyCanvas mapShow = new MyCanvas();
     JTextArea tips = new JTextArea("Operation tips: \n Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
     JTable requestList = new JTable(new tableModel());
@@ -77,6 +77,25 @@ public class Meituan {
         }
     }
 
+    private class MyCanvas extends JPanel{
+
+        public void paint(Graphics g){
+            // draw the border of the map
+            g.setColor(new Color(0,120,120));
+            g.drawRect(0,0,600,600);
+            g.drawLine(0,0,600,600);
+            g.drawLine(0,600,600,0);
+            // Add the roads after changing the map
+
+            // Add the points after loading the requests
+
+            // Add the route in a different color after calculate the route
+
+            // Add the others points after add request
+
+            // Delete a pair of the points after delete request
+        }
+    }
 
     public void init(){
 
@@ -93,8 +112,8 @@ public class Meituan {
 
 
         // Set the map area
-        mapShow.setPreferredSize(new Dimension(600,600));
-        mapShow.setBackground(new Color(0,120,120));
+        mapShow.setPreferredSize((new Dimension(601,601)));
+
 
         // Set the request area
 
