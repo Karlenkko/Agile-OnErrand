@@ -1,8 +1,16 @@
 package IHM;
 
+import Data.Intersection;
+import Data.XmlLoader;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * The IHM of the main Fonction
@@ -24,7 +32,7 @@ public class Meituan {
     JPanel pBottom = new JPanel();
     Box bTop = Box.createHorizontalBox();
     Box bTopRight = Box.createVerticalBox();
-    MyCanvas mapShow = new MyCanvas();
+    JPanel mapShow = new JPanel();
     JTextArea tips = new JTextArea("Operation tips: \n Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
     JTable requestList = new JTable(new tableModel());
@@ -112,8 +120,8 @@ public class Meituan {
 
 
         // Set the map area
-        mapShow.setPreferredSize((new Dimension(601,601)));
-
+        mapShow.setPreferredSize(new Dimension(600,600));
+        mapShow.setBackground(new Color(0,120,120));
 
         // Set the request area
 
@@ -133,9 +141,104 @@ public class Meituan {
         bTop.add(Box.createHorizontalStrut(50));
         frame.add(bTop);
 
+            b1.addActionListener(new ChangeMapActionListener());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+
+    class MapPanel extends JPanel {
+
+            private LinkedList<Intersection> intersectionParticular = new LinkedList<Intersection>();
+
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            if (!paint) {
+                return;
+            }
+
+            Graphics2D g2d = (Graphics2D) g;
+
+            double rateX = (maxX-minX)/(this.getSize().width-20);
+            double rateY = (maxY-minY)/(this.getSize().height-20);
+
+            rate = rateX > rateY ? rateX : rateY;
+            HashMap<Long, Intersection> map = XmlLoader.map;
+
+            for (Intersection intersection : map.values()) {
+                double x = intersection.getX() - minX;
+                double y = intersection.getY() - minY;
+
+                Color color = Color.red;
+                int size = 4;
+
+                switch (intersection.getType()) {
+                    case Intersection.DEPOT_POINT:
+                        color = Color.black;
+                        size = 10;
+                        intersectionParticular.add(intersection);
+                        break;
+                    case Intersection.PICKUP_POINT:
+                        color = Color.BLUE;
+                        size = 10;
+                        intersectionParticular.add(intersection);
+                        break;
+                    case  Intersection.DELIVERY_POINT:
+                        color = Color.MAGENTA;
+                        size = 10;
+                        intersectionParticular.add(intersection);
+                        break;
+                    default:
+                        break;
+                }
+
+                g2d.setColor(color);
+                g2d.setStroke(new BasicStroke(size));
+
+                g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
+                for(Intersection toIntersection : intersection.getToIntersections()){
+                    double x2 = toIntersection.getX() - minX;
+                    double y2 = toIntersection.getY() - minY;
+
+                    g2d.setColor(Color.green);
+                    g2d.setStroke(new BasicStroke(1));
+                    g2d.draw(new Line2D.Double(x/rate,y/rate,x2/rate,y2/rate));
+                }
+            }
+
+
+        }
+    }
+
+    class ChangeMapActionListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+            XmlLoader xmlLoader = null;
+            try {
+                xmlLoader = new XmlLoader();
+            } catch (Exception exception) {
+            }
+            double[] param = new double[4];
+            try {
+                param = xmlLoader.chargeMap();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+            minX = param[0];
+            minY = param[1];
+            maxX = param[2];
+            maxY = param[3];
+
+            paint = true;
+
+            mapShow.repaint();
+
+
+        }
     }
 
 }

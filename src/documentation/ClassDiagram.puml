@@ -1,22 +1,5 @@
 @startuml
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
-}
-
 enum TimeUnit {
 DAYS
 HOURS
@@ -119,6 +102,13 @@ class mouseListener{
 + actionPerformed(ActionEvent e)
 }
 
+class intersection{
+- int : id
+- double : latitude
+- double : longitude
 
+}
+class Graph {
+}
 
 @enduml
