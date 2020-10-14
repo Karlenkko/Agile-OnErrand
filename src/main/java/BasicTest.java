@@ -1,3 +1,5 @@
+import IHM.Meituan;
+
 public class BasicTest {
     public static void main(String[] args) {
         System.out.println("Shihang ZHOU testing");
@@ -8,6 +10,9 @@ public class BasicTest {
         System.out.println("Gong CHEN testing again");
         System.out.println("Muye HE testing again");
         System.out.println("Gong CHEN testing again and again");
+
+        new Meituan().init();
     }
 }
+
 
