@@ -1,5 +1,11 @@
 @startuml
 
+enum TimeUnit {
+DAYS
+HOURS
+MINUTES
+}
+
 'Pour l'IHM
 
 class Controller{
@@ -96,6 +102,13 @@ class mouseListener{
 + actionPerformed(ActionEvent e)
 }
 
+class intersection{
+- int : id
+- double : latitude
+- double : longitude
 
+}
+class Graph {
+}
 
 @enduml
