@@ -19,6 +19,13 @@ import java.util.LinkedList;
  * @create 12-10-2020 at 16:21
  */
 public class Meituan {
+    private static double minX;
+    private static double minY;
+    private static double maxX;
+    private static double maxY;
+    private static double rate;
+    Boolean paint = false;
+
 
     JFrame frame = new JFrame("Meituan");
 
@@ -32,7 +39,7 @@ public class Meituan {
     JPanel pBottom = new JPanel();
     Box bTop = Box.createHorizontalBox();
     Box bTopRight = Box.createVerticalBox();
-    JPanel mapShow = new JPanel();
+    JPanel mapShow = new MapPanel();
     JTextArea tips = new JTextArea("Operation tips: \n Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
     JTable requestList = new JTable(new tableModel());
@@ -85,25 +92,6 @@ public class Meituan {
         }
     }
 
-    private class MyCanvas extends JPanel{
-
-        public void paint(Graphics g){
-            // draw the border of the map
-            g.setColor(new Color(0,120,120));
-            g.drawRect(0,0,600,600);
-            g.drawLine(0,0,600,600);
-            g.drawLine(0,600,600,0);
-            // Add the roads after changing the map
-
-            // Add the points after loading the requests
-
-            // Add the route in a different color after calculate the route
-
-            // Add the others points after add request
-
-            // Delete a pair of the points after delete request
-        }
-    }
 
     public void init(){
 
@@ -141,7 +129,7 @@ public class Meituan {
         bTop.add(Box.createHorizontalStrut(50));
         frame.add(bTop);
 
-            b1.addActionListener(new ChangeMapActionListener());
+        b1.addActionListener(new ChangeMapActionListener());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -150,7 +138,7 @@ public class Meituan {
 
     class MapPanel extends JPanel {
 
-            private LinkedList<Intersection> intersectionParticular = new LinkedList<Intersection>();
+        private LinkedList<Intersection> intersectionParticular = new LinkedList<Intersection>();
 
 
         public void paintComponent(Graphics g) {
