@@ -8,6 +8,7 @@ import Model.Segment;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Vector;
+
 
 /**
  * The IHM of the main Fonction
@@ -28,7 +31,11 @@ public class Meituan {
         private static double rate;
         boolean paint = false;
         boolean paintRequest = false;
+        private String[] columnNames = {"ID","Type","Duration","Arrival","Depart"};
+        private Object data[][] = {};
 
+        private Vector titleV = new Vector();
+        private Vector<Vector> dataV = new Vector<Vector>();
 
         JFrame frame = new JFrame("Meituan");
 
@@ -44,23 +51,48 @@ public class Meituan {
         Box bTopRight = Box.createVerticalBox();
         JPanel mapShow = new MapPanel();
         JTextArea tips = new JTextArea("Operation tips: \n Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-
-        JTable requestList = new JTable(new tableModel());
-        JScrollPane jsp = new JScrollPane(requestList);
+        DefaultTableModel dtm;
+        JTable requestList;
 
     public Meituan() throws ParserConfigurationException {
-    }
 
+    }
+    /*
     private class tableModel extends AbstractTableModel{
             String[] columnNames = {"ID","Type","Duration","Arrival","Depart"};
 
             // data is a object with the info incorrect. Adapting the programme later.
-            Object data[][] = {
-                    {"01","depot","--","--","8:00"},
-                    {"02","pickup","20","9:30","9:50"},
-                    {"03","delivery","10","10:25","10:35"}
+            Object data[][]={
+                    {"01","depot","--","--","8:00"}
             };
+            // {"01","depot","--","--","8:00"},
+            // {"02","pickup","20","9:30","9:50"},
+            // {"03","delivery","10","10:25","10:35"}
 
+
+            public void chargeRequests(){
+                LinkedList<Request> allRequests = map.getAllRequests();
+                setValueAt(1,0,0);
+                setValueAt("depot",0,1);
+                setValueAt("--",0,2);
+                setValueAt("--",0,3);
+                setValueAt(map.getStartTime(),0,4);
+
+                for(int i = 1; i < allRequests.size(); ++i){
+                    setValueAt(2 * i,2 * i - 1,0);
+                    setValueAt("pickup",2 * i - 1,1);
+                    setValueAt(allRequests.get(i).getPickupDuration(),2 * i - 1,2);
+                    setValueAt("--",2 * i - 1,3);
+                    setValueAt("--",2 * i - 1,4);
+                    setValueAt(2 * i,2 * i,0);
+                    setValueAt("delivery",2 * i,1);
+                    setValueAt(allRequests.get(i).getDeliveryDuration(),2 * i,2);
+                    setValueAt("--",2 * i,3);
+                    setValueAt("--",2 * i,4);
+                }
+
+
+            }
 
             public String getColumnName(int column){
                 return columnNames[column];
@@ -88,7 +120,7 @@ public class Meituan {
 
             // set all the information in the table not-editable
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return false;
+                return true;
             }
 
             // change the value of a cell if it is editable
@@ -97,7 +129,7 @@ public class Meituan {
                 fireTableCellUpdated(rowIndex, columnIndex);
             }
         }
-
+        */
 
         public void init(){
 
@@ -125,6 +157,10 @@ public class Meituan {
             tips.setAlignmentY(JTextArea.TOP_ALIGNMENT);
             bTopRight.add(tips);
             bTopRight.add(Box.createVerticalStrut(20));
+            initTableInfo();
+            dtm = new DefaultTableModel(dataV,titleV);
+            requestList = new JTable(dtm);
+            JScrollPane jsp = new JScrollPane(requestList);
             bTopRight.add(jsp);
 
             // Add the components to the central area
@@ -142,6 +178,28 @@ public class Meituan {
             frame.setVisible(true);
         }
 
+        private void initTableInfo(){
+            for (int i = 0; i < columnNames.length; i++) {
+                titleV.add(columnNames[i]);
+            }
+
+            for (int i = 0; i < data.length; i++) {
+                Vector t = new Vector();
+                for (int j = 0; j < data[i].length; j++) {
+                    t.add(data[i][j]);
+                }
+                dataV.add(t);
+            }
+        }
+
+        private void changeTable(){
+            LinkedList<Request> allRequests = map.getAllRequests();
+            dtm.addRow(new Object[]{0,"depot","--","--",map.getStartTime()});
+            for (int i = 1; i < allRequests.size(); i++) {
+                dtm.addRow(new Object[]{2 * i - 1,"pickup",allRequests.get(i).getPickupDuration(),"--","--"});
+                dtm.addRow(new Object[]{2 * i,"delivery",allRequests.get(i).getDeliveryDuration(),"--","--"});
+            }
+        }
 
     class MapPanel extends JPanel {
 
@@ -234,12 +292,12 @@ public class Meituan {
         public void actionPerformed(ActionEvent e) {
             try {
                 map.loadRequests();
+                changeTable();
             } catch (Exception exception) {
             }
             paintRequest = true;
 
             mapShow.repaint();
-
 
         }
     }
