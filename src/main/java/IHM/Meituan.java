@@ -172,6 +172,7 @@ public class Meituan {
             frame.add(bTop);
 
             b1.addActionListener(new ChangeMapActionListener());
+            b3.addActionListener(new GenerateRoadmapActionListener());
             b4.addActionListener(new LoadRequestsActionListener());
 
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -302,4 +303,14 @@ public class Meituan {
         }
     }
 
+    class GenerateRoadmapActionListener implements ActionListener{
+
+            public void actionPerformed(ActionEvent e){
+                try {
+                    ExportRoute er = new ExportRoute();
+                    er.init();
+                } catch (Exception exception) {
+                }
+            }
+    }
 }
