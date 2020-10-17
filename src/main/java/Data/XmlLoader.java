@@ -24,9 +24,10 @@ public class XmlLoader {
         db = dbf.newDocumentBuilder();
     }
 
-    public double[] chargeMap(HashMap<Long, Intersection> allIntersections, LinkedList<Segment> allSegments) throws Exception {
+    public double[] parseMap(HashMap<Long, Intersection> allIntersections, LinkedList<Segment> allSegments) throws Exception {
 
-        double[] parameters = new double[4]; // minX, minY, maxX, maxY
+        // minX, minY, maxX, maxY
+        double[] parameters = new double[4];
 
         JFileChooser fileChooser = new JFileChooser(new File("."));
         int val = fileChooser.showOpenDialog(null);
@@ -92,7 +93,7 @@ public class XmlLoader {
     }
 
 
-    public void chargeRequest(HashMap<Long, Intersection> allIntersections, LinkedList<Request> allRequests, String startTime) throws Exception {
+    public void parseRequest(HashMap<Long, Intersection> allIntersections, LinkedList<Request> allRequests, String startTime) throws Exception {
 
         JFileChooser fileChooser = new JFileChooser(new File("."));
         int val = fileChooser.showOpenDialog(null);
@@ -121,7 +122,7 @@ public class XmlLoader {
                 long deliveryAddress = Long.parseLong(node.getAttributes().getNamedItem("deliveryAddress").getNodeValue());
                 int pickupDuration = Integer.parseInt(node.getAttributes().getNamedItem("pickupDuration").getNodeValue());
                 int deliveryDuration = Integer.parseInt(node.getAttributes().getNamedItem("deliveryDuration").getNodeValue());
-
+                // intersections are referred here
                 allRequests.add(new Request(allIntersections.get(pickupAddress), allIntersections.get(deliveryAddress), pickupDuration, deliveryDuration));
 
             }

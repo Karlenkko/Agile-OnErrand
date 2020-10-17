@@ -9,9 +9,9 @@ import java.util.LinkedList;
 
 public class Map {
 
-    private static HashMap<Long, Intersection> allIntersections = new HashMap<Long, Intersection>();
-    private static LinkedList<Segment> allSegments = new LinkedList<Segment>();
-    private static LinkedList<Request> allRequests = new LinkedList<Request>();
+    private static HashMap<Long, Intersection> allIntersections;
+    private static LinkedList<Segment> allSegments;
+    private static LinkedList<Request> allRequests;
     private static String startTime;
     private static XmlLoader xmlLoader;
     private static double minX;
@@ -19,13 +19,23 @@ public class Map {
     private static double maxX;
     private static double maxY;
 
-
+    /**
+     * Constructor of object Map, creates an empty map
+     * @throws ParserConfigurationException
+     */
     public Map() throws ParserConfigurationException {
         xmlLoader = new XmlLoader();
+        allIntersections = new HashMap<Long, Intersection>();
+        allSegments = new LinkedList<Segment>();
+        allRequests = new LinkedList<Request>();
     }
 
+    /**
+     * load a map using the xmlLoader class
+     * @throws Exception
+     */
     public void loadMap() throws Exception {
-        double[] param = xmlLoader.chargeMap(allIntersections, allSegments);
+        double[] param = xmlLoader.parseMap(allIntersections, allSegments);
 
         if(param[0] == param[2]) {  // the case when user cancel the selection of file
             return;
@@ -39,7 +49,7 @@ public class Map {
     }
 
     public void loadRequests() throws Exception {
-        xmlLoader.chargeRequest(allIntersections, allRequests, startTime);
+        xmlLoader.parseRequest(allIntersections, allRequests, startTime);
 
     }
 
