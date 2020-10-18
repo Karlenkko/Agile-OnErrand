@@ -1,11 +1,10 @@
 package Algorithm;
 
 
-import org.jgrapht.*;
-import org.jgrapht.alg.interfaces.ManyToManyShortestPathsAlgorithm;
+import org.jgrapht.Graph;
+import org.jgrapht.alg.shortestpath.DijkstraManyToManyShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.alg.shortestpath.*;
 
 import java.util.HashMap;
 
@@ -51,3 +50,4 @@ public class MapGraph {
 //        shortestPaths = new DijkstraManyToManyShortestPaths<>(g);
 //    }
 }
+

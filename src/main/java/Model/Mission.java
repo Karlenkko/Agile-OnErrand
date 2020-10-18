@@ -1,36 +1,54 @@
 package Model;
 
+import IHM.Meituan;
 import Observer.Observable;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Mission extends Observable {
-    private Intersection depot;
-    private LocalDateTime departureTime;
-    private ArrayList<Request> allRequests;
-    private LinkedList<Intersection> tour;
-    private HashMap<Intersection, LocalDateTime> timeSchedule;
+    private static Intersection depot;
+    private static LocalTime departureTime;
+    private static ArrayList<Request> allRequests;
+    private static LinkedList<Intersection> tour;
+    private static HashMap<Intersection, LocalDateTime> timeSchedule;
+    private static Map map;
 
-    /**
-     * Constructor of object Mission, creates a mission with all requests and the depot info
-     * @param depot the depot intersection for the delivery man to start his mission
-     * @param departureTime the departure time of the delivery man from the depot
-     * @param allRequests the list of all requests
-     */
-    public Mission(Intersection depot, LocalDateTime departureTime, ArrayList<Request> allRequests) {
-        this.depot = depot;
-        this.departureTime = departureTime;
-        this.allRequests = allRequests;
+    public Mission(Map map) {
+        depot = null;
+        departureTime = null;
+        allRequests = new ArrayList<>();
+        Mission.map = map;
+    }
+
+    public static void reset() {
+        depot = null;
+        departureTime = null;
+        allRequests.clear();
+        Meituan.setPaintRequestPaint(false);
+    }
+
+    public void addDepot(Intersection depot, LocalTime departureTime) {
+        Mission.depot = depot;
+        Mission.departureTime = departureTime;
+    }
+
+    public void addRequest(Request request) {
+        allRequests.add(request);
+    }
+
+    public Map getMap() {
+        return map;
     }
 
     public Intersection getDepot() {
         return depot;
     }
 
-    public LocalDateTime getDepartureTime() {
+    public LocalTime getDepartureTime() {
         return departureTime;
     }
 
@@ -47,10 +65,10 @@ public class Mission extends Observable {
     }
 
     public void setTour(LinkedList<Intersection> tour) {
-        this.tour = tour;
+        Mission.tour = tour;
     }
 
     public void setTimeSchedule(HashMap<Intersection, LocalDateTime> timeSchedule) {
-        this.timeSchedule = timeSchedule;
+        Mission.timeSchedule = timeSchedule;
     }
 }
