@@ -301,9 +301,6 @@ public class Meituan {
         public void actionPerformed(ActionEvent e) {
             try {
                 XMLparser.parserRequest(mission);
-                for (Request request : mission.getAllRequests()) {
-                    System.out.println(request.getPickup().getId());
-                }
                 changeTable();
             } catch (Exception exception) {
                 System.out.println(exception);
