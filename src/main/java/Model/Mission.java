@@ -25,6 +25,8 @@ public class Mission extends Observable {
     }
 
     public static void reset() {
+        if(depot == null) return;
+
         depot = null;
         departureTime = null;
         allRequests.clear();
