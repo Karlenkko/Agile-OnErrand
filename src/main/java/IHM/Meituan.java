@@ -24,7 +24,7 @@ import java.util.Vector;
 public class Meituan {
 
         private Map map = new Map();
-        private Mission mission = new Mission(map);
+        private Mission mission = new Mission();
         private static double rate;
         static boolean paint = false;
         static boolean paintRequest = false;
@@ -300,10 +300,7 @@ public class Meituan {
 
         public void actionPerformed(ActionEvent e) {
             try {
-                XMLparser.parserRequest(mission);
-                for (Request request : mission.getAllRequests()) {
-                    System.out.println(request.getPickup().getId());
-                }
+                XMLparser.parserRequest(mission, map);
                 changeTable();
             } catch (Exception exception) {
                 System.out.println(exception);

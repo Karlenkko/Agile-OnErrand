@@ -1,4 +1,7 @@
 package Controller;
 
-public class MapLoadedState implements State{
+import View.Window;
+
+public class MapLoadedState implements State {
+
 }

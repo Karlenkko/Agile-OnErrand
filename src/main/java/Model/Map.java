@@ -9,23 +9,27 @@ public class Map {
 
     private static HashMap<Long, Intersection> allIntersections;
     private static LinkedList<Segment> allSegments;
-    private static LinkedList<Request> allRequests;
     private static double minX;
     private static double minY;
     private static double maxX;
     private static double maxY;
 
-
+    /**
+     * Constructor of object Map that initialize the intersection list and the segment list
+     */
     public Map() {
         allIntersections = new HashMap<>();
         allSegments = new LinkedList<>();
-        allRequests = new LinkedList<>();
         minX = Double.MAX_VALUE;
         minY = Double.MAX_VALUE;
         maxX = -Double.MAX_VALUE;
         maxY = -Double.MAX_VALUE;
     }
 
+    /**
+     * Add an Intersection to the map and update the X, Y intervals
+     * @param intersection the Intersection that will be added to the map
+     */
     public void addIntersection(Intersection intersection) {
         allIntersections.put(intersection.getId(), intersection);
         minX = Math.min(minX, intersection.getX());
@@ -34,10 +38,18 @@ public class Map {
         maxY = Math.max(maxY, intersection.getY());
     }
 
+    /**
+     * Add a Segment to the map
+     * @param segment the Segment that will be added to the map
+     */
     public void addSegment(Segment segment) {
         allSegments.add(segment);
     }
 
+    /**
+     * reset the map which clears all the Intersections and Segments,
+     * then clear the Mission
+     */
     public static void reset() {
         allIntersections.clear();
         allSegments.clear();
@@ -73,8 +85,5 @@ public class Map {
         return maxY;
     }
 
-    public LinkedList<Request> getAllRequests() {
-        return allRequests;
-    }
 
 }
