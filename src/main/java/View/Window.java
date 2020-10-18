@@ -9,8 +9,8 @@ public class Window {
     private static final long serialVersionUID = 1L;
 
     // window button names
-    protected static final String LOAD_MAP = "load a new map";
-    protected static final String LOAD_REQUESTS = "load requests";
+    protected static final String LOAD_MAP = "Load a new map";
+    protected static final String LOAD_REQUESTS = "Load requests";
     protected static final String CALCULATE = "Calculate tour";
     protected static final String GENERATE_ROADMAP = "Generate roadmap";
     protected static final String ADD_REQUEST = "Add request";
