@@ -1,5 +1,7 @@
 package Model;
 
+import IHM.Meituan;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -36,13 +38,15 @@ public class Map {
         allSegments.add(segment);
     }
 
-    public void reset() {
+    public static void reset() {
         allIntersections.clear();
         allSegments.clear();
+        Mission.reset();
         minX = Double.MAX_VALUE;
         minY = Double.MAX_VALUE;
         maxX = -Double.MAX_VALUE;
         maxY = -Double.MAX_VALUE;
+        Meituan.setPaint(false);
     }
 
     public HashMap<Long, Intersection> getAllIntersections() {

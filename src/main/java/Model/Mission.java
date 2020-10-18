@@ -1,5 +1,6 @@
 package Model;
 
+import IHM.Meituan;
 import Observer.Observable;
 
 import java.time.LocalDateTime;
@@ -23,10 +24,11 @@ public class Mission extends Observable {
         Mission.map = map;
     }
 
-    public void reset() {
+    public static void reset() {
         depot = null;
         departureTime = null;
         allRequests.clear();
+        Meituan.setPaintRequestPaint(false);
     }
 
     public void addDepot(Intersection depot, LocalTime departureTime) {

@@ -26,8 +26,8 @@ public class Meituan {
         private Map map = new Map();
         private Mission mission = new Mission(map);
         private static double rate;
-        boolean paint = false;
-        boolean paintRequest = false;
+        static boolean paint = false;
+        static boolean paintRequest = false;
         private String[] columnNames = {"ID","Type","Duration","Arrival","Depart"};
         private Object data[][] = {};
 
@@ -53,6 +53,14 @@ public class Meituan {
 
     public Meituan() throws ParserConfigurationException {
 
+    }
+
+    public static void setPaint(boolean paint) {
+        Meituan.paint = paint;
+    }
+
+    public static void setPaintRequestPaint(boolean paintRequest) {
+        Meituan.paintRequest = paintRequest;
     }
     /*
     private class tableModel extends AbstractTableModel{
