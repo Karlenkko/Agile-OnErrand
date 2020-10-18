@@ -194,6 +194,13 @@ public class Meituan {
         }
 
         private void changeTable(){
+            System.out.println(dataV);
+            System.out.println(dataV.size());
+            while(dataV.size()>0){
+                dtm.removeRow(0);
+            }
+            System.out.println(dataV.size());
+            System.out.println(dataV);
             LinkedList<Request> allRequests = map.getAllRequests();
             dtm.addRow(new Object[]{0,"depot","--","--",map.getStartTime()});
             for (int i = 1; i < allRequests.size(); i++) {
