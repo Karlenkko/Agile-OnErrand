@@ -1,9 +1,5 @@
 package Model;
 
-import Data.XmlLoader;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -12,45 +8,41 @@ public class Map {
     private static HashMap<Long, Intersection> allIntersections;
     private static LinkedList<Segment> allSegments;
     private static LinkedList<Request> allRequests;
-    private static String startTime;
-    private static XmlLoader xmlLoader;
     private static double minX;
     private static double minY;
     private static double maxX;
     private static double maxY;
 
-    /**
-     * Constructor of object Map, creates an empty map
-     * @throws ParserConfigurationException
-     */
-    public Map() throws ParserConfigurationException {
-        xmlLoader = new XmlLoader();
-        allIntersections = new HashMap<Long, Intersection>();
-        allSegments = new LinkedList<Segment>();
-        allRequests = new LinkedList<Request>();
+
+    public Map() {
+        allIntersections = new HashMap<>();
+        allSegments = new LinkedList<>();
+        allRequests = new LinkedList<>();
+        minX = Double.MAX_VALUE;
+        minY = Double.MAX_VALUE;
+        maxX = -Double.MAX_VALUE;
+        maxY = -Double.MAX_VALUE;
     }
 
-    /**
-     * load a map using the xmlLoader class
-     * @throws Exception
-     */
-    public void loadMap() throws Exception {
-        double[] param = xmlLoader.parseMap(allIntersections, allSegments);
-
-        if(param[0] == param[2]) {  // the case when user cancel the selection of file
-            return;
-        }
-
-        minX = param[0];
-        minY = param[1];
-        maxX = param[2];
-        maxY = param[3];
-
+    public void addIntersection(Intersection intersection) {
+        allIntersections.put(intersection.getId(), intersection);
+        minX = Math.min(minX, intersection.getX());
+        minY = Math.min(minY, intersection.getY());
+        maxX = Math.max(maxX, intersection.getX());
+        maxY = Math.max(maxY, intersection.getY());
     }
 
-    public void loadRequests() throws Exception {
-        xmlLoader.parseRequest(allIntersections, allRequests, startTime);
+    public void addSegment(Segment segment) {
+        allSegments.add(segment);
+    }
 
+    public void reset() {
+        allIntersections.clear();
+        allSegments.clear();
+        minX = Double.MAX_VALUE;
+        minY = Double.MAX_VALUE;
+        maxX = -Double.MAX_VALUE;
+        maxY = -Double.MAX_VALUE;
     }
 
     public HashMap<Long, Intersection> getAllIntersections() {
@@ -81,7 +73,4 @@ public class Map {
         return allRequests;
     }
 
-    public String getStartTime() {
-        return startTime;
-    }
 }

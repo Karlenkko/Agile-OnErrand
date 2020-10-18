@@ -1,21 +1,17 @@
 package IHM;
 
-import Data.XmlLoader;
-import Model.Intersection;
-import Model.Map;
-import Model.Request;
-import Model.Segment;
+import Data.XMLparser;
+import Model.*;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Vector;
 
 
@@ -28,6 +24,7 @@ import java.util.Vector;
 public class Meituan {
 
         private Map map = new Map();
+        private Mission mission = new Mission(map);
         private static double rate;
         boolean paint = false;
         boolean paintRequest = false;
@@ -194,18 +191,12 @@ public class Meituan {
         }
 
         private void changeTable(){
-            System.out.println(dataV);
-            System.out.println(dataV.size());
-            while(dataV.size()>0){
-                dtm.removeRow(0);
-            }
-            System.out.println(dataV.size());
-            System.out.println(dataV);
-            LinkedList<Request> allRequests = map.getAllRequests();
-            dtm.addRow(new Object[]{0,"depot","--","--",map.getStartTime()});
-            for (int i = 1; i < allRequests.size(); i++) {
-                dtm.addRow(new Object[]{2 * i - 1,"pickup",allRequests.get(i).getPickupDuration(),"--","--"});
-                dtm.addRow(new Object[]{2 * i,"delivery",allRequests.get(i).getDeliveryDuration(),"--","--"});
+            dtm.getDataVector().removeAllElements();
+            ArrayList<Request> allRequests = mission.getAllRequests();
+            dtm.addRow(new Object[]{0,"depot","--","--",mission.getDepartureTime()});
+            for (int i = 0; i < allRequests.size(); i++) {
+                dtm.addRow(new Object[]{2 * (i+1) - 1,"pickup",allRequests.get(i).getPickupDuration(),"--","--"});
+                dtm.addRow(new Object[]{2 * (i+1),"delivery",allRequests.get(i).getDeliveryDuration(),"--","--"});
             }
         }
 
@@ -226,15 +217,16 @@ public class Meituan {
             double maxX = map.getMaxX();
             double maxY = map.getMaxY();
 
-            double rateX = (maxX - minX)/(this.getSize().width-50);
-            double rateY = (maxY - minY)/(this.getSize().height-50);
+            double rateX = (maxX - minX)/(this.getSize().width - 10);
+            double rateY = (maxY - minY)/(this.getSize().height - 10);
 
             rate = rateX > rateY ? rateX : rateY;
             HashMap<Long, Intersection> intersections = map.getAllIntersections();
 
+
             for (Intersection intersection : intersections.values()) {
-                double x = intersection.getX() - minX;
-                double y = intersection.getY() - minY;
+                double x = intersection.getX() - minX + 30;
+                double y = intersection.getY() - minY + 30;
 
                 g2d.setColor(Color.black);
                 g2d.setStroke(new BasicStroke(4));
@@ -244,10 +236,10 @@ public class Meituan {
             }
 
             for(Segment segment : map.getAllSegments()){
-                double x = segment.getOrigin().getX() - minX;
-                double y = segment.getOrigin().getY() - minY;
-                double x2 = segment.getDestination().getX() - minX;
-                double y2 = segment.getDestination().getY() - minY;
+                double x = segment.getOrigin().getX() - minX + 30;
+                double y = segment.getOrigin().getY() - minY + 30;
+                double x2 = segment.getDestination().getX() - minX + 30;
+                double y2 = segment.getDestination().getY() - minY + 30;
 
                 g2d.setColor(Color.green);
                 g2d.setStroke(new BasicStroke(1));
@@ -255,24 +247,24 @@ public class Meituan {
             }
 
             if(paintRequest) {
-                LinkedList<Request> allRequests = map.getAllRequests();
+                ArrayList<Request> allRequests = mission.getAllRequests();
                 g2d.setColor(Color.RED);
                 g2d.setStroke(new BasicStroke(5));
-                double x = allRequests.get(0).getDelivery().getX() - minX;
-                double y = allRequests.get(0).getDelivery().getY() - minY;
+                double x = mission.getDepot().getX() - minX + 30;
+                double y = mission.getDepot().getY() - minY + 30;
                 g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
 
-                for (int i = 1; i < allRequests.size(); ++i) {
+                for (int i = 0; i < allRequests.size(); ++i) {
                     g2d.setColor(Color.BLUE);
                     g2d.setStroke(new BasicStroke(5));
-                    double pickupX = allRequests.get(i).getPickup().getX() - minX;
-                    double pickupY = allRequests.get(i).getPickup().getY() - minY;
+                    double pickupX = allRequests.get(i).getPickup().getX() - minX + 30;
+                    double pickupY = allRequests.get(i).getPickup().getY() - minY + 30;
                     g2d.draw(new Line2D.Double(pickupX/rate,pickupY/rate,pickupX/rate,pickupY/rate));
 
                     g2d.setColor(Color.ORANGE);
                     g2d.setStroke(new BasicStroke(5));
-                    double deliveryX = allRequests.get(i).getDelivery().getX() - minX;
-                    double deliveryY = allRequests.get(i).getDelivery().getY() - minY;
+                    double deliveryX = allRequests.get(i).getDelivery().getX() - minX + 30;
+                    double deliveryY = allRequests.get(i).getDelivery().getY() - minY + 30;
                     g2d.draw(new Line2D.Double(deliveryX/rate,deliveryY/rate,deliveryX/rate,deliveryY/rate));
                 }
             }
@@ -284,8 +276,9 @@ public class Meituan {
 
         public void actionPerformed(ActionEvent e) {
             try {
-                map.loadMap();
+                XMLparser.parserMap(map);
             } catch (Exception exception) {
+                // deal with the exception that user cancel the selection of file
             }
             paint = true;
 
@@ -299,9 +292,14 @@ public class Meituan {
 
         public void actionPerformed(ActionEvent e) {
             try {
-                map.loadRequests();
+                XMLparser.parserRequest(mission);
+                for (Request request : mission.getAllRequests()) {
+                    System.out.println(request.getPickup().getId());
+                }
                 changeTable();
             } catch (Exception exception) {
+                System.out.println(exception);
+                // deal with the exception that user cancel the selection of file
             }
             paintRequest = true;
 

@@ -40,7 +40,7 @@ public class Intersection {
      * @return y position of an intersection displayed on the application
      */
     static double yAxisProjection(double latitude) {
-        return - Math.log(Math.tan(Math.PI / 4 + Math.toRadians(latitude) / 2)) * RADIUS_MAJOR;
+        return -Math.log(Math.tan(Math.PI / 4 + Math.toRadians(latitude) / 2)) * RADIUS_MAJOR;
     }
 
     public Long getId() {
@@ -54,4 +54,6 @@ public class Intersection {
     public double getY() {
         return y;
     }
+
+    
 }

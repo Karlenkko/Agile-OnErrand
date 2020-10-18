@@ -1,5 +1,8 @@
 package IHM;
 
+import Data.ExceptionXML;
+import Data.XMLfileOpener;
+
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
@@ -56,9 +59,12 @@ public class ExportRoute {
     class ExportActionListener implements ActionListener{
 
         public void actionPerformed(ActionEvent e){
-            JFileChooser jfc = new JFileChooser(".");
-            jfc.showSaveDialog(f);
-            File file = jfc.getSelectedFile();
+            File file = null;
+            try {
+                file = XMLfileOpener.getInstance().open(false);
+            } catch (ExceptionXML exceptionXML) {
+                exceptionXML.printStackTrace();
+            }
 
             FileWriter fw = null;
             try {
