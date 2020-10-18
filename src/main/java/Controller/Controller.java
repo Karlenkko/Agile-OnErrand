@@ -39,7 +39,7 @@ public class Controller {
         currentState = state;
     }
 
-    public Map getCityMap() {
+    public Map getMap() {
         return cityMap;
     }
 

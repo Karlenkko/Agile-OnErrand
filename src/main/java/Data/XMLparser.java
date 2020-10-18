@@ -25,22 +25,22 @@ public class XMLparser {
         document.getDocumentElement().normalize();
         NodeList root = document.getElementsByTagName("map");
         if (root.getLength() != 0) {
-            map.reset();
+            Map.reset();
             buildMapFromDOMXML(document, map);
         } else
             throw new ExceptionXML("wrong format");
 
     }
 
-    public static void parserRequest(Mission mission) throws ExceptionXML, ParserConfigurationException, IOException, SAXException {
+    public static void parserRequest(Mission mission, Map map) throws ExceptionXML, ParserConfigurationException, IOException, SAXException {
         File xml = XMLfileOpener.getInstance().open(true);
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = docBuilder.parse(xml);
         document.getDocumentElement().normalize();
         NodeList root = document.getElementsByTagName("planningRequest");
         if (root.getLength() != 0) {
-            mission.reset();
-            buildRequestFromDOMXML(document, mission);
+            Mission.reset();
+            buildRequestFromDOMXML(document, mission, map);
         } else
             throw new ExceptionXML("wrong format");
 
@@ -58,15 +58,15 @@ public class XMLparser {
 
     }
 
-    private static void buildRequestFromDOMXML(Document document, Mission mission) {
+    private static void buildRequestFromDOMXML(Document document, Mission mission, Map map) {
         NodeList depotList = document.getElementsByTagName("depot");
         for (int i = 0; i < depotList.getLength(); ++i) {
-            mission.addDepot
-                    (createDepot((Element) depotList.item(i), mission), createLocalTime((Element) depotList.item(i)));
+            mission.setDepot
+                    (createDepot((Element) depotList.item(i), mission, map), createLocalTime((Element) depotList.item(i)));
         }
         NodeList requestList = document.getElementsByTagName("request");
         for (int i = 0; i < requestList.getLength(); ++i) {
-            mission.addRequest(createRequest((Element) requestList.item(i), mission));
+            mission.addRequest(createRequest((Element) requestList.item(i), mission, map));
         }
     }
 
@@ -74,8 +74,7 @@ public class XMLparser {
         long id = Long.parseLong(element.getAttribute("id"));
         float latitude = Float.parseFloat(element.getAttribute("latitude"));
         float longitude = Float.parseFloat(element.getAttribute("longitude"));
-        Intersection intersection = new Intersection(id,latitude, longitude);
-        return intersection;
+        return new Intersection(id,latitude, longitude);
     }
 
     private static Segment createSegment(Element element, Map map) {
@@ -83,15 +82,13 @@ public class XMLparser {
         long origin = Long.parseLong(element.getAttribute("origin"));
         double length = Double.parseDouble(element.getAttribute("length"));
         String name = element.getAttribute("name");
-        Segment segment = new Segment
+        return new Segment
                 (map.getAllIntersections().get(origin), map.getAllIntersections().get(destination), name, length );
-        return segment;
     }
 
-    private static Intersection createDepot(Element element, Mission mission) {
+    private static Intersection createDepot(Element element, Mission mission, Map map) {
         long id = Long.parseLong(element.getAttribute("address"));
-        Intersection intersection = mission.getMap().getAllIntersections().get(id);
-        return intersection;
+        return map.getAllIntersections().get(id);
     }
 
     private static LocalTime createLocalTime(Element element) {
@@ -107,14 +104,13 @@ public class XMLparser {
             stringBuffer.insert(6,"0");
         }
         localTime = stringBuffer.toString();
-        LocalTime dateTime = LocalTime.parse(localTime, DateTimeFormatter.ofPattern("HH:mm:ss"));
-        return  dateTime;
+        return LocalTime.parse(localTime, DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
 
-    private static Request createRequest(Element element, Mission mission) {
+    private static Request createRequest(Element element, Mission mission, Map map) {
         long pickupId = Long.parseLong(element.getAttribute("pickupAddress"));
         long deliveryId;
-        if (element.getAttribute("deliveryAddress") == "") {
+        if (element.getAttribute("deliveryAddress").equals("")) {
             deliveryId = Long.parseLong(element.getAttribute("adresseLivraison"));
         } else {
             deliveryId = Long.parseLong(element.getAttribute("deliveryAddress"));
@@ -122,8 +118,8 @@ public class XMLparser {
         int pickupDuration = Integer.parseInt(element.getAttribute("pickupDuration"));
         int deliveryDuration = Integer.parseInt(element.getAttribute("deliveryDuration"));
         return new
-                Request(mission.getMap().getAllIntersections().get(pickupId),
-                mission.getMap().getAllIntersections().get(deliveryId), pickupDuration, deliveryDuration);
+                Request(map.getAllIntersections().get(pickupId),
+                map.getAllIntersections().get(deliveryId), pickupDuration, deliveryDuration);
     }
 
 }

@@ -3,7 +3,6 @@ package Model;
 import IHM.Meituan;
 import Observer.Observable;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,16 +13,21 @@ public class Mission extends Observable {
     private static LocalTime departureTime;
     private static ArrayList<Request> allRequests;
     private static LinkedList<Intersection> tour;
-    private static HashMap<Intersection, LocalDateTime> timeSchedule;
-    private static Map map;
+    private static HashMap<Intersection, LocalTime> timeSchedule;
 
-    public Mission(Map map) {
+
+    /**
+     * Constructor of the object Mission
+     */
+    public Mission() {
         depot = null;
         departureTime = null;
         allRequests = new ArrayList<>();
-        Mission.map = map;
     }
 
+    /**
+     * reset the mission. Attention, this is a static method
+     */
     public static void reset() {
         depot = null;
         departureTime = null;
@@ -31,17 +35,22 @@ public class Mission extends Observable {
         Meituan.setPaintRequestPaint(false);
     }
 
-    public void addDepot(Intersection depot, LocalTime departureTime) {
+    /**
+     * set the depot address(Intersection) and the departure time
+     * @param depot the depot address(Intersection)
+     * @param departureTime the departure time of the delivery man
+     */
+    public void setDepot(Intersection depot, LocalTime departureTime) {
         Mission.depot = depot;
         Mission.departureTime = departureTime;
     }
 
+    /**
+     * add a request to the mission
+     * @param request the request to be added to the mission
+     */
     public void addRequest(Request request) {
         allRequests.add(request);
-    }
-
-    public Map getMap() {
-        return map;
     }
 
     public Intersection getDepot() {
@@ -60,15 +69,23 @@ public class Mission extends Observable {
         return tour;
     }
 
-    public HashMap<Intersection, LocalDateTime> getTimeSchedule() {
+    public HashMap<Intersection, LocalTime> getTimeSchedule() {
         return timeSchedule;
     }
 
+    /**
+     * set the tour for the mission when it's firstly calculated or its request list is updated
+     * @param tour the new tour for the mission
+     */
     public void setTour(LinkedList<Intersection> tour) {
         Mission.tour = tour;
     }
 
-    public void setTimeSchedule(HashMap<Intersection, LocalDateTime> timeSchedule) {
+    /**
+     * set the time schedule for the mission when it's firstly calculated or its request list is updated
+     * @param timeSchedule the new time schedule for the mission
+     */
+    public void setTimeSchedule(HashMap<Intersection, LocalTime> timeSchedule) {
         Mission.timeSchedule = timeSchedule;
     }
 }
