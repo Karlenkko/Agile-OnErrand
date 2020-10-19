@@ -34,7 +34,6 @@ public class Mission extends Observable {
         depot = null;
         departureTime = null;
         allRequests.clear();
-        Meituan.setPaintRequestPaint(false);
     }
 
     /**

@@ -19,7 +19,6 @@ public interface State {
             controller.setCurrentState(controller.mapLoadedState);
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO: show alert
         }
     }
 

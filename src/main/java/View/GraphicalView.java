@@ -57,10 +57,18 @@ public class GraphicalView extends JPanel implements Observer {
     }
 
     public void setPaintMap(boolean paintMap) {
+        if (map.getAllSegments().size() == 0) {
+            GraphicalView.paintMap = false;
+            return;
+        }
         GraphicalView.paintMap = paintMap;
     }
 
     public void setPaintRequest(boolean paintRequest) {
+        if (mission.getAllRequests().size() == 0) {
+            GraphicalView.paintRequest = false;
+            return;
+        }
         GraphicalView.paintRequest = paintRequest;
     }
 
@@ -97,20 +105,20 @@ public class GraphicalView extends JPanel implements Observer {
         if(paintRequest) {
             ArrayList<Request> allRequests = mission.getAllRequests();
             g2d.setColor(Color.RED);
-            g2d.setStroke(new BasicStroke(3));
+            g2d.setStroke(new BasicStroke(5));
             double x = mission.getDepot().getX() - minX;
             double y = mission.getDepot().getY() - minY;
             g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
 
             for (int i = 0; i < allRequests.size(); ++i) {
                 g2d.setColor(Color.BLUE);
-                g2d.setStroke(new BasicStroke(3));
+                g2d.setStroke(new BasicStroke(5));
                 double pickupX = allRequests.get(i).getPickup().getX() - minX;
                 double pickupY = allRequests.get(i).getPickup().getY() - minY;
                 g2d.draw(new Line2D.Double(pickupX/rate,pickupY/rate,pickupX/rate,pickupY/rate));
 
                 g2d.setColor(Color.ORANGE);
-                g2d.setStroke(new BasicStroke(3));
+                g2d.setStroke(new BasicStroke(5));
                 double deliveryX = allRequests.get(i).getDelivery().getX() - minX;
                 double deliveryY = allRequests.get(i).getDelivery().getY() - minY ;
                 g2d.draw(new Line2D.Double(deliveryX/rate,deliveryY/rate,deliveryX/rate,deliveryY/rate));
