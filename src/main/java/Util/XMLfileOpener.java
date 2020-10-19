@@ -1,4 +1,4 @@
-package Data;
+package Util;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;

@@ -24,7 +24,7 @@
 '}
 
 Package Controller
-Package Data
+Package Util
 Package Algorithm
 Package Model
 Package Test
@@ -35,9 +35,9 @@ View <-> Controller
 Controller -> Model
 View -> Model
 Algorithm <- Controller
-Controller -> Data
+Controller -> Util
 
-Data -> Test
+Util -> Test
 Algorithm -> Test
 View -> Observer
 
