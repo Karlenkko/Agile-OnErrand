@@ -31,14 +31,14 @@ Package Test
 Package View
 Package Observer
 
-View <-> Controller
-Controller -> Model
+View <-down-> Controller
+Controller -up-> Model
 View -> Model
 Algorithm <- Controller
 Controller -> Util
 
-Util -> Test
-Algorithm -> Test
+Util -down-> Test
+Algorithm -down-> Test
 View -> Observer
 
 @enduml
