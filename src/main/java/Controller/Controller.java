@@ -6,29 +6,31 @@ import Model.Mission;
 import View.Window;
 
 public class Controller {
-    private Map cityMap;
+    private Map map;
     private Mission mission;
     private MapGraph mapGraph;
     private Window window;
     private State currentState;
 
     //state instances
-    private final InitialState initialState = new InitialState();
-    private final MapLoadedState mapLoadedState = new MapLoadedState();
-    private final RequestLoadedState requestLoadedState = new RequestLoadedState();
-    private final CalculateState calculateState = new CalculateState();
+    protected final InitialState initialState = new InitialState();
+    protected final MapLoadedState mapLoadedState = new MapLoadedState();
+    protected final RequestLoadedState requestLoadedState = new RequestLoadedState();
+    protected final CalculateState calculateState = new CalculateState();
 
     /**
      * Constructor of object Controller, creates an instance of Controller
      * with the empty but instanced cityMap, mission and mapGraph
-     * @param cityMap the object Map, currently empty
+     * @param map the object Map, currently empty
      * @param mission the object Mission, currently empty
      * @param mapGraph the object MapGraph, currently empty
      */
-    public Controller(Map cityMap, Mission mission, MapGraph mapGraph) {
-        this.cityMap = cityMap;
+    public Controller(Map map, Mission mission, MapGraph mapGraph) {
+        this.map = map;
         this.mission = mission;
         this.mapGraph = mapGraph;
+        window = new Window(this.map, this.mission, this);
+        currentState = initialState;
     }
 
     /**
@@ -40,7 +42,7 @@ public class Controller {
     }
 
     public Map getMap() {
-        return cityMap;
+        return map;
     }
 
     public Mission getMission() {

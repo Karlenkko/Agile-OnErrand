@@ -13,7 +13,10 @@ public interface State {
     default void loadMap(Controller controller, Window window) {
         try {
             XMLparser.parserMap(controller.getMap());
-            //TODO: window shows the map (change the boolean of paint)
+            window.getGraphicalView().setMapSize();
+            window.getGraphicalView().setPaintRequest(false);
+            window.getGraphicalView().repaint();
+            controller.setCurrentState(controller.mapLoadedState);
         } catch (Exception e) {
             e.printStackTrace();
             //TODO: show alert
@@ -23,7 +26,10 @@ public interface State {
     default void loadRequests(Controller controller, Window window) {
         try {
            XMLparser.parserRequest(controller.getMission(), controller.getMap());
-           //TODO: windows show the requests on the map and update the request list (change boolean of requestpaint, changetable)
+           window.getGraphicalView().setPaintRequest(true);
+           window.getGraphicalView().repaint();
+           window.getTextualView().updateRequestTable();
+           controller.setCurrentState(controller.calculateState);
         } catch (Exception e) {
             e.printStackTrace();
             //TODO: show alert

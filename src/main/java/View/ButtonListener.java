@@ -14,6 +14,12 @@ public class ButtonListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()) {
+            case Window.LOAD_MAP: controller.loadMap(); break;
+            case Window.LOAD_REQUESTS: controller.loadRequests(); break;
+            case Window.CALCULATE: controller.calculateTour(); break;
+            //TODO: three other button need to be implement later
+        }
 
     }
 }
