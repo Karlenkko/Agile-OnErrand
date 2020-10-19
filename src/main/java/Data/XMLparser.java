@@ -7,6 +7,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 
 public class XMLparser {
 
-    public static void parserMap(Map map) throws ExceptionXML, ParserConfigurationException, IOException, SAXException {
+    public static void parserMap(Map map) throws ParserConfigurationException, IOException, SAXException, ExceptionXML {
         File xml = XMLfileOpener.getInstance().open(true);
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = docBuilder.parse(xml);
@@ -28,11 +29,11 @@ public class XMLparser {
             Map.reset();
             buildMapFromDOMXML(document, map);
         } else
-            throw new ExceptionXML("wrong format");
+            JOptionPane.showMessageDialog(null, "Please select a correct map", "alert", JOptionPane.ERROR_MESSAGE);
 
     }
 
-    public static void parserRequest(Mission mission, Map map) throws ExceptionXML, ParserConfigurationException, IOException, SAXException {
+    public static void parserRequest(Mission mission, Map map) throws ParserConfigurationException, IOException, SAXException, ExceptionXML {
         File xml = XMLfileOpener.getInstance().open(true);
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = docBuilder.parse(xml);
@@ -42,7 +43,7 @@ public class XMLparser {
             Mission.reset();
             buildRequestFromDOMXML(document, mission, map);
         } else
-            throw new ExceptionXML("wrong format");
+            JOptionPane.showMessageDialog(null, "Please select a correct request", "alert", JOptionPane.ERROR_MESSAGE);
 
     }
 
