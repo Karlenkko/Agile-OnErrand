@@ -30,6 +30,7 @@ public class TextualView extends JPanel {
     public void initialise() {
         textArea = new JTextArea(4,30);
         textArea.setText("Helpful Informations");
+        textArea.setEditable(false);
         String[] columNames = {"ID","Type","Duration","Arrival","Depart"};
         Object defaultData[][] = {
                 {"Nothing","Nothing","Nothing","Nothing","Nothing"}
