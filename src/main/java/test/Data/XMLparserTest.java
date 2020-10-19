@@ -5,12 +5,11 @@ import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static Data.XMLparser.*;
+import static Util.XMLparser.*;
 import static org.junit.Assert.assertEquals;
 
 /** 

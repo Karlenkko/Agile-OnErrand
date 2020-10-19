@@ -24,21 +24,21 @@
 '}
 
 Package Controller
-Package Data
+Package Util
 Package Algorithm
 Package Model
 Package Test
 Package View
 Package Observer
 
-View <-down-> Controller
-Controller -up-> Model
+View <-> Controller
+Controller -> Model
 View -> Model
 Algorithm <- Controller
-Controller -> Data
+Controller -> Util
 
-Data -down-> Test
-Algorithm -down-> Test
+Util -> Test
+Algorithm -> Test
 View -> Observer
 
 @enduml

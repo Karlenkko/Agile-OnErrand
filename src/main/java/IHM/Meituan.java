@@ -1,6 +1,6 @@
 package IHM;
 
-import Data.XMLparser;
+import Util.XMLparser;
 import Model.*;
 
 import javax.swing.*;

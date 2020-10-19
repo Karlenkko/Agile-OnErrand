@@ -1,4 +1,4 @@
-package Data;
+package Util;
 
 public class ExceptionXML extends Exception {
 

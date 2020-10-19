@@ -1,12 +1,7 @@
 package Controller;
 
-import Data.ExceptionXML;
-import Data.XMLparser;
+import Util.XMLparser;
 import View.Window;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 
 public interface State {
 

@@ -1,10 +1,9 @@
 package IHM;
 
-import Data.ExceptionXML;
-import Data.XMLfileOpener;
+import Util.ExceptionXML;
+import Util.XMLfileOpener;
 
 import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
