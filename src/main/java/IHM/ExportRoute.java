@@ -46,7 +46,7 @@ public class ExportRoute {
         b2.addActionListener(new ReturnActionListener());
 
         f.pack();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setVisible(true);
     }
 

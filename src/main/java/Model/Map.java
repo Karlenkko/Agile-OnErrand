@@ -58,7 +58,6 @@ public class Map {
         minY = Double.MAX_VALUE;
         maxX = -Double.MAX_VALUE;
         maxY = -Double.MAX_VALUE;
-        Meituan.setPaint(false);
     }
 
     public HashMap<Long, Intersection> getAllIntersections() {
