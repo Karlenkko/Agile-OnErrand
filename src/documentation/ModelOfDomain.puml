@@ -1,26 +1,21 @@
 @startuml
+class Map
+class Segment
+class ListRequests
+class Intersection
+class Request
+class Tour
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+Map "1"-->" 0..*"Segment
+Map "1"-->" 0..*"Intersection
+Segment "1"-->"1" Intersection
+Segment "1"-->"1" Intersection
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
-}
-
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
-}
-
+Intersection "1"<--"1"Request
+Intersection "1"<--"1" Request
+ListRequests "1"-->"0..*" Request
+ListRequests <-- Tour
+Map <--Tour
+Tour-->Intersection
+Tour-->Segment
 @enduml
