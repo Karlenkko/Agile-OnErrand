@@ -1,17 +1,18 @@
+import Algorithm.MapGraph;
+import Controller.Controller;
 import IHM.Meituan;
+import Model.Map;
+import Model.Mission;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class BasicTest {
-    public static void main(String[] args) {
-        System.out.println("Shihang ZHOU testing");
-        System.out.println("Xinyu Feng testing");
-        System.out.println("GUO jiadong testing");
-        System.out.println("Yuxuan ZONG testing");
-        System.out.println("Gong CHEN testing");
-        System.out.println("Gong CHEN testing again");
-        System.out.println("Muye HE testing again");
-        System.out.println("Gong CHEN testing again and again");
-
-        new Meituan().init();
+    public static void main(String[] args) throws ParserConfigurationException {
+        //new Meituan().init();
+        Map map = new Map();
+        Mission mission = new Mission();
+        MapGraph mapGraph = new MapGraph();
+        new Controller(map, mission, mapGraph);
     }
 }
 
