@@ -92,7 +92,7 @@ public class MapGraph {
     /**
      * Calculate the shortest paths among all pickup and delivery
      */
-    public void calculateShortestPaths() {
+    public static void calculateShortestPaths() {
         shortestPathAlgo = new DijkstraManyToManyShortestPaths<>(g);
         shortestPaths = shortestPathAlgo.getManyToManyPaths(allAddresses, allAddresses);
     }
@@ -124,7 +124,7 @@ public class MapGraph {
      */
 //    @Override
     public double getCost(long i, long j) {
-        return shortestPaths.getWeight(i, j);
+        return shortestPathAlgo.getPathWeight(i, j);
     }
 
     /**
@@ -133,9 +133,9 @@ public class MapGraph {
      * @return true if <code>(i,j)</code> is an arc of <code>this</code>
      */
 //    @Override
-    public boolean isArc(long i, long j) {
-        System.out.println(shortestPaths.getPath(i,j).toString());
-        return (i != j ) && (shortestPaths.getWeight(i, j) < 10000);
+    public static boolean isArc(long i, long j) {
+//        System.out.println(shortestPathAlgo.getPath(i,j).toString());
+        return (i != j ) && (shortestPathAlgo.getPathWeight(i, j) < 10000);
     }
 }
 

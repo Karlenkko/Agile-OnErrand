@@ -5,7 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public abstract class TemplateTSP implements TSP {
-	private Long[] bestSol;
+	private Long[] bestSolAddress;
+	private ArrayList<Long> bestSolIntersection;
 	protected MapGraph g;
 	private double bestSolCost;
 	private int timeLimit;
@@ -17,11 +18,8 @@ public abstract class TemplateTSP implements TSP {
 		this.timeLimit = timeLimit;
 		this.g = g;
 
-		//
-		g.calculateShortestPaths();
-		this.g.calculateShortestPaths();
-
-		bestSol = new Long[g.getNbVertices()];
+		bestSolIntersection = new ArrayList<>();
+		bestSolAddress = new Long[g.getNbVertices()];
 //		Collection<Long> unvisited = new ArrayList<Long>(g.getNbVertices()-1);
 //		for (int i=1; i<g.getNbVertices(); i++) unvisited.add((long)i);
 		Collection<Long> unvisited = g.getAllAddresses();
@@ -30,11 +28,13 @@ public abstract class TemplateTSP implements TSP {
 		visited.add(g.getDepotAddress()); // The first visited vertex is 0
 		bestSolCost = Double.MAX_VALUE;
 		branchAndBound(g.getDepotAddress(), unvisited, visited, 0);
+		fillTour();
+		System.out.println(bestSolIntersection);
 	}
 	
 	public Long getSolution(int i){
 		if (g != null && i>=0 && i<g.getNbVertices())
-			return bestSol[i];
+			return bestSolAddress[i];
 		return -1L;
 	}
 	
@@ -43,7 +43,11 @@ public abstract class TemplateTSP implements TSP {
 			return bestSolCost;
 		return -1;
 	}
-	
+
+	public ArrayList<Long> getBestSolIntersection() {
+		return bestSolIntersection;
+	}
+
 	/**
 	 * Method that must be defined in TemplateTSP subclasses
 	 * @param currentVertex
@@ -73,10 +77,10 @@ public abstract class TemplateTSP implements TSP {
 			Collection<Long> visited, double currentCost){
 		if (System.currentTimeMillis() - startTime > timeLimit) return;
 	    if (unvisited.size() == 0){ 
-	    	if (g.isArc(currentVertex,0)){ 
-	    		if (currentCost+g.getCost(currentVertex,0) < bestSolCost){ 
-	    			visited.toArray(bestSol);
-	    			bestSolCost = currentCost+g.getCost(currentVertex,0);
+	    	if (MapGraph.isArc(currentVertex,g.getDepotAddress())){
+	    		if (currentCost+g.getCost(currentVertex,g.getDepotAddress()) < bestSolCost){
+	    			visited.toArray(bestSolAddress);
+	    			bestSolCost = currentCost+g.getCost(currentVertex,g.getDepotAddress());
 	    		}
 	    	}
 	    } else if (currentCost+bound(currentVertex,unvisited) < bestSolCost){
@@ -91,6 +95,14 @@ public abstract class TemplateTSP implements TSP {
 	            unvisited.add(nextVertex);
 	        }	    
 	    }
+	}
+
+	private void fillTour() {
+		for (int i = 1; i < bestSolAddress.length; i++) {
+			bestSolIntersection.addAll(g.getShortestPathAlgo().getPath(bestSolAddress[i - 1], bestSolAddress[i]).getVertexList());
+			bestSolIntersection.remove(bestSolIntersection.size() - 1);
+		}
+		bestSolIntersection.addAll(g.getShortestPathAlgo().getPath(bestSolAddress[g.getNbVertices() - 1], bestSolAddress[0]).getVertexList());
 	}
 
 }

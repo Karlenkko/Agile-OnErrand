@@ -36,9 +36,7 @@ public class CalculateState implements State{
         controller.getMapGraph().addAddress(controller.getMission().getDepot().getId());
         controller.getMapGraph().setDepotAddress(controller.getMission().getDepot().getId());
 
-        System.out.println(controller.getMapGraph().getAllAddresses().toString());
-        controller.getMapGraph().calculateShortestPaths();
-        System.out.println(controller.getMapGraph().getShortestPaths().getPath(controller.getMapGraph().getDepotAddress(), 25173820L).toString());
+        MapGraph.calculateShortestPaths();
         // start TSP calculation
         TSP tsp = new TSP1();
         tsp.searchSolution(20000, controller.getMapGraph());
