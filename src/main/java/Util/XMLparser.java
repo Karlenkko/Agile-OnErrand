@@ -39,7 +39,11 @@ public class XMLparser {
         NodeList root = document.getElementsByTagName("planningRequest");
         if (root.getLength() != 0) {
             Mission.reset();
-            buildRequestFromDOMXML(document, mission, map);
+            try {
+                buildRequestFromDOMXML(document, mission, map);
+            } catch (ExceptionXML e) {
+                throw e;
+            }
         } else
             JOptionPane.showMessageDialog(null, "Please select a correct request", "alert", JOptionPane.ERROR_MESSAGE);
 
@@ -57,7 +61,7 @@ public class XMLparser {
 
     }
 
-    private static void buildRequestFromDOMXML(Document document, Mission mission, Map map) {
+    private static void buildRequestFromDOMXML(Document document, Mission mission, Map map) throws ExceptionXML {
         NodeList depotList = document.getElementsByTagName("depot");
         for (int i = 0; i < depotList.getLength(); ++i) {
             mission.setDepot
@@ -85,9 +89,13 @@ public class XMLparser {
                 (map.getAllIntersections().get(origin), map.getAllIntersections().get(destination), name, length );
     }
 
-    private static Intersection createDepot(Element element, Mission mission, Map map) {
+    private static Intersection createDepot(Element element, Mission mission, Map map) throws ExceptionXML {
         long id = Long.parseLong(element.getAttribute("address"));
-        return map.getAllIntersections().get(id);
+        Intersection intersection = map.getAllIntersections().get(id);
+        if (intersection == null) {
+            throw new ExceptionXML("request doesn't match the map");
+        }
+        return intersection;
     }
 
     private static LocalTime createLocalTime(Element element) {
@@ -106,7 +114,7 @@ public class XMLparser {
         return LocalTime.parse(localTime, DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
 
-    private static Request createRequest(Element element, Mission mission, Map map) {
+    private static Request createRequest(Element element, Mission mission, Map map) throws ExceptionXML {
         long pickupId = Long.parseLong(element.getAttribute("pickupAddress"));
         long deliveryId;
         if (element.getAttribute("deliveryAddress").equals("")) {
@@ -116,9 +124,12 @@ public class XMLparser {
         }
         int pickupDuration = Integer.parseInt(element.getAttribute("pickupDuration"));
         int deliveryDuration = Integer.parseInt(element.getAttribute("deliveryDuration"));
-        return new
-                Request(map.getAllIntersections().get(pickupId),
-                map.getAllIntersections().get(deliveryId), pickupDuration, deliveryDuration);
+        Intersection pickup = map.getAllIntersections().get(pickupId);
+        Intersection delivery = map.getAllIntersections().get(deliveryId);
+        if (pickup == null || delivery == null) {
+            throw new ExceptionXML("request doesn't match the map");
+        }
+        return new Request(pickup, delivery, pickupDuration, deliveryDuration);
     }
 
 }
