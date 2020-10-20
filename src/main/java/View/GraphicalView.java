@@ -7,6 +7,7 @@ import Observer.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class GraphicalView extends JPanel implements Observer {
     private static final long serialVersionID = 1L;
     private static final int DEFAULT_SIZE = 600;
     private static final int MIN_SIZE = 400;
+    private static final int ARR_SIZE = 6;
     private int viewSize = DEFAULT_SIZE;    // always a square
     private Map map;
     private Mission mission;
@@ -137,17 +139,34 @@ public class GraphicalView extends JPanel implements Observer {
             List<Long> solution = tsp.getBestSolIntersection();
             for(int i = 1; i < solution.size(); ++i) {
                 g2d.setColor(Color.GREEN);
-                g2d.setStroke(new BasicStroke(5));
+                g2d.setStroke(new BasicStroke(2));
                 Intersection intersection1 = allIntersections.get(solution.get(i));
                 Intersection intersection2 = allIntersections.get(solution.get(i-1));
                 double x1 = intersection1.getX() - minX;
                 double y1 = intersection1.getY() - minY;
                 double x2 = intersection2.getX() - minX;
                 double y2 = intersection2.getY() - minY;
-                g2d.draw(new Line2D.Double(x1/rate,y1/rate,x2/rate,y2/rate));
+                drawArrow(g,x1/rate,y1/rate,x2/rate,y2/rate);
             }
         }
 
+    }
+
+    public void drawArrow(Graphics g1, double x1, double y1, double x2, double y2) {
+        Graphics2D g = (Graphics2D) g1.create();
+
+        double dx = x2 - x1, dy = y2 - y1;
+        double angle = Math.atan2(dy, dx);
+        int len = (int) Math.sqrt(dx*dx + dy*dy);
+        AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
+        at.concatenate(AffineTransform.getRotateInstance(angle));
+        g.transform(at);
+
+        // Draw horizontal arrow starting in (0, 0)
+        g.drawLine(0, 0, len, 0);
+        g.setStroke(new BasicStroke(4));
+        g.fillPolygon(new int[] {len, len-ARR_SIZE, len-ARR_SIZE, len},
+                new int[] {0, -ARR_SIZE, ARR_SIZE, 0}, 4);
     }
 
     public void setPaintTour(boolean paintTour) {
