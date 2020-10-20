@@ -1,31 +1,8 @@
 @startuml
 
-'abstract class AbstractList
-'abstract AbstractCollection
-'interface List
-'interface Collection
-'
-'List <|-- AbstractList
-'Collection <|-- AbstractCollection
-'
-'Collection <|- List
-'AbstractCollection <|- AbstractList
-'AbstractList <|-- ArrayList
-'
-'class ArrayList {
-'Object[] elementData
-'size()
-'}
-'
-'enum TimeUnit {
-'DAYS
-'HOURS
-'MINUTES
-'}
+hide members
 
-
-
-Package ControllerState{
+Package Controller{
     class Controller
 
     interface Command
@@ -58,11 +35,11 @@ Package Algorithm{
     class MapGraph
     class Seqlter
 
-    Controller --> TSP
+    TemplateTSP -> MapGraph
+    Controller -up-> TSP
     TSP1 --|> TemplateTSP
     TemplateTSP ..|> TSP
     CompleteGraph..|> Graph
-    Seqlter --> MapGraph
 
 }
 Package Model{
@@ -109,31 +86,19 @@ Package View{
     GraphicalView --> Mission
     GraphicalView --> TSP
 
-    'MouseListener --> Controller
     ButtonListener --> Controller
 
 }
 Package Observer{
-    class Observer
+    interface Observer
     class Observable
 
     TextualView ..|> Observer
     GraphicalView ..|> Observer
 
-    Map --> Observable
-    Mission --> Observable
+    Mission --|> Observable
 }
 
 
-
-'View <--> ControllerState
-'ControllerState --> Model
-'View -> Model
-'Algorithm <- ControllerState
-'ControllerState -> Util
-'
-'Util --> Test
-'Algorithm --> Test
-'View -> Observer
 
 @enduml
