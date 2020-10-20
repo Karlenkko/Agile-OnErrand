@@ -35,7 +35,12 @@ public class TextualView extends JPanel {
         Object defaultData[][] = {
                 {"Nothing","Nothing","Nothing","Nothing","Nothing"}
         };
-        requestTable = new JTable(new DefaultTableModel(defaultData, columNames));
+        requestTable = new JTable(new DefaultTableModel(defaultData, columNames){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
         jScrollPane = new JScrollPane(requestTable);
         this.add(Box.createVerticalStrut(20));
         this.add(textArea);

@@ -7,6 +7,7 @@ import Model.Segment;
 import Util.XMLparser;
 import View.Window;
 
+import javax.swing.*;
 import java.util.*;
 
 public interface State {
@@ -32,7 +33,7 @@ public interface State {
            controller.setCurrentState(controller.calculateState);
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO: show alert
+            JOptionPane.showMessageDialog(null, e.getMessage(), "alert", JOptionPane.ERROR_MESSAGE);
         }
     }
 
