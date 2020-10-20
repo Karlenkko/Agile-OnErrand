@@ -23,22 +23,117 @@
 'MINUTES
 '}
 
-Package Controller
-Package Util
-Package Algorithm
-Package Model
-Package Test
-Package View
-Package Observer
 
-View <-down-> Controller
-Controller -up-> Model
-View -> Model
-Algorithm <- Controller
-Controller -> Util
 
-Util -down-> Test
-Algorithm -down-> Test
-View -> Observer
+Package ControllerState{
+    class Controller
+
+    interface Command
+    class InitialState
+    class CalculateState
+    class MapLoadedState
+    class RequestLoadedState
+
+    interface State
+    Controller --> State
+    InitialState ..|> State
+    CalculateState ..|> State
+    MapLoadedState ..|> State
+    RequestLoadedState ..|> State
+}
+Package Util{
+    class XMLParser
+    class XMLfileOpener
+    class ExceptionXML
+
+    XMLParser --> XMLfileOpener
+
+}
+Package Algorithm{
+    interface TSP
+    class TSP1
+    class TemplateTSP
+    interface Graph
+    class CompleteGraph
+    class MapGraph
+    class Seqlter
+
+    Controller --> TSP
+    TSP1 ..|> TSP
+    TemplateTSP ..|> TSP
+    CompleteGraph..|> Graph
+    Seqlter --> MapGraph
+
+}
+Package Model{
+    class Intersection
+    class Map
+    class Mission
+    class Request
+    class Segment
+
+    Map --> Intersection
+    Map --> Segment
+    Controller --> Map
+
+    Controller --> Mission
+    Mission --> Intersection
+    Mission --> Request
+
+    Request --> Intersection
+    Segment --> Intersection
+
+}
+Package Test{
+    class MapGraphTest
+    class XMLparserTest
+
+    XMLparserTest --> XMLParser
+}
+Package View{
+    class Window
+    class TextualView
+    class GraphicalView
+    class ButtonListener
+    class MouseListener
+
+    Controller --> Window
+    Window --> TextualView
+    Window --> GraphicalView
+    Window --> ButtonListener
+    Window --> MouseListener
+
+    TextualView --> Mission
+
+    GraphicalView --> Map
+    GraphicalView --> Mission
+    GraphicalView --> TSP
+
+    'MouseListener --> Controller
+    ButtonListener --> Controller
+
+}
+Package Observer{
+    class Observer
+    class Observable
+
+    TextualView ..|> Observer
+    GraphicalView ..|> Observer
+
+    Map --> Observable
+    Mission --> Observable
+}
+
+
+
+'View <--> ControllerState
+'ControllerState --> Model
+'View -> Model
+'Algorithm <- ControllerState
+'ControllerState -> Util
+'
+'Util --> Test
+'Algorithm --> Test
+'View -> Observer
 
 @enduml
