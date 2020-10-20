@@ -28,6 +28,10 @@ public abstract class TemplateTSP implements TSP {
 		visited.add(g.getDepotAddress()); // The first visited vertex is 0
 		bestSolCost = Double.MAX_VALUE;
 		branchAndBound(g.getDepotAddress(), unvisited, visited, 0);
+		for (int i = 0; i < bestSolAddress.length; i++) {
+			System.out.println(bestSolAddress[i]);
+
+		}
 		fillTour();
 
 		for (int i = 0; i < bestSolAddress.length; i ++) {
@@ -61,7 +65,7 @@ public abstract class TemplateTSP implements TSP {
 	 * @return a lower bound of the cost of paths in <code>g</code> starting from <code>currentVertex</code>, visiting 
 	 * every vertex in <code>unvisited</code> exactly once, and returning back to vertex <code>0</code>.
 	 */
-	protected abstract int bound(long currentVertex, Collection<Long> unvisited);
+	protected abstract double bound(long currentVertex, Collection<Long> unvisited);
 	
 	/**
 	 * Method that must be defined in TemplateTSP subclasses
