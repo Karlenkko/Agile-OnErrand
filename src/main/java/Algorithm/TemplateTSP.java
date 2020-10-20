@@ -29,6 +29,12 @@ public abstract class TemplateTSP implements TSP {
 		bestSolCost = Double.MAX_VALUE;
 		branchAndBound(g.getDepotAddress(), unvisited, visited, 0);
 		fillTour();
+
+		for (int i = 0; i < bestSolAddress.length; i ++) {
+			System.out.print((long)bestSolAddress[i]);
+			System.out.print("  ,");
+		}
+		System.out.println();
 		System.out.println(bestSolIntersection);
 	}
 	
@@ -102,7 +108,7 @@ public abstract class TemplateTSP implements TSP {
 			bestSolIntersection.addAll(g.getShortestPathAlgo().getPath(bestSolAddress[i - 1], bestSolAddress[i]).getVertexList());
 			bestSolIntersection.remove(bestSolIntersection.size() - 1);
 		}
-		bestSolIntersection.addAll(g.getShortestPathAlgo().getPath(bestSolAddress[g.getNbVertices() - 1], bestSolAddress[0]).getVertexList());
+		bestSolIntersection.addAll(g.getShortestPathAlgo().getPath(bestSolAddress[bestSolAddress.length - 1], bestSolAddress[0]).getVertexList());
 	}
 
 }

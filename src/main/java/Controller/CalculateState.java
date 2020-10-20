@@ -39,7 +39,7 @@ public class CalculateState implements State{
         MapGraph.calculateShortestPaths();
         // start TSP calculation
         TSP tsp = controller.getTsp();
-        tsp.searchSolution(20000, controller.getMapGraph());
+        tsp.searchSolution(100000, controller.getMapGraph());
         System.out.print("Solution of cost "+tsp.getSolutionCost());
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
