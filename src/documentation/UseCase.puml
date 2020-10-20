@@ -8,38 +8,49 @@ left to right direction
 :File System: as fs
 
 package Application {
-    usecase "Select Map" as UC1
-    usecase "Load map" as UC2
-    usecase "Load list of requests" as UC3
-    usecase "Calculate route" as UC4
-    usecase "Validate route" as UC5
-    usecase "Add request" as UC6
-    usecase "Change order of requests" as UC7
-    usecase "Delete request" as UC8
-    usecase "Produce route map" as UC9
+    usecase "Load map" as LoadMap
+    usecase "Load list of request" as LoadRequests
+    usecase "Calculate Tour" as CalculateTour
+    usecase "Generate RoadMap" as GenerateRoadMap
+    usecase "Verify Route" as VerifyRoute
+    usecase "Add Request" as AddRequest
+    usecase "Delete Request" as DeleteRequest
 
-    User -[hidden]->Application
-    User ---> UC1
-    User --> UC4
-    User --> UC5
-    User --> UC6
-    User --> UC7
-    User --> UC8
-    Application -[hidden]> fs
-    fs -> UC2
-    fs -> UC3
-    fs -> UC6
-    fs -> UC8
-    UC5 ..>UC9 : include
+    usecase "Parse XML file" as ParseXML
+    usecase "Create and write txt file" as WriteTXT
+
+    LoadMap ..> ParseXML : include
+    LoadRequests ..> ParseXML : include
+    GenerateRoadMap ..> WriteTXT : include
+    GenerateRoadMap ..> VerifyRoute : include
+
+    AddRequest ..> CalculateTour : extend
+    DeleteRequest ..> CalculateTour : extend
 }
+    User -[hidden]->Application
+    User ---> LoadMap
+    User --> LoadRequests
+    User --> CalculateTour
+    User --> GenerateRoadMap
+    User --> AddRequest
+    User --> DeleteRequest
 
-'note left of UC1
-'the very first step
-'of using the application
-'end note
 
-'note "This note is connected\nto several objects." as N2
-'(Start) .. N2
-'N2 .. (Use)
+'    Application -[hidden]> fs
+    ParseXML -> fs
+    WriteTXT -> fs
+
+
+note right of CalculateTour
+the Use Case Calculate Tour
+is automatically invoked whenever
+the user delete or add a request
+end note
+
+note top of LoadMap
+the very first step of the
+utilisation of the application,
+and can be called in whichever step
+end note
 
 @enduml
