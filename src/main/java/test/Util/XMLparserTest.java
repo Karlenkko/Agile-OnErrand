@@ -1,4 +1,4 @@
-package test.Data; 
+package test.Util;
 
 import Model.*;
 import org.junit.Test;

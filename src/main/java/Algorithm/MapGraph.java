@@ -8,19 +8,40 @@ import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public class MapGraph {
-    private Graph<Long, DefaultWeightedEdge> g;
-    private HashMap<Long, Long> addressPriorities;
-    private Set<Long> allAddresses;
-    private DijkstraManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPathAlgo;
-    private ManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPaths;
+    private static Graph<Long, DefaultWeightedEdge> g;
+    private static HashMap<Long, Long> addressPriorities;
+    private static HashSet<Long> allAddresses;
+    private static DijkstraManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPathAlgo;
+    private static ManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPaths;
+    private static long depotAddress;
     /**
      * Constructor of MapGraph, creates an empty directed weighted map using the jgrapht library
      */
     public MapGraph() {
         g = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+        addressPriorities = new HashMap<>();
+        allAddresses = new HashSet<>();
+        depotAddress = -1L;
+    }
+
+    public DijkstraManyToManyShortestPaths<Long, DefaultWeightedEdge> getShortestPathAlgo() {
+        return shortestPathAlgo;
+    }
+
+    public ManyToManyShortestPaths<Long, DefaultWeightedEdge> getShortestPaths() {
+        return shortestPaths;
+    }
+
+    public HashMap<Long, Long> getAddressPriorities() {
+        return addressPriorities;
+    }
+
+    public HashSet<Long> getAllAddresses() {
+        return allAddresses;
     }
 
     /**
@@ -49,6 +70,14 @@ public class MapGraph {
         allAddresses.add(addressId);
     }
 
+    public long getDepotAddress() {
+        return depotAddress;
+    }
+
+    public void setDepotAddress(long depotAddress) {
+        MapGraph.depotAddress = depotAddress;
+    }
+
     /**
      * Add a Segment to the MapGraph without its name
      * @param sourceIntersectionId the origin/source Intersection id
@@ -56,6 +85,7 @@ public class MapGraph {
      * @param length the length of the Segment, expressed in meters
      */
     public void addEdge(long sourceIntersectionId, long targetIntersectionId, double length) {
+        g.addEdge(sourceIntersectionId,targetIntersectionId);
         g.setEdgeWeight(sourceIntersectionId, targetIntersectionId, length);
     }
 
@@ -65,6 +95,47 @@ public class MapGraph {
     public void calculateShortestPaths() {
         shortestPathAlgo = new DijkstraManyToManyShortestPaths<>(g);
         shortestPaths = shortestPathAlgo.getManyToManyPaths(allAddresses, allAddresses);
+    }
+
+    public static void reset() {
+        g = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+        depotAddress = -1L;
+        if (!addressPriorities.isEmpty()) {
+            addressPriorities.clear();
+        }
+        if (!allAddresses.isEmpty()) {
+            allAddresses.clear();
+        }
+
+    }
+
+    /**
+     * @return the number of vertices in <code>this</code>
+     */
+//    @Override
+    public int getNbVertices() {
+        return allAddresses.size();
+    }
+
+    /**
+     * @param i
+     * @param j
+     * @return the cost of arc (i,j) if (i,j) is an arc; -1 otherwise
+     */
+//    @Override
+    public double getCost(long i, long j) {
+        return shortestPaths.getWeight(i, j);
+    }
+
+    /**
+     * @param i
+     * @param j
+     * @return true if <code>(i,j)</code> is an arc of <code>this</code>
+     */
+//    @Override
+    public boolean isArc(long i, long j) {
+        System.out.println(shortestPaths.getPath(i,j).toString());
+        return (i != j ) && (shortestPaths.getWeight(i, j) < 10000);
     }
 }
 

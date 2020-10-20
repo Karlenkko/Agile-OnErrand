@@ -5,12 +5,12 @@ import java.util.Iterator;
 
 public class TSP1 extends TemplateTSP {
 	@Override
-	protected int bound(Integer currentVertex, Collection<Integer> unvisited) {
+	protected int bound(long currentVertex, Collection<Long> unvisited) {
 		return 0;
 	}
 
 	@Override
-	protected Iterator<Integer> iterator(Integer currentVertex, Collection<Integer> unvisited, Graph g) {
+	protected Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, MapGraph g) {
 		return new SeqIter(unvisited, currentVertex, g);
 	}
 

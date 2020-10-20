@@ -1,6 +1,7 @@
 package Controller;
 
 import Algorithm.MapGraph;
+import Algorithm.TSP;
 import Model.Map;
 import Model.Mission;
 import View.Window;
@@ -9,6 +10,9 @@ public class Controller {
     private Map map;
     private Mission mission;
     private MapGraph mapGraph;
+
+    private TSP tsp;
+
     private Window window;
     private State currentState;
 

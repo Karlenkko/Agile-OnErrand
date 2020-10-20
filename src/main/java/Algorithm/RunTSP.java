@@ -7,7 +7,7 @@ public class RunTSP {
 			System.out.println("Graphs with "+nbVertices+" vertices:");
 			Graph g = new CompleteGraph(nbVertices);
 			long startTime = System.currentTimeMillis();
-			tsp.searchSolution(20000, g);
+//			tsp.searchSolution(20000, g);
 			System.out.print("Solution of cost "+tsp.getSolutionCost()+" found in "
 					+(System.currentTimeMillis() - startTime)+"ms : ");
 			for (int i=0; i<nbVertices; i++)

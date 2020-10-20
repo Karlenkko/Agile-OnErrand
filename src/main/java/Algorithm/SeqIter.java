@@ -3,8 +3,8 @@ package Algorithm;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class SeqIter implements Iterator<Integer> {
-	private Integer[] candidates;
+public class SeqIter implements Iterator<Long> {
+	private Long[] candidates;
 	private int nbCandidates;
 
 	/**
@@ -15,9 +15,9 @@ public class SeqIter implements Iterator<Integer> {
 	 * @param currentVertex
 	 * @param g
 	 */
-	public SeqIter(Collection<Integer> unvisited, int currentVertex, Graph g){
-		this.candidates = new Integer[unvisited.size()];
-		for (Integer s : unvisited){
+	public SeqIter(Collection<Long> unvisited, Long currentVertex, MapGraph g){
+		this.candidates = new Long[unvisited.size()];
+		for (Long s : unvisited){
 			if (g.isArc(currentVertex, s))
 				candidates[nbCandidates++] = s;
 		}
@@ -29,7 +29,7 @@ public class SeqIter implements Iterator<Integer> {
 	}
 
 	@Override
-	public Integer next() {
+	public Long next() {
 		nbCandidates--;
 		return candidates[nbCandidates];
 	}

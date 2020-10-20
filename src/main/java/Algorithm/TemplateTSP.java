@@ -5,33 +5,40 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public abstract class TemplateTSP implements TSP {
-	private Integer[] bestSol;
-	protected Graph g;
-	private int bestSolCost;
+	private Long[] bestSol;
+	protected MapGraph g;
+	private double bestSolCost;
 	private int timeLimit;
 	private long startTime;
 	
-	public void searchSolution(int timeLimit, Graph g){
+	public void searchSolution(int timeLimit, MapGraph g){
 		if (timeLimit <= 0) return;
 		startTime = System.currentTimeMillis();	
 		this.timeLimit = timeLimit;
 		this.g = g;
-		bestSol = new Integer[g.getNbVertices()];
-		Collection<Integer> unvisited = new ArrayList<Integer>(g.getNbVertices()-1);
-		for (int i=1; i<g.getNbVertices(); i++) unvisited.add(i);
-		Collection<Integer> visited = new ArrayList<Integer>(g.getNbVertices());
-		visited.add(0); // The first visited vertex is 0
-		bestSolCost = Integer.MAX_VALUE;
-		branchAndBound(0, unvisited, visited, 0);
+
+		//
+		g.calculateShortestPaths();
+		this.g.calculateShortestPaths();
+
+		bestSol = new Long[g.getNbVertices()];
+//		Collection<Long> unvisited = new ArrayList<Long>(g.getNbVertices()-1);
+//		for (int i=1; i<g.getNbVertices(); i++) unvisited.add((long)i);
+		Collection<Long> unvisited = g.getAllAddresses();
+		unvisited.remove(g.getDepotAddress());
+		Collection<Long> visited = new ArrayList<Long>(g.getNbVertices());
+		visited.add(g.getDepotAddress()); // The first visited vertex is 0
+		bestSolCost = Double.MAX_VALUE;
+		branchAndBound(g.getDepotAddress(), unvisited, visited, 0);
 	}
 	
-	public Integer getSolution(int i){
+	public Long getSolution(int i){
 		if (g != null && i>=0 && i<g.getNbVertices())
 			return bestSol[i];
-		return -1;
+		return -1L;
 	}
 	
-	public int getSolutionCost(){
+	public double getSolutionCost(){
 		if (g != null)
 			return bestSolCost;
 		return -1;
@@ -44,7 +51,7 @@ public abstract class TemplateTSP implements TSP {
 	 * @return a lower bound of the cost of paths in <code>g</code> starting from <code>currentVertex</code>, visiting 
 	 * every vertex in <code>unvisited</code> exactly once, and returning back to vertex <code>0</code>.
 	 */
-	protected abstract int bound(Integer currentVertex, Collection<Integer> unvisited);
+	protected abstract int bound(long currentVertex, Collection<Long> unvisited);
 	
 	/**
 	 * Method that must be defined in TemplateTSP subclasses
@@ -53,7 +60,7 @@ public abstract class TemplateTSP implements TSP {
 	 * @param g
 	 * @return an iterator for visiting all vertices in <code>unvisited</code> which are successors of <code>currentVertex</code>
 	 */
-	protected abstract Iterator<Integer> iterator(Integer currentVertex, Collection<Integer> unvisited, Graph g);
+	protected abstract Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, MapGraph g);
 	
 	/**
 	 * Template method of a branch and bound algorithm for solving the TSP in <code>g</code>.
@@ -62,8 +69,8 @@ public abstract class TemplateTSP implements TSP {
 	 * @param visited the sequence of vertices that have been already visited (including currentVertex)
 	 * @param currentCost the cost of the path corresponding to <code>visited</code>
 	 */	
-	private void branchAndBound(int currentVertex, Collection<Integer> unvisited, 
-			Collection<Integer> visited, int currentCost){
+	private void branchAndBound(long currentVertex, Collection<Long> unvisited,
+			Collection<Long> visited, double currentCost){
 		if (System.currentTimeMillis() - startTime > timeLimit) return;
 	    if (unvisited.size() == 0){ 
 	    	if (g.isArc(currentVertex,0)){ 
@@ -73,13 +80,13 @@ public abstract class TemplateTSP implements TSP {
 	    		}
 	    	}
 	    } else if (currentCost+bound(currentVertex,unvisited) < bestSolCost){
-	        Iterator<Integer> it = iterator(currentVertex, unvisited, g);
+	        Iterator<Long> it = iterator(currentVertex, unvisited, g);
 	        while (it.hasNext()){
-	        	Integer nextVertex = it.next();
+	        	long nextVertex = it.next();
 	        	visited.add(nextVertex);
 	            unvisited.remove(nextVertex);
 	            branchAndBound(nextVertex, unvisited, visited, 
-	            		currentCost+g.getCost(currentVertex, nextVertex));
+	            		currentCost+(int)g.getCost(currentVertex, nextVertex));
 	            visited.remove(nextVertex);
 	            unvisited.add(nextVertex);
 	        }	    

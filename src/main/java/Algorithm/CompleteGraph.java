@@ -33,14 +33,14 @@ public class CompleteGraph implements Graph {
 	}
 
 	@Override
-	public int getCost(int i, int j) {
+	public double getCost(long i, long j) {
 		if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
 			return -1;
-		return cost[i][j];
+		return (double) cost[(int)i][(int)j];
 	}
 
 	@Override
-	public boolean isArc(int i, int j) {
+	public boolean isArc(long i, long j) {
 		if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
 			return false;
 		return i != j;
