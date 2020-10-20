@@ -59,7 +59,7 @@ Package Algorithm{
     class Seqlter
 
     Controller --> TSP
-    TSP1 ..|> TSP
+    TSP1 --|> TemplateTSP
     TemplateTSP ..|> TSP
     CompleteGraph..|> Graph
     Seqlter --> MapGraph
