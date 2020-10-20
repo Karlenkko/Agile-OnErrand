@@ -135,7 +135,7 @@ public class MapGraph {
 //    @Override
     public static boolean isArc(long i, long j) {
 //        System.out.println(shortestPathAlgo.getPath(i,j).toString());
-        return (i != j ) && (shortestPathAlgo.getPathWeight(i, j) < 10000);
+        return (i != j ) && (shortestPathAlgo.getPathWeight(i, j) < 10000) && (addressPriorities.getOrDefault(j, -1L) != i);
     }
 }
 
