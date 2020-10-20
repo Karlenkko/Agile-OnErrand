@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class TSP1 extends TemplateTSP {
+
+
+
 	@Override
 	protected int bound(long currentVertex, Collection<Long> unvisited) {
 		return 0;

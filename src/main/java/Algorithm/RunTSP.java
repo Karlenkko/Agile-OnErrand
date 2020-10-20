@@ -2,6 +2,7 @@ package Algorithm;
 
 public class RunTSP {
 	public static void main(String[] args) {
+		/*
 		TSP tsp = new TSP1();
 		for (int nbVertices = 8; nbVertices <= 16; nbVertices += 2){
 			System.out.println("Graphs with "+nbVertices+" vertices:");
@@ -14,6 +15,8 @@ public class RunTSP {
 				System.out.print(tsp.getSolution(i)+" ");
 			System.out.println("0");
 		}
+
+		 */
 	}
 
 }

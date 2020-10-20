@@ -29,11 +29,12 @@ public class Controller {
      * @param mission the object Mission, currently empty
      * @param mapGraph the object MapGraph, currently empty
      */
-    public Controller(Map map, Mission mission, MapGraph mapGraph) {
+    public Controller(Map map, Mission mission, MapGraph mapGraph, TSP tsp) {
         this.map = map;
         this.mission = mission;
         this.mapGraph = mapGraph;
-        window = new Window(this.map, this.mission, this);
+        this.tsp = tsp;
+        window = new Window(this.map, this.mission, tsp, this);
         currentState = initialState;
     }
 
@@ -55,6 +56,10 @@ public class Controller {
 
     public MapGraph getMapGraph() {
         return mapGraph;
+    }
+
+    public TSP getTsp() {
+        return tsp;
     }
 
     /**

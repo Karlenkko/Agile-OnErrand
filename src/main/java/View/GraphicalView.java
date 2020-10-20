@@ -1,5 +1,6 @@
 package View;
 
+import Algorithm.TSP;
 import Model.*;
 
 import Observer.*;
@@ -10,6 +11,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.LinkedList;
 
 public class GraphicalView extends JPanel implements Observer {
 
@@ -19,9 +22,11 @@ public class GraphicalView extends JPanel implements Observer {
     private int viewSize = DEFAULT_SIZE;    // always a square
     private Map map;
     private Mission mission;
+    private TSP tsp;
     private Graphics g;
     private static boolean paintMap;
     private static boolean paintRequest;
+    private static boolean paintTour;
 
     private double minX;
     private double minY;
@@ -34,15 +39,17 @@ public class GraphicalView extends JPanel implements Observer {
      * @param mission the mission whose informations are filled that will be painted
      * @param window the window where the GraphicalView will be on
      */
-    public GraphicalView(Map map, Mission mission, Window window) {
+    public GraphicalView(Map map, Mission mission, Window window, TSP tsp) {
         super();
         //TODO: added to Observer
         setBackground(Color.white);
         window.getContentPane().add(this);
         this.map = map;
         this.mission = mission;
+        this.tsp = tsp;
         paintMap = false;
         paintRequest = false;
+        paintTour = false;
     }
 
     public void setMapSize() {
@@ -125,10 +132,27 @@ public class GraphicalView extends JPanel implements Observer {
             }
         }
 
+        if(paintTour){
+            HashMap<Long, Intersection> allIntersections = map.getAllIntersections();
+            List<Long> solution = tsp.getBestSolIntersection();
+            for(int i = 1; i < solution.size(); ++i) {
+                g2d.setColor(Color.GREEN);
+                g2d.setStroke(new BasicStroke(5));
+                Intersection intersection1 = allIntersections.get(solution.get(i));
+                Intersection intersection2 = allIntersections.get(solution.get(i-1));
+                double x1 = intersection1.getX() - minX;
+                double y1 = intersection1.getY() - minY;
+                double x2 = intersection2.getX() - minX;
+                double y2 = intersection2.getY() - minY;
+                g2d.draw(new Line2D.Double(x1/rate,y1/rate,x2/rate,y2/rate));
+            }
+        }
+
     }
 
-
-
+    public void setPaintTour(boolean paintTour) {
+        GraphicalView.paintTour = paintTour;
+    }
 
     @Override
     public void update(Observable observed, Object arg) {

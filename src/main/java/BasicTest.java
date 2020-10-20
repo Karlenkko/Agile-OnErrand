@@ -1,4 +1,6 @@
 import Algorithm.MapGraph;
+import Algorithm.TSP;
+import Algorithm.TSP1;
 import Controller.Controller;
 import IHM.Meituan;
 import Model.Map;
@@ -11,7 +13,8 @@ public class BasicTest {
         Map map = new Map();
         Mission mission = new Mission();
         MapGraph mapGraph = new MapGraph();
-        new Controller(map, mission, mapGraph);
+        TSP tsp = new TSP1();
+        new Controller(map, mission, mapGraph, tsp);
     }
 }
 

@@ -1,5 +1,6 @@
 package View;
 
+import Algorithm.TSP;
 import Controller.Controller;
 import Model.Map;
 import Model.Mission;
@@ -41,10 +42,10 @@ public class Window extends JFrame{
     private MouseListener mouseListener;
 
 
-    public Window(Map map, Mission mission, Controller controller){
+    public Window(Map map, Mission mission, TSP tsp, Controller controller){
         setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
         createButtons(controller);
-        graphicalView = new GraphicalView(map, mission, this);
+        graphicalView = new GraphicalView(map, mission, this, tsp);
         textualView = new TextualView(mission, this);
         setWindowSize();
         System.out.println(textualView.getWidth());
