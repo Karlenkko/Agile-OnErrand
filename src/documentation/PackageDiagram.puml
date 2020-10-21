@@ -1,44 +1,104 @@
 @startuml
 
-'abstract class AbstractList
-'abstract AbstractCollection
-'interface List
-'interface Collection
-'
-'List <|-- AbstractList
-'Collection <|-- AbstractCollection
-'
-'Collection <|- List
-'AbstractCollection <|- AbstractList
-'AbstractList <|-- ArrayList
-'
-'class ArrayList {
-'Object[] elementData
-'size()
-'}
-'
-'enum TimeUnit {
-'DAYS
-'HOURS
-'MINUTES
-'}
+hide members
 
-Package Controller
-Package Util
-Package Algorithm
-Package Model
-Package Test
-Package View
-Package Observer
+Package Controller{
+    class Controller
 
-View <-down-> Controller
-Controller -up-> Model
-View -> Model
-Algorithm <- Controller
-Controller -> Util
+    interface Command
+    class InitialState
+    class CalculateState
+    class MapLoadedState
+    class RequestLoadedState
 
-Util -down-> Test
-Algorithm -down-> Test
-View -> Observer
+    interface State
+    Controller --> State
+    InitialState ..|> State
+    CalculateState ..|> State
+    MapLoadedState ..|> State
+    RequestLoadedState ..|> State
+}
+Package Util{
+    class XMLParser
+    class XMLfileOpener
+    class ExceptionXML
+
+    XMLParser --> XMLfileOpener
+
+}
+Package Algorithm{
+    interface TSP
+    class TSP1
+    class TemplateTSP
+    interface Graph
+    class CompleteGraph
+    class MapGraph
+    class Seqlter
+
+    TemplateTSP -> MapGraph
+    Controller -up-> TSP
+    TSP1 --|> TemplateTSP
+    TemplateTSP ..|> TSP
+    CompleteGraph..|> Graph
+
+}
+Package Model{
+    class Intersection
+    class Map
+    class Mission
+    class Request
+    class Segment
+
+    Map --> Intersection
+    Map --> Segment
+    Controller --> Map
+
+    Controller --> Mission
+    Mission --> Intersection
+    Mission --> Request
+
+    Request --> Intersection
+    Segment --> Intersection
+
+}
+Package Test{
+    class MapGraphTest
+    class XMLparserTest
+
+    XMLparserTest --> XMLParser
+}
+Package View{
+    class Window
+    class TextualView
+    class GraphicalView
+    class ButtonListener
+    class MouseListener
+
+    Controller --> Window
+    Window --> TextualView
+    Window --> GraphicalView
+    Window --> ButtonListener
+    Window --> MouseListener
+
+    TextualView --> Mission
+
+    GraphicalView --> Map
+    GraphicalView --> Mission
+    GraphicalView --> TSP
+
+    ButtonListener --> Controller
+
+}
+Package Observer{
+    interface Observer
+    class Observable
+
+    TextualView ..|> Observer
+    GraphicalView ..|> Observer
+
+    Mission --|> Observable
+}
+
+
 
 @enduml
