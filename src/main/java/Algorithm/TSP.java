@@ -11,8 +11,11 @@ public interface TSP {
 	 * @param timeLimit
 	 * @param g
 	 */
-	public void searchSolution(int timeLimit, MapGraph g);
-	
+	/*
+	public Long[] searchSolution(int timeLimit, MapGraph g);
+	 */
+	public Long[] searchSolution(int timeLimit, CompleteGraph g);
+
 	/**
 	 * @param i
 	 * @return the ith visited vertex in the solution computed by <code>searchSolution</code> 

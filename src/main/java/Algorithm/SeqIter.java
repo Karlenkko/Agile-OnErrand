@@ -15,7 +15,17 @@ public class SeqIter implements Iterator<Long> {
 	 * @param currentVertex
 	 * @param g
 	 */
+	/*
 	public SeqIter(Collection<Long> unvisited, Long currentVertex, MapGraph g){
+		this.candidates = new Long[unvisited.size()];
+		for (Long s : unvisited){
+			if (g.isArc(currentVertex, s))
+				candidates[nbCandidates++] = s;
+		}
+	}
+
+	 */
+	public SeqIter(Collection<Long> unvisited, Long currentVertex, CompleteGraph g){
 		this.candidates = new Long[unvisited.size()];
 		for (Long s : unvisited){
 			if (g.isArc(currentVertex, s))

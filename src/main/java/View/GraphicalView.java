@@ -114,20 +114,20 @@ public class GraphicalView extends JPanel implements Observer {
         if(paintRequest) {
             ArrayList<Request> allRequests = mission.getAllRequests();
             g2d.setColor(Color.RED);
-            g2d.setStroke(new BasicStroke(5));
+            g2d.setStroke(new BasicStroke(6));
             double x = mission.getDepot().getX() - minX;
             double y = mission.getDepot().getY() - minY;
             g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
 
             for (int i = 0; i < allRequests.size(); ++i) {
                 g2d.setColor(Color.BLUE);
-                g2d.setStroke(new BasicStroke(5));
+                g2d.setStroke(new BasicStroke(6));
                 double pickupX = allRequests.get(i).getPickup().getX() - minX;
                 double pickupY = allRequests.get(i).getPickup().getY() - minY;
                 g2d.draw(new Line2D.Double(pickupX/rate,pickupY/rate,pickupX/rate,pickupY/rate));
 
                 g2d.setColor(Color.ORANGE);
-                g2d.setStroke(new BasicStroke(5));
+                g2d.setStroke(new BasicStroke(6));
                 double deliveryX = allRequests.get(i).getDelivery().getX() - minX;
                 double deliveryY = allRequests.get(i).getDelivery().getY() - minY ;
                 g2d.draw(new Line2D.Double(deliveryX/rate,deliveryY/rate,deliveryX/rate,deliveryY/rate));
@@ -146,7 +146,7 @@ public class GraphicalView extends JPanel implements Observer {
                 double y1 = intersection1.getY() - minY;
                 double x2 = intersection2.getX() - minX;
                 double y2 = intersection2.getY() - minY;
-                drawArrow(g,x1/rate,y1/rate,x2/rate,y2/rate);
+                drawArrow(g,x2/rate,y2/rate,x1/rate,y1/rate);
             }
         }
 
@@ -165,8 +165,8 @@ public class GraphicalView extends JPanel implements Observer {
         // Draw horizontal arrow starting in (0, 0)
         g.drawLine(0, 0, len, 0);
         g.setStroke(new BasicStroke(4));
-        g.fillPolygon(new int[] {len, len-ARR_SIZE, len-ARR_SIZE, len},
-                new int[] {0, -ARR_SIZE, ARR_SIZE, 0}, 4);
+        g.fillPolygon(new int[] {len, len-ARR_SIZE, len-ARR_SIZE},
+                new int[] {0, -ARR_SIZE, ARR_SIZE}, 3);
     }
 
     public void setPaintTour(boolean paintTour) {

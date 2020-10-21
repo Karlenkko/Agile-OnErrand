@@ -1,3 +1,4 @@
+import Algorithm.CompleteGraph;
 import Algorithm.MapGraph;
 import Algorithm.TSP;
 import Algorithm.TSP1;
@@ -13,8 +14,9 @@ public class BasicTest {
         Map map = new Map();
         Mission mission = new Mission();
         MapGraph mapGraph = new MapGraph();
+        CompleteGraph completeGraph = new CompleteGraph();
         TSP tsp = new TSP1();
-        new Controller(map, mission, mapGraph, tsp);
+        new Controller(map, mission, mapGraph, tsp, completeGraph);
     }
 }
 

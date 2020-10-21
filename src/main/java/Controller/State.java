@@ -18,7 +18,9 @@ public interface State {
             XMLparser.parserMap(controller.getMap());
             window.getGraphicalView().setMapSize();
             window.getGraphicalView().setPaintRequest(false);
+            window.getGraphicalView().setPaintTour(false);
             window.getGraphicalView().repaint();
+            window.getTextualView().updateRequestTable();
             controller.setCurrentState(controller.mapLoadedState);
         } catch (Exception e) {
             e.printStackTrace();
@@ -28,6 +30,8 @@ public interface State {
     default void loadRequests(Controller controller, Window window) {
         try {
            XMLparser.parserRequest(controller.getMission(), controller.getMap());
+           controller.getMission().initialTour();
+           window.getGraphicalView().setPaintTour(false);
            window.getGraphicalView().setPaintRequest(true);
            window.getGraphicalView().repaint();
            window.getTextualView().updateRequestTable();

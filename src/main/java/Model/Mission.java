@@ -5,6 +5,7 @@ import Observer.Observable;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -12,7 +13,7 @@ public class Mission extends Observable {
     private static Intersection depot;
     private static LocalTime departureTime;
     private static ArrayList<Request> allRequests;
-    private static LinkedList<Intersection> tour;
+    private static LinkedList<Long> tour;
     private static HashMap<Intersection, LocalTime> timeSchedule;
 
 
@@ -23,6 +24,7 @@ public class Mission extends Observable {
         depot = null;
         departureTime = null;
         allRequests = new ArrayList<>();
+        tour = new LinkedList<>();
     }
 
     /**
@@ -66,7 +68,7 @@ public class Mission extends Observable {
         return allRequests;
     }
 
-    public LinkedList<Intersection> getTour() {
+    public LinkedList<Long> getTour() {
         return tour;
     }
 
@@ -74,11 +76,26 @@ public class Mission extends Observable {
         return timeSchedule;
     }
 
+    public void updateTour(Long[] sequence) {
+        tour = new LinkedList<Long>(Arrays.asList(sequence));
+    }
+
+    public void initialTour() {
+        tour.clear();
+        if (depot != null) {
+            tour.add(depot.getId());
+            for (Request request : allRequests) {
+                tour.add(request.getPickup().getId());
+                tour.add(request.getDelivery().getId());
+            }
+        }
+    }
+
     /**
      * set the tour for the mission when it's firstly calculated or its request list is updated
      * @param tour the new tour for the mission
      */
-    public void setTour(LinkedList<Intersection> tour) {
+    public void setTour(LinkedList<Long> tour) {
         Mission.tour = tour;
     }
 

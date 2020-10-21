@@ -1,5 +1,6 @@
 package Controller;
 
+import Algorithm.CompleteGraph;
 import Algorithm.MapGraph;
 import Algorithm.TSP;
 import Model.Map;
@@ -10,6 +11,7 @@ public class Controller {
     private Map map;
     private Mission mission;
     private MapGraph mapGraph;
+    private CompleteGraph completeGraph;
 
     private TSP tsp;
 
@@ -29,11 +31,12 @@ public class Controller {
      * @param mission the object Mission, currently empty
      * @param mapGraph the object MapGraph, currently empty
      */
-    public Controller(Map map, Mission mission, MapGraph mapGraph, TSP tsp) {
+    public Controller(Map map, Mission mission, MapGraph mapGraph, TSP tsp, CompleteGraph completeGraph) {
         this.map = map;
         this.mission = mission;
         this.mapGraph = mapGraph;
         this.tsp = tsp;
+        this.completeGraph = completeGraph;
         window = new Window(this.map, this.mission, tsp, this);
         currentState = initialState;
     }
@@ -60,6 +63,10 @@ public class Controller {
 
     public TSP getTsp() {
         return tsp;
+    }
+
+    public CompleteGraph getCompleteGraph() {
+        return completeGraph;
     }
 
     /**

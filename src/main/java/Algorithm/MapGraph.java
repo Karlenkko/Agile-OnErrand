@@ -1,15 +1,18 @@
 package Algorithm;
 
 
+import Model.Mission;
+import Model.Request;
+import Model.Segment;
+import Model.Map;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.ManyToManyShortestPathsAlgorithm.ManyToManyShortestPaths;
 import org.jgrapht.alg.shortestpath.DijkstraManyToManyShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
 
 public class MapGraph {
     private static Graph<Long, DefaultWeightedEdge> g;
@@ -134,8 +137,28 @@ public class MapGraph {
      */
 //    @Override
     public static boolean isArc(long i, long j) {
-//        System.out.println(shortestPathAlgo.getPath(i,j).toString());
         return (i != j ) && (shortestPathAlgo.getPathWeight(i, j) < 10000) && (addressPriorities.getOrDefault(j, -1L) != i);
+    }
+
+    public void fillGraph(Map map, Mission mission) {
+        Set<Long> allIntersections = map.getAllIntersections().keySet();
+        LinkedList<Segment> allSegments = map.getAllSegments();
+        ArrayList<Request> allRequests = mission.getAllRequests();
+
+        for (Long intersection : allIntersections) {
+            addVertex(intersection);
+        }
+        for (Segment segment : allSegments) {
+            addEdge(segment.getOrigin().getId(), segment.getDestination().getId(), segment.getLength());
+        }
+        for (Request request : allRequests) {
+            setAddressPriorities(request.getPickup().getId(), request.getDelivery().getId());
+            addAddress(request.getPickup().getId());
+            addAddress(request.getDelivery().getId());
+        }
+        addAddress(mission.getDepot().getId());
+        setDepotAddress(mission.getDepot().getId());
+
     }
 }
 

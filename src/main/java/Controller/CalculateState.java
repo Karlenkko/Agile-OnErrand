@@ -15,33 +15,26 @@ public class CalculateState implements State{
 
     @Override
     public void calculateTour(Controller controller, Window window) {
-        //TODO: execute algorithm, then update mission, show on window
         System.out.println("calculating tour");
-        MapGraph.reset();
-        Set<Long> allIntersections = controller.getMap().getAllIntersections().keySet();
-        LinkedList<Segment> allSegments = controller.getMap().getAllSegments();
-        ArrayList<Request> allRequests = controller.getMission().getAllRequests();
-        // initialize and fill MapGraph
-        for (Long intersection : allIntersections) {
-            controller.getMapGraph().addVertex(intersection);
-        }
-        for (Segment segment : allSegments) {
-            controller.getMapGraph().addEdge(segment.getOrigin().getId(), segment.getDestination().getId(), segment.getLength());
-        }
-        for (Request request : allRequests) {
-            controller.getMapGraph().setAddressPriorities(request.getPickup().getId(), request.getDelivery().getId());
-            controller.getMapGraph().addAddress(request.getPickup().getId());
-            controller.getMapGraph().addAddress(request.getDelivery().getId());
-        }
-        controller.getMapGraph().addAddress(controller.getMission().getDepot().getId());
-        controller.getMapGraph().setDepotAddress(controller.getMission().getDepot().getId());
+        //MapGraph.reset();
+        //controller.getMapGraph().fillGraph(controller.getMap(), controller.getMission());
+        //MapGraph.calculateShortestPaths();
+        System.out.println("test...............");
+        controller.getCompleteGraph().reset();
+        controller.getCompleteGraph().fillGraph(controller.getMap());
+        controller.getCompleteGraph().setRequests(controller.getMission().getAllRequests(), controller.getMission().getDepot());
+        controller.getCompleteGraph().Dijistra();
+        controller.getCompleteGraph().show();
+        System.out.println("test...............");
 
-        MapGraph.calculateShortestPaths();
         // start TSP calculation
         TSP tsp = controller.getTsp();
-        tsp.searchSolution(100000, controller.getMapGraph());
+        //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
+        Long[] solutions = tsp.searchSolution(10000, controller.getCompleteGraph());
         System.out.print("Solution of cost "+tsp.getSolutionCost());
+        controller.getMission().updateTour(solutions);
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
+        window.getTextualView().updateRequestTable();
     }
 }
