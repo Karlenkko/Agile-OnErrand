@@ -50,6 +50,12 @@ public class Window extends JFrame{
         setWindowSize();
         System.out.println(textualView.getWidth());
 
+        // mouse listener
+        mouseListener = new MouseListener(controller, graphicalView, this);
+        addMouseListener(mouseListener);
+        addMouseMotionListener(mouseListener);
+        addMouseWheelListener(mouseListener);
+
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 setWindowSize();

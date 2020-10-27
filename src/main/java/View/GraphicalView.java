@@ -35,6 +35,9 @@ public class GraphicalView extends JPanel implements Observer {
     private double rate;
     private static final int SPACE = 10;
 
+    private static double zoomFactor;
+    private boolean zoomer;
+    private AffineTransform at;
     /**
      * Constructor of object GraphicalView using the map, mission and the window
      * @param map the map whose informations are filled that will be painted
@@ -52,6 +55,8 @@ public class GraphicalView extends JPanel implements Observer {
         paintMap = false;
         paintRequest = false;
         paintTour = false;
+        zoomFactor = 1;
+        zoomer = false;
     }
 
     public void setMapSize() {
@@ -81,6 +86,20 @@ public class GraphicalView extends JPanel implements Observer {
         GraphicalView.paintRequest = paintRequest;
     }
 
+    public void setZoomFactor(double zoomFactor) {
+        if(zoomFactor < this.zoomFactor){
+            this.zoomFactor=this.zoomFactor/1.1 > 1 ? this.zoomFactor/1.1 : 1;
+        }
+        else{
+            this.zoomFactor=zoomFactor;
+        }
+        this.zoomer=true;
+    }
+
+    public double getZoomFactor() {
+        return zoomFactor;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -90,7 +109,13 @@ public class GraphicalView extends JPanel implements Observer {
         }
 
         Graphics2D g2d = (Graphics2D) g;
-
+        // zoom or rotate
+        if (zoomer) {
+            at = new AffineTransform();
+            at.scale(zoomFactor, zoomFactor);
+            zoomer = false;
+            g2d.transform(at);
+        }
         HashMap<Long, Intersection> intersections = map.getAllIntersections();
         for (Intersection intersection : intersections.values()) {
             double x = intersection.getX() - minX;
@@ -149,6 +174,8 @@ public class GraphicalView extends JPanel implements Observer {
                 drawArrow(g,x2/rate,y2/rate,x1/rate,y1/rate);
             }
         }
+
+
 
     }
 
