@@ -37,7 +37,14 @@ public class GraphicalView extends JPanel implements Observer {
 
     private static double zoomFactor;
     private boolean zoomer;
+    private boolean dragger;
     private AffineTransform at;
+
+    private double mouseX;
+    private double mouseY;
+
+    private double transX = 0;
+    private double transY = 0;
     /**
      * Constructor of object GraphicalView using the map, mission and the window
      * @param map the map whose informations are filled that will be painted
@@ -111,11 +118,24 @@ public class GraphicalView extends JPanel implements Observer {
         Graphics2D g2d = (Graphics2D) g;
         // zoom or rotate
         if (zoomer) {
+            g2d.translate(transX, transY);
             at = new AffineTransform();
             at.scale(zoomFactor, zoomFactor);
+            double actualXSize = this.getSize().getWidth() - SPACE;
+            double actualYSize = this.getSize().getHeight() - SPACE;
+
+            double zoomableX = Math.max(actualXSize * (zoomFactor - 1), 0);
+            double zoomableY = Math.max(actualYSize * (zoomFactor - 1), 0);
+            transX = zoomableX > this.mouseX ? this.mouseX : zoomableX;
+            transY = zoomableY > this.mouseY ? this.mouseY : zoomableY;
             zoomer = false;
             g2d.transform(at);
+            g2d.translate(-transX, -transY);
         }
+//        if (dragger) {
+//            g2d.translate(-transX, -transY);
+//            dragger = false;
+//        }
         HashMap<Long, Intersection> intersections = map.getAllIntersections();
         for (Intersection intersection : intersections.values()) {
             double x = intersection.getX() - minX;
@@ -205,5 +225,41 @@ public class GraphicalView extends JPanel implements Observer {
         if (arg != null) {
 
         }
+    }
+
+    public double getMouseX() {
+        return mouseX;
+    }
+
+    public void setMouseX(double mouseX) {
+        this.mouseX = mouseX;
+    }
+
+    public double getMouseY() {
+        return mouseY;
+    }
+
+    public void setMouseY(double mouseY) {
+        this.mouseY = mouseY;
+    }
+
+    public double getTransX() {
+        return transX;
+    }
+
+    public void setTransX(double transX) {
+        this.transX = transX;
+    }
+
+    public double getTransY() {
+        return transY;
+    }
+
+    public void setTransY(double transY) {
+        this.transY = transY;
+    }
+
+    public void setDragger(boolean dragger) {
+        this.dragger = dragger;
     }
 }

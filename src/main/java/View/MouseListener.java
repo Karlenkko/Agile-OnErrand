@@ -12,6 +12,9 @@ public class MouseListener extends MouseAdapter {
     private GraphicalView graphicalView;
     private Window window;
 
+    private double dragStartX;
+    private double dragStartY;
+
     public MouseListener(Controller controller, GraphicalView graphicalView, Window window) {
         this.controller = controller;
         this.graphicalView = graphicalView;
@@ -25,18 +28,32 @@ public class MouseListener extends MouseAdapter {
         //Zoom in
         if(e.getWheelRotation()<0){
             window.getGraphicalView().setZoomFactor(1.1*window.getGraphicalView().getZoomFactor());
+            window.getGraphicalView().setMouseX(Math.max(e.getX() - 8, 0));
+            window.getGraphicalView().setMouseY(Math.max(e.getY() - 30, 0));
             window.getGraphicalView().repaint();
         }
         //Zoom out
         if(e.getWheelRotation()>0){
             window.getGraphicalView().setZoomFactor(window.getGraphicalView().getZoomFactor()/1.1);
+            window.getGraphicalView().setMouseX(Math.max(e.getX() - 8, 0));
+            window.getGraphicalView().setMouseY(Math.max(e.getY() - 30, 0));
             window.getGraphicalView().repaint();
         }
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        super.mouseReleased(e);
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        super.mouseDragged(e);
+
+        System.out.println(dragStartX);
+        System.out.println(dragStartY);
+        window.getGraphicalView().setDragger(true);
+        window.getGraphicalView().setTransX(e.getX() - dragStartX);
+        window.getGraphicalView().setTransX(e.getY() - dragStartY);
+        window.getGraphicalView().repaint();
+        dragStartX = e.getX();
+        dragStartY = e.getY();
     }
+
 }
