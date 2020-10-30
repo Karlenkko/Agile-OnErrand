@@ -1,8 +1,5 @@
 package Model;
 
-import IHM.Meituan;
-import Observer.Observable;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;

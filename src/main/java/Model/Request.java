@@ -1,7 +1,5 @@
 package Model;
 
-import Observer.Observable;
-
 public class Request {
     private Intersection pickup;
     private Intersection delivery;

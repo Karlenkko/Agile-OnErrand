@@ -2,6 +2,7 @@ package View;
 
 import Model.Intersection;
 import Model.Mission;
+import Model.Observable;
 import Model.Request;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class TextualView extends JPanel {
+public class TextualView extends JPanel implements Observer {
 
     private Mission mission;
     private JTextArea textArea;
@@ -25,6 +26,7 @@ public class TextualView extends JPanel {
     private ArrayList<String> requestTour = new ArrayList<>();
 
     public TextualView(Mission mission, Window window) {
+        mission.addObserver(this);
         setLayout(boxLayout);
         this.mission = mission;
         setBackground(Color.white);
@@ -172,7 +174,8 @@ public class TextualView extends JPanel {
         return requestTable;
     }
 
-    public JScrollPane getjScrollPane() {
-        return jScrollPane;
+    @Override
+    public void update(Observable observed, Object arg) {
+
     }
 }

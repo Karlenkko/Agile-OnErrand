@@ -3,17 +3,13 @@ package View;
 import Algorithm.TSP;
 import Model.*;
 
-import Observer.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.LinkedList;
 
 public class GraphicalView extends JPanel implements Observer {
 
@@ -53,7 +49,7 @@ public class GraphicalView extends JPanel implements Observer {
      */
     public GraphicalView(Map map, Mission mission, Window window, TSP tsp) {
         super();
-        //TODO: added to Observer
+        mission.addObserver(this);
         setBackground(Color.white);
         window.getContentPane().add(this);
         this.map = map;
