@@ -122,8 +122,16 @@ public class GraphicalView extends JPanel implements Observer {
 
             double zoomableX = Math.max(actualXSize * (zoomFactor - 1), 0);
             double zoomableY = Math.max(actualYSize * (zoomFactor - 1), 0);
-            transX = zoomableX > this.mouseX ? this.mouseX : zoomableX;
-            transY = zoomableY > this.mouseY ? this.mouseY : zoomableY;
+
+            transX = mouseX * (zoomFactor - 1) ;
+            transY = mouseY * (zoomFactor - 1) ;
+            transX = zoomableX > transX ? transX : zoomableX;
+            transY = zoomableY > transY ? transY : zoomableY;
+            System.out.println(mouseX);
+            System.out.println(mouseY);
+            System.out.println(transX);
+            System.out.println(transY);
+            System.out.println("");
             zoomer = false;
             g2d.transform(at);
             g2d.translate(-transX, -transY);
@@ -229,6 +237,7 @@ public class GraphicalView extends JPanel implements Observer {
 
     public void setMouseX(double mouseX) {
         this.mouseX = mouseX;
+        this.mouseX -= this.getBounds().getX();
     }
 
     public double getMouseY() {
@@ -237,6 +246,7 @@ public class GraphicalView extends JPanel implements Observer {
 
     public void setMouseY(double mouseY) {
         this.mouseY = mouseY;
+        this.mouseY -= this.getBounds().getY();
     }
 
     public double getTransX() {
