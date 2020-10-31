@@ -1,5 +1,6 @@
 package Model;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +12,9 @@ public class Mission extends Observable {
     private static LocalTime departureTime;
     private static ArrayList<Request> allRequests;
     private static LinkedList<Long> tour;
-    private static HashMap<Intersection, LocalTime> timeSchedule;
+    private static HashMap<Long, LocalTime> arrivalTimeSchedule;
+    private static HashMap<Long, LocalTime> departureTimeSchedule;
+    private final static double SPEED = 25.0/6.0; // m/s
 
 
     /**
@@ -22,6 +25,8 @@ public class Mission extends Observable {
         departureTime = null;
         allRequests = new ArrayList<>();
         tour = new LinkedList<>();
+        arrivalTimeSchedule = new HashMap<>();
+        departureTimeSchedule = new HashMap<>();
     }
 
     /**
@@ -69,13 +74,49 @@ public class Mission extends Observable {
         return tour;
     }
 
-    public HashMap<Intersection, LocalTime> getTimeSchedule() {
-        return timeSchedule;
+    public HashMap<Long, LocalTime> getArrivalTimeSchedule() {
+        return arrivalTimeSchedule;
     }
 
-    public void updateTour(Long[] sequence) {
-        tour = new LinkedList<Long>(Arrays.asList(sequence));
+    public HashMap<Long, LocalTime> getDepartureTimeSchedule() {
+        return departureTimeSchedule;
     }
+
+    public void updateTour(Long[] sequence, double[] interAddressLength) {
+        tour = new LinkedList<Long>(Arrays.asList(sequence));
+        LocalTime tempTime = departureTime;
+        // first arrival
+        departureTimeSchedule.put(depot.getId(), departureTime);
+        for (Request request : allRequests) {
+            if (request.getPickup().getId().equals(sequence[1])) {
+                tempTime = tempTime.plusSeconds((long) (interAddressLength[0] / SPEED));
+                arrivalTimeSchedule.put(sequence[1], tempTime);
+                tempTime = tempTime.plusSeconds(request.getPickupDuration());
+                departureTimeSchedule.put(sequence[1], tempTime);
+            }
+        }
+
+        for (int i = 2; i < interAddressLength.length; i++) {
+            tempTime = tempTime.plusSeconds((long) (interAddressLength[i - 1] / SPEED));
+            arrivalTimeSchedule.put(sequence[i], tempTime);
+            for (Request request : allRequests) {
+                if (request.getPickup().getId().equals(sequence[i])) {
+                    tempTime = tempTime.plusSeconds(request.getPickupDuration());
+                    departureTimeSchedule.put(sequence[i], tempTime);
+                    break;
+                } else if (request.getDelivery().getId().equals(sequence[i])) {
+                    tempTime = tempTime.plusSeconds(request.getDeliveryDuration());
+                    departureTimeSchedule.put(sequence[i], tempTime);
+                    break;
+                }
+            }
+        }
+        // arrival back to the depot
+        tempTime = tempTime.plusSeconds((long) (interAddressLength[interAddressLength.length - 1] / SPEED));
+        arrivalTimeSchedule.put(depot.getId(), tempTime);
+        System.out.println(arrivalTimeSchedule);
+    }
+
 
     public void initialTour() {
         tour.clear();
@@ -100,7 +141,7 @@ public class Mission extends Observable {
      * set the time schedule for the mission when it's firstly calculated or its request list is updated
      * @param timeSchedule the new time schedule for the mission
      */
-    public void setTimeSchedule(HashMap<Intersection, LocalTime> timeSchedule) {
-        Mission.timeSchedule = timeSchedule;
+    public void setArrivalTimeSchedule(HashMap<Long, LocalTime> timeSchedule) {
+        Mission.arrivalTimeSchedule = timeSchedule;
     }
 }
