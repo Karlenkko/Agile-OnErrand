@@ -57,6 +57,14 @@ public class TextualView extends JPanel implements Observer {
         this.add(jScrollPane);
     }
 
+    public void setTextAreaText(String s) {
+        this.textArea.setText(s);
+    }
+
+    public String getTextAreaText() {
+        return this.textArea.getText();
+    }
+
     public void setTableSize() {
         int number = requestTable.getColumnModel().getColumnCount();
         int size = this.getWidth()/number;

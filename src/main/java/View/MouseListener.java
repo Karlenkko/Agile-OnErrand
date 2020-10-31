@@ -56,4 +56,9 @@ public class MouseListener extends MouseAdapter {
         dragStartY = e.getY();
     }
 
+//    @Override
+//    public void mouseEntered(MouseEvent e) {
+//        super.mouseEntered(e);
+//        System.out.println(e.getButton());
+//    }
 }
