@@ -22,6 +22,7 @@ public class TextualView extends JPanel implements Observer {
     private JTextArea textArea;
     private JTable requestTable;
     private JScrollPane jScrollPane;
+    private JScrollPane jScrollPane2;
     private BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
     private ArrayList<String> requestTour = new ArrayList<>();
 
@@ -38,6 +39,7 @@ public class TextualView extends JPanel implements Observer {
         textArea = new JTextArea(4,30);
         textArea.setText("Helpful Informations");
         textArea.setEditable(false);
+        jScrollPane2 = new JScrollPane(textArea);
         String[] columNames = {"ID","Type","Duration","Arrival","Depart"};
         Object defaultData[][] = {
                 {"Nothing","Nothing","Nothing","Nothing","Nothing"}
@@ -50,7 +52,7 @@ public class TextualView extends JPanel implements Observer {
         });
         jScrollPane = new JScrollPane(requestTable);
         this.add(Box.createVerticalStrut(20));
-        this.add(textArea);
+        this.add(jScrollPane2);
         this.add(Box.createVerticalStrut(20));
         this.add(jScrollPane);
     }
@@ -177,5 +179,9 @@ public class TextualView extends JPanel implements Observer {
     @Override
     public void update(Observable observed, Object arg) {
 
+    }
+
+    public JTextArea getTextArea() {
+        return textArea;
     }
 }
