@@ -34,7 +34,7 @@ public interface State {
            window.getGraphicalView().setPaintTour(false);
            window.getGraphicalView().setPaintRequest(true);
            window.getGraphicalView().repaint();
-           window.getTextualView().updateRequestTable();
+           window.getTextualView().initiateRequestTable();
            controller.setCurrentState(controller.calculateState);
         } catch (Exception e) {
             e.printStackTrace();

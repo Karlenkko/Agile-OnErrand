@@ -24,15 +24,15 @@ public class CalculateState implements State{
         controller.getCompleteGraph().fillGraph(controller.getMap());
         controller.getCompleteGraph().setRequests(controller.getMission().getAllRequests(), controller.getMission().getDepot());
         controller.getCompleteGraph().Dijistra();
-        controller.getCompleteGraph().show();
+//        controller.getCompleteGraph().show();
         System.out.println("test...............");
 
         // start TSP calculation
         TSP tsp = controller.getTsp();
         //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
         Long[] solutions = tsp.searchSolution(10000, controller.getCompleteGraph());
-        System.out.print("Solution of cost "+tsp.getSolutionCost());
-        controller.getMission().updateTour(solutions);
+        System.out.println("Solution of cost "+tsp.getSolutionCost());
+        controller.getMission().updateTour(solutions, tsp.getBestSolAddressCost());
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();

@@ -77,7 +77,7 @@ public class TextualView extends JPanel implements Observer {
     }
 
 
-    public void updateRequestTable() {
+    public void initiateRequestTable() {
         if(mission.getDepartureTime() == null) {
             return;
         }
@@ -130,6 +130,63 @@ public class TextualView extends JPanel implements Observer {
         setColor(requestTable, colors);
 
  */
+    }
+
+    public void updateRequestTable() {
+        if(mission.getDepartureTime() == null) {
+            return;
+        }
+        DefaultTableModel tableModel = (DefaultTableModel) requestTable.getModel();
+        tableModel.getDataVector().removeAllElements();
+        LinkedList<Long> tour = mission.getTour();
+
+        requestTour.clear();
+        for (int i=0; i < tour.size(); ++i) {
+            if (mission.getDepot().getId() == (long)tour.get(i)) {
+                requestTour.add(tour.get(i).toString());
+                String[] row = {
+                        Integer.toString(i+1),
+                        "depot",
+                        "--",
+                        mission.getArrivalTimeSchedule().get(tour.get(i)).toString(),
+                        mission.getDepartureTime().toString()
+                };
+                tableModel.addRow(row);
+            } else {
+                for(Request request : mission.getAllRequests()) {
+                    String idRequest = request.getPickup().getId()+" "+request.getDelivery().getId();
+                    if ((long)tour.get(i) == request.getPickup().getId()) {
+                        if (!requestTour.contains(idRequest)) {
+                            requestTour.add(idRequest);
+                        }
+                        String[] row1 = {
+                                Integer.toString(i+1),
+                                "pickup"+requestTour.indexOf(idRequest),
+                                Integer.toString(request.getPickupDuration()),
+                                mission.getArrivalTimeSchedule().get(tour.get(i)).toString(),
+                                mission.getDepartureTimeSchedule().get(tour.get(i)).toString()
+                        };
+                        tableModel.addRow(row1);
+                        break;
+                    }
+                    if ((long)tour.get(i) == request.getDelivery().getId()) {
+                        if (!requestTour.contains(idRequest)) {
+                            requestTour.add(idRequest);
+                        }
+                        String[] row1 = {
+                                Integer.toString(i+1),
+                                "delivery"+requestTour.indexOf(idRequest),
+                                Integer.toString(request.getDeliveryDuration()),
+                                mission.getArrivalTimeSchedule().get(tour.get(i)).toString(),
+                                mission.getDepartureTimeSchedule().get(tour.get(i)).toString()
+                        };
+                        tableModel.addRow(row1);
+                        break;
+                    }
+                }
+            }
+        }
+        tableModel.fireTableDataChanged();
     }
 
     public ArrayList<Color> getColors(int number) {
