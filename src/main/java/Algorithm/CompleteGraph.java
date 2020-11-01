@@ -175,7 +175,7 @@ public class CompleteGraph implements Graph {
 
 	@Override
 	public boolean isArc(long origin, long destination) {
-		System.out.println(origin+" "+destination);
+//		System.out.println(origin+" "+destination);
 		int i = requests.indexOf(origin);
 		int j = requests.indexOf(destination);
 		if (i<0 || i>=getNbVertices() || j<0 || j>=getNbVertices())
