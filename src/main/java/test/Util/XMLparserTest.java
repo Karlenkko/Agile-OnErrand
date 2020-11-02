@@ -11,6 +11,7 @@ import javax.swing.text.Document;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -55,11 +56,33 @@ public class XMLparserTest {
     private static Document requestsSmall2 = null;
 
     private static XMLparser parser = null;
-    
+
 @Before
-public void init()  throws ParseException, SAXException, IOException, ParserConfigurationException {
+public void init()  throws ParseException {
     map = new Map();
     mission = new Mission();
+
+    try{
+        builder = factory.newDocumentBuilder();
+        largeMap = (Document) builder.parse(new File(filePath_largeMap));
+        mediumMap = (Document) builder.parse(new File(filePath_mediumMap));
+        smallMap = (Document) builder.parse(new File(filePath_smallMap));
+        requestsLarge7 = (Document) builder.parse(new File(filePath_requestsLarge7));
+        requestsLarge9 = (Document) builder.parse(new File(filePath_requestsLarge9));
+        requestsMedium3 = (Document) builder.parse(new File(filePath_requestsMedium3));
+        requestsMedium5 = (Document) builder.parse(new File(filePath_requestsMedium5));
+        requestsSmall1 = (Document) builder.parse(new File(filePath_requestsSmall1));
+        requestsSmall2= (Document) builder.parse(new File(filePath_requestsSmall2));
+    }
+    catch (final SAXException e) {
+        e.printStackTrace();
+    }
+    catch (final IOException e) {
+        e.printStackTrace();
+    } catch (ParserConfigurationException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
 }
 
 @After
