@@ -151,30 +151,21 @@ public class GraphicalView extends JPanel implements Observer {
 //        }
         HashMap<Long, Intersection> intersections = map.getAllIntersections();
         for (Intersection intersection : intersections.values()) {
-            //double x = intersection.getX() - minX;
-            //double y = intersection.getY() - minY;
+
             g2d.setColor(Color.black);
             g2d.setStroke(new BasicStroke(3));
-            //g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
             g2d.draw(new Line2D.Double(intersection.getX(),intersection.getY(),intersection.getX(),intersection.getY()));
 
 
         }
 
         for(Segment segment : map.getAllSegments()){
-            /*
-            double x = segment.getOrigin().getX() - minX;
-            double y = segment.getOrigin().getY() - minY;
-            double x2 = segment.getDestination().getX() - minX;
-            double y2 = segment.getDestination().getY() - minY;
-             */
             double x = segment.getOrigin().getX();
             double y = segment.getOrigin().getY();
             double x2 = segment.getDestination().getX();
             double y2 = segment.getDestination().getY();
             g2d.setColor(Color.lightGray);
             g2d.setStroke(new BasicStroke(1));
-            //g2d.draw(new Line2D.Double(x/rate,y/rate,x2/rate,y2/rate));
             g2d.draw(new Line2D.Double(x,y,x2,y2));
 
         }
@@ -183,24 +174,17 @@ public class GraphicalView extends JPanel implements Observer {
             ArrayList<Request> allRequests = mission.getAllRequests();
             g2d.setColor(Color.RED);
             g2d.setStroke(new BasicStroke(INTERSECTION_SIZE));
-            //double x = mission.getDepot().getX() - minX;
-            //double y = mission.getDepot().getY() - minY;
             double x = mission.getDepot().getX();
             double y = mission.getDepot().getY();
-            //g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
             g2d.draw(new Line2D.Double(x,y,x,y));
 
             for (int i = 0; i < allRequests.size(); ++i) {
                 g2d.setColor(Color.BLUE);
-//                g2d.setStroke(new BasicStroke(INTERSECTION_SIZE));
-                //double pickupX = allRequests.get(i).getPickup().getX() - minX;
-                //double pickupY = allRequests.get(i).getPickup().getY() - minY;
                 double pickupX = allRequests.get(i).getPickup().getX();
                 double pickupY = allRequests.get(i).getPickup().getY();
                 g2d.draw(new Line2D.Double(pickupX,pickupY,pickupX,pickupY));
 
                 g2d.setColor(Color.ORANGE);
-//                g2d.setStroke(new BasicStroke(INTERSECTION_SIZE));
                 double deliveryX = allRequests.get(i).getDelivery().getX();
                 double deliveryY = allRequests.get(i).getDelivery().getY();
                 g2d.draw(new Line2D.Double(deliveryX,deliveryY,deliveryX,deliveryY));
@@ -215,11 +199,11 @@ public class GraphicalView extends JPanel implements Observer {
                 g2d.setStroke(new BasicStroke(2));
                 Intersection intersection1 = allIntersections.get(solution.get(i));
                 Intersection intersection2 = allIntersections.get(solution.get(i-1));
-                double x1 = intersection1.getX() - minX;
-                double y1 = intersection1.getY() - minY;
-                double x2 = intersection2.getX() - minX;
-                double y2 = intersection2.getY() - minY;
-                drawArrow(g,x2/rate,y2/rate,x1/rate,y1/rate);
+                double x1 = intersection1.getX();
+                double y1 = intersection1.getY();
+                double x2 = intersection2.getX();
+                double y2 = intersection2.getY();
+                drawArrow(g,x2,y2,x1,y1);
             }
         }
 

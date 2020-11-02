@@ -24,6 +24,12 @@ public class Intersection {
         this.y = yAxisProjection(latitude);
     }
 
+    public Intersection(long id, int x, int y) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+    }
+
     /**
      * Calculate the x position that an intersection is actually drawn on the application, given its longitude
      * @param longitude the longitude of the intersection read from the map
