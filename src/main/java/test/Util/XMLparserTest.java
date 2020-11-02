@@ -13,6 +13,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,6 +100,7 @@ public void clean(){
     requestsMedium5 = null;
     requestsSmall1 = null;
     requestsSmall2 = null;
+
 }
 /** 
 * 
@@ -150,8 +153,16 @@ public void testParserRequest() throws Exception {
 * 
 */ 
 @Test
-public void testBuildMapFromDOMXML() throws Exception { 
+public void testBuildMapFromDOMXML() throws Exception {
 //TODO: Test goes here...
+    try {
+        Method method = XMLparser.getClass().get("buildMapFromDOMXML",Document.class,Map.class);
+        method.setAccessible(true);
+        method.invoke(<Object>,<Parameter>);
+    }catch(NoSuchMethodException e) {
+    } catch(IllegalAccessException e) {
+    } catch(InvocationTargetException e) {
+    }
 /*
 try { 
    Method method = XMLparser.getClass().getMethod("buildMapFromDOMXML", Document.class, Map.class); 
