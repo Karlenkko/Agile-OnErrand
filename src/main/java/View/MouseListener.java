@@ -23,7 +23,7 @@ public class MouseListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        controller.addIntersection(e.getX() - window.getInsets().left, e.getY() - window.getInsets().top);
+        //controller.addIntersection(e.getX() - window.getInsets().left, e.getY() - window.getInsets().top);
 
     }
 
