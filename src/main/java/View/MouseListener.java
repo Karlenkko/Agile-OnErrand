@@ -22,6 +22,12 @@ public class MouseListener extends MouseAdapter {
     }
 
     @Override
+    public void mouseClicked(MouseEvent e) {
+        controller.addIntersection(e.getX() - window.getInsets().left, e.getY() - window.getInsets().top);
+
+    }
+
+    @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         super.mouseWheelMoved(e);
 //        System.out.println(e.getWheelRotation());
