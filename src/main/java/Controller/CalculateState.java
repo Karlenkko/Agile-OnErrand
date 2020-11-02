@@ -5,6 +5,7 @@ import Algorithm.TSP;
 import Algorithm.TSP1;
 import Model.Request;
 import Model.Segment;
+import Util.ExceptionXML;
 import Util.TourSerializer;
 import View.Window;
 
@@ -39,9 +40,14 @@ public class CalculateState implements State{
         window.getTextualView().updateRequestTable();
     }
 
-    public void generateRoadMap(Controller controller) {
-        TourSerializer tourSerializer = new TourSerializer(controller.getMission(), controller.getMap());
-        tourSerializer.generateRoadMap();
+    public void generateRoadMap(Controller controller)  {
+        try {
+            TourSerializer tourSerializer = new TourSerializer(controller.getMission(), controller.getMap());
+            tourSerializer.generateRoadMap();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void addRequest(Controller controller, Window window){

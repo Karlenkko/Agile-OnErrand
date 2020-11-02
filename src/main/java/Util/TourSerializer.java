@@ -2,6 +2,11 @@ package Util;
 
 import Model.*;
 
+import javax.xml.transform.stream.StreamResult;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -19,7 +24,15 @@ public class TourSerializer {
         tempSegment = null;
     }
 
-    public void generateRoadMap() {
+    public void generateRoadMap() throws ExceptionXML, IOException {
+        fillRoadMap();
+        File txt = FileOpener.getInstance().open(false);
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(txt));
+        bufferedWriter.write(navMessage.toString());
+        bufferedWriter.close();
+    }
+
+    private void fillRoadMap() {
         depotNavigation();
         long current;
         long next;
@@ -45,7 +58,8 @@ public class TourSerializer {
                 current = next;
             }
         }
-        System.out.println(navMessage.toString());
+        returningNavigation();
+//        System.out.println(navMessage.toString());
     }
 
     private void addressNavigation(Request request, String type, LocalTime arrivalTime, LocalTime departureTime) {
@@ -80,8 +94,6 @@ public class TourSerializer {
         navMessage.append(", whose longitude is ").append(mission.getDepot().getLongitude());
         navMessage.append(" and whose latitude is ").append(mission.getDepot().getLatitude()).append(".");
         navMessage.append("\n");
-
-
     }
 
     private void segmentNavigation(Long origin, Long destination) {
@@ -96,5 +108,12 @@ public class TourSerializer {
         navMessage.append("for ").append(tempSegment.getLength()).append(" meters.");
         navMessage.append(" Then you will arrive at the intersection ").append(destination).append(".");
         navMessage.append("\n");
+    }
+
+    private void returningNavigation() {
+        navMessage.append("\n");
+        navMessage.append("Now you've finished your daily mission and you are back to the entrepot at ");
+        navMessage.append(mission.getArrivalTimeSchedule().get(mission.getDepot().getId()));
+        navMessage.append(". Thank you.");
     }
 }

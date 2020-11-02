@@ -4,18 +4,18 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
-public class XMLfileOpener extends FileFilter {
+public class FileOpener extends FileFilter {
 
     private static String type = "XML";
-    private static XMLfileOpener instance = null;
-    private XMLfileOpener(){}
+    private static FileOpener instance = null;
+    private FileOpener(){}
 
     /**
      * Get the instance of XMLfileOpener without creating another one
      * @return the instance of the objet XMLfileOpener
      */
-    public static XMLfileOpener getInstance(){
-        if(instance == null) instance = new XMLfileOpener();
+    public static FileOpener getInstance(){
+        if(instance == null) instance = new FileOpener();
         return instance;
     }
 

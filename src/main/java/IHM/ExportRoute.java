@@ -1,7 +1,7 @@
 package IHM;
 
 import Util.ExceptionXML;
-import Util.XMLfileOpener;
+import Util.FileOpener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +60,7 @@ public class ExportRoute {
         public void actionPerformed(ActionEvent e){
             File file = null;
             try {
-                file = XMLfileOpener.getInstance().open(false);
+                file = FileOpener.getInstance().open(false);
             } catch (ExceptionXML exceptionXML) {
                 exceptionXML.printStackTrace();
             }
