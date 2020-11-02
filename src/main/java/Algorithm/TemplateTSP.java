@@ -8,7 +8,7 @@ import java.util.LinkedList;
 public abstract class TemplateTSP implements TSP {
 	private Long[] bestSolAddress;
 	private double[] bestSolAddressCost;
-	private ArrayList<Long> bestSolIntersection;
+	private LinkedList<Long> bestSolIntersection;
 	//protected MapGraph g;
 	protected CompleteGraph g;
 	private double bestSolCost;
@@ -21,7 +21,7 @@ public abstract class TemplateTSP implements TSP {
 		this.timeLimit = timeLimit;
 		this.g = g;
 
-		bestSolIntersection = new ArrayList<>();
+		bestSolIntersection = new LinkedList<>();
 		bestSolAddress = new Long[g.getNbVertices()];
 		bestSolAddressCost = new double[g.getNbVertices()];
 		LinkedList<Long> unvisited = new LinkedList<>();
@@ -58,7 +58,7 @@ public abstract class TemplateTSP implements TSP {
 		return -1;
 	}
 
-	public ArrayList<Long> getBestSolIntersection() {
+	public LinkedList<Long> getBestSolIntersection() {
 		return bestSolIntersection;
 	}
 
