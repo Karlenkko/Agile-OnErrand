@@ -1,11 +1,15 @@
 package test.Util;
 
 import Model.*;
+import Util.XMLparser;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 import org.xml.sax.SAXException;
 
+import javax.swing.text.Document;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.ParseException;
@@ -24,10 +28,34 @@ import static org.junit.Assert.assertEquals;
 * @version 1.0 
 */ 
 public class XMLparserTest {
-
+    /*Global variables*/
     Map map;
     Mission mission;
+    private static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    private static DocumentBuilder builder;
 
+    private static String filePath_largeMap = "./fichiersXML2020/largeMap.xml";
+    private static String filePath_mediumMap = "./fichiersXML2020/mediumMap.xml";
+    private static String filePath_smallMap = "./fichiersXML2020/smallMap.xml";
+    private static String filePath_requestsLarge7 = "./fichiersXML2020/requestsLarge7.xml";
+    private static String filePath_requestsLarge9 = "./fichiersXML2020/requestsLarge9.xml";
+    private static String filePath_requestsMedium3 = "./fichiersXML2020/requestsMedium3.xml";
+    private static String filePath_requestsMedium5 = "./fichiersXML2020/requestsMedium5.xml";
+    private static String filePath_requestsSmall1 = "./fichiersXML2020/requestsSmall1.xml";
+    private static String filePath_requestsSmall2 = "./fichiersXML2020/requestsSmall2.xml";
+
+    private static Document largeMap = null;
+    private static Document mediumMap = null;
+    private static Document smallMap = null;
+    private static Document requestsLarge7 = null;
+    private static Document requestsLarge9 = null;
+    private static Document requestsMedium3 = null;
+    private static Document requestsMedium5 = null;
+    private static Document requestsSmall1 = null;
+    private static Document requestsSmall2 = null;
+
+    private static XMLparser parser = null;
+    
 @Before
 public void init()  throws ParseException, SAXException, IOException, ParserConfigurationException {
     map = new Map();
