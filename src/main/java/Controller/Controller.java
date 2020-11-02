@@ -3,6 +3,7 @@ package Controller;
 import Algorithm.CompleteGraph;
 import Algorithm.MapGraph;
 import Algorithm.TSP;
+import Model.Intersection;
 import Model.Map;
 import Model.Mission;
 import View.Window;
@@ -23,6 +24,11 @@ public class Controller {
     protected final MapLoadedState mapLoadedState = new MapLoadedState();
     protected final RequestLoadedState requestLoadedState = new RequestLoadedState();
     protected final CalculateState calculateState = new CalculateState();
+    protected final AddRequestState1 addRequestState1 = new AddRequestState1();
+    protected final AddRequestState2 addRequestState2 = new AddRequestState2();
+    protected final AddRequestState3 addRequestState3 = new AddRequestState3();
+    protected final AddRequestState4 addRequestState4 = new AddRequestState4();
+    protected final AddRequestState5 addRequestState5 = new AddRequestState5();
 
     /**
      * Constructor of object Controller, creates an instance of Controller
@@ -92,5 +98,13 @@ public class Controller {
     public void calculateTour() {
         currentState.calculateTour(this, window);
     }
+
+    public void addRequest(){ currentState.addRequest(this, window); }
+
+    public void leftClick(Intersection intersection){ currentState.leftClick(this , window , intersection); }
+
+    public void rightClick(){ currentState.rightClick(this, window);}
+
+    public void validNewRequest(){ currentState.validNewRequest(this, window); }
 
 }
