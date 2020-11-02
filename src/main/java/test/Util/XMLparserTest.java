@@ -4,7 +4,11 @@ import Model.*;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,11 +27,11 @@ public class XMLparserTest {
 
     Map map;
     Mission mission;
+
 @Before
-public void init() {
+public void init()  throws ParseException, SAXException, IOException, ParserConfigurationException {
     map = new Map();
     mission = new Mission();
-
 }
 
 @After
@@ -37,7 +41,8 @@ public void exit(){
 * 
 * Method: parserMap(Map map) 
 * 
-*/ 
+*/
+
 @Test
 public void testParserMap() throws Exception { 
     parserMap(map);
@@ -84,8 +89,8 @@ public void testParserRequest() throws Exception {
 */ 
 @Test
 public void testBuildMapFromDOMXML() throws Exception { 
-//TODO: Test goes here... 
-/* 
+//TODO: Test goes here...
+/*
 try { 
    Method method = XMLparser.getClass().getMethod("buildMapFromDOMXML", Document.class, Map.class); 
    method.setAccessible(true); 
@@ -93,8 +98,8 @@ try {
 } catch(NoSuchMethodException e) { 
 } catch(IllegalAccessException e) { 
 } catch(InvocationTargetException e) { 
-} 
-*/ 
+}
+*/
 } 
 
 /** 
