@@ -2,6 +2,8 @@ package Model;
 
 import IHM.Meituan;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -84,6 +86,19 @@ public class Map {
         return maxY;
     }
 
+    public void resizeIntersection(int width, int height) {
+        double rateX = (maxX - minX)/width;
+        double rateY = (maxY - minY)/height;
+        double rate = Math.max(rateX, rateY);
+        for (Intersection intersection : allIntersections.values()) {
+            double x = intersection.getX() - minX;
+            double y = intersection.getY() - minY;
+            intersection.setX(x/rate);
+            intersection.setY(y/rate);
+            System.out.println(intersection.getX()+" "+intersection.getY());
+        }
+    }
+
     public Intersection NearestIntersection(int x, int y) {
         Intersection nearest = null;
         double gapX = 0;
@@ -97,7 +112,7 @@ public class Map {
             }
             double gapX2 = Math.abs(p.getX() - x);
             double gapY2 = Math.abs(p.getY() - y);
-            if ((gapX2 < gapX && gapX2 < gapY) || (gapY2 < gapX && gapY2 < gapY)) {
+            if ((gapX2 + gapY2) < (gapX + gapY)) {
                 nearest = p;
                 gapX = gapX2;
                 gapY = gapY2;

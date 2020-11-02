@@ -154,14 +154,14 @@ public class Mission extends Observable {
             Intersection p2 = request.getDelivery();
             double gapX2 = Math.abs(p1.getX() - x);
             double gapY2 = Math.abs(p1.getY() - y);
-            if ((gapX2 < gapX && gapX2 < gapY) || (gapY2 < gapX && gapY2 < gapY)) {
+            if ((gapX2 + gapY2) < (gapX + gapY)) {
                 nearest = p1;
                 gapX = gapX2;
                 gapY = gapY2;
             }
             gapX2 = Math.abs(p2.getX() - x);
             gapY2 = Math.abs(p2.getY() - y);
-            if ((gapX2 < gapX && gapX2 < gapY) || (gapY2 < gapX && gapY2 < gapY)) {
+            if ((gapX2 + gapY2) < (gapX + gapY)) {
                 nearest = p2;
                 gapX = gapX2;
                 gapY = gapY2;
