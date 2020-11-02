@@ -144,4 +144,29 @@ public class Mission extends Observable {
     public void setArrivalTimeSchedule(HashMap<Long, LocalTime> timeSchedule) {
         Mission.arrivalTimeSchedule = timeSchedule;
     }
+
+    public Intersection NearestRequest(int x, int y) {
+        Intersection nearest = depot;
+        double gapX = Math.abs(nearest.getX() - x);
+        double gapY = Math.abs(nearest.getY() - y);
+        for (Request request : allRequests) {
+            Intersection p1 = request.getPickup();
+            Intersection p2 = request.getDelivery();
+            double gapX2 = Math.abs(p1.getX() - x);
+            double gapY2 = Math.abs(p1.getY() - y);
+            if ((gapX2 < gapX && gapX2 < gapY) || (gapY2 < gapX && gapY2 < gapY)) {
+                nearest = p1;
+                gapX = gapX2;
+                gapY = gapY2;
+            }
+            gapX2 = Math.abs(p2.getX() - x);
+            gapY2 = Math.abs(p2.getY() - y);
+            if ((gapX2 < gapX && gapX2 < gapY) || (gapY2 < gapX && gapY2 < gapY)) {
+                nearest = p2;
+                gapX = gapX2;
+                gapY = gapY2;
+            }
+        }
+        return nearest;
+    }
 }
