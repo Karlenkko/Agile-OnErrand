@@ -2,6 +2,7 @@ package View;
 
 import Model.Intersection;
 import Model.Mission;
+import Model.Observable;
 import Model.Request;
 
 import javax.swing.*;
@@ -15,16 +16,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class TextualView extends JPanel {
+public class TextualView extends JPanel implements Observer {
 
     private Mission mission;
     private JTextArea textArea;
     private JTable requestTable;
     private JScrollPane jScrollPane;
+    private JScrollPane jScrollPane2;
     private BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
     private ArrayList<String> requestTour = new ArrayList<>();
 
     public TextualView(Mission mission, Window window) {
+        mission.addObserver(this);
         setLayout(boxLayout);
         this.mission = mission;
         setBackground(Color.white);
@@ -36,6 +39,7 @@ public class TextualView extends JPanel {
         textArea = new JTextArea(4,30);
         textArea.setText("Helpful Informations");
         textArea.setEditable(false);
+        jScrollPane2 = new JScrollPane(textArea);
         String[] columNames = {"ID","Type","Duration","Arrival","Depart"};
         Object defaultData[][] = {
                 {"Nothing","Nothing","Nothing","Nothing","Nothing"}
@@ -48,9 +52,17 @@ public class TextualView extends JPanel {
         });
         jScrollPane = new JScrollPane(requestTable);
         this.add(Box.createVerticalStrut(20));
-        this.add(textArea);
+        this.add(jScrollPane2);
         this.add(Box.createVerticalStrut(20));
         this.add(jScrollPane);
+    }
+
+    public void setTextAreaText(String s) {
+        this.textArea.setText(s);
+    }
+
+    public String getTextAreaText() {
+        return this.textArea.getText();
     }
 
     public void setTableSize() {
@@ -65,7 +77,7 @@ public class TextualView extends JPanel {
     }
 
 
-    public void updateRequestTable() {
+    public void initiateRequestTable() {
         if(mission.getDepartureTime() == null) {
             return;
         }
@@ -120,6 +132,63 @@ public class TextualView extends JPanel {
  */
     }
 
+    public void updateRequestTable() {
+        if(mission.getDepartureTime() == null) {
+            return;
+        }
+        DefaultTableModel tableModel = (DefaultTableModel) requestTable.getModel();
+        tableModel.getDataVector().removeAllElements();
+        LinkedList<Long> tour = mission.getTour();
+
+        requestTour.clear();
+        for (int i=0; i < tour.size(); ++i) {
+            if (mission.getDepot().getId() == (long)tour.get(i)) {
+                requestTour.add(tour.get(i).toString());
+                String[] row = {
+                        Integer.toString(i+1),
+                        "depot",
+                        "--",
+                        mission.getArrivalTimeSchedule().get(tour.get(i)).toString(),
+                        mission.getDepartureTime().toString()
+                };
+                tableModel.addRow(row);
+            } else {
+                for(Request request : mission.getAllRequests()) {
+                    String idRequest = request.getPickup().getId()+" "+request.getDelivery().getId();
+                    if ((long)tour.get(i) == request.getPickup().getId()) {
+                        if (!requestTour.contains(idRequest)) {
+                            requestTour.add(idRequest);
+                        }
+                        String[] row1 = {
+                                Integer.toString(i+1),
+                                "pickup"+requestTour.indexOf(idRequest),
+                                Integer.toString(request.getPickupDuration()),
+                                mission.getArrivalTimeSchedule().get(tour.get(i)).toString(),
+                                mission.getDepartureTimeSchedule().get(tour.get(i)).toString()
+                        };
+                        tableModel.addRow(row1);
+                        break;
+                    }
+                    if ((long)tour.get(i) == request.getDelivery().getId()) {
+                        if (!requestTour.contains(idRequest)) {
+                            requestTour.add(idRequest);
+                        }
+                        String[] row1 = {
+                                Integer.toString(i+1),
+                                "delivery"+requestTour.indexOf(idRequest),
+                                Integer.toString(request.getDeliveryDuration()),
+                                mission.getArrivalTimeSchedule().get(tour.get(i)).toString(),
+                                mission.getDepartureTimeSchedule().get(tour.get(i)).toString()
+                        };
+                        tableModel.addRow(row1);
+                        break;
+                    }
+                }
+            }
+        }
+        tableModel.fireTableDataChanged();
+    }
+
     public ArrayList<Color> getColors(int number) {
         ArrayList<Color> colors = new ArrayList<>();
         int dx = 255 / number;
@@ -172,7 +241,12 @@ public class TextualView extends JPanel {
         return requestTable;
     }
 
-    public JScrollPane getjScrollPane() {
-        return jScrollPane;
+    @Override
+    public void update(Observable observed, Object arg) {
+
+    }
+
+    public JTextArea getTextArea() {
+        return textArea;
     }
 }

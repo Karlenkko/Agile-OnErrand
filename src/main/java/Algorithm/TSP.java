@@ -31,4 +31,6 @@ public interface TSP {
 
 	public List<Long> getBestSolIntersection();
 
+	public double[] getBestSolAddressCost();
+
 }

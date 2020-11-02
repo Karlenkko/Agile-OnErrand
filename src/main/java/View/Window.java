@@ -7,6 +7,8 @@ import Model.Mission;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
@@ -27,8 +29,27 @@ public class Window extends JFrame{
     protected static final String DELETE_REQUEST = "Delete request";
 
     private final String[] buttonTexts = new String[] {
-            LOAD_MAP, CALCULATE, GENERATE_ROADMAP, LOAD_REQUESTS, ADD_REQUEST, DELETE_REQUEST
+            LOAD_MAP, LOAD_REQUESTS, CALCULATE, ADD_REQUEST, DELETE_REQUEST, GENERATE_ROADMAP
     };
+    // window button indication information
+    protected static final String LOAD_MAP_INFO = "load a .xml map and display it";
+    protected static final String LOAD_REQUESTS_INFO = "load a .xml request list and display it";
+    protected static final String CALCULATE_INFO = "calculate the tour that completes all requests";
+    protected static final String GENERATE_ROADMAP_INFO = "generate a human-understandable navigation roadmap " +
+            "using the tour";
+    protected static final String ADD_REQUEST_INFO = "add a request: \n1.select an existing starting address" +
+            "\n2.select a pickup address of the new request" +
+            "\n3.select a delivery address of the new request" +
+            "\n4.select an existing ending address" +
+            "\n5.fill the information";
+    protected static final String DELETE_REQUEST_INFO = "delete a selected request";
+
+    private final String[] buttonInfos = new String[] {
+            LOAD_MAP_INFO, LOAD_REQUESTS_INFO, CALCULATE_INFO,
+            ADD_REQUEST_INFO, DELETE_REQUEST_INFO, GENERATE_ROADMAP_INFO
+    };
+
+    private static String lastInfo;
 
     private final int buttonHeight = 30;
     private final int buttonWidth = 150;
@@ -73,13 +94,23 @@ public class Window extends JFrame{
         buttonArea = new JPanel();
         buttonListener = new ButtonListener(controller);
         buttons = new ArrayList<>();
-        for (String text : buttonTexts){
-            JButton button = new JButton(text);
+        for (int i = 0; i < buttonTexts.length; i ++){
+            JButton button = new JButton(buttonTexts[i]);
             buttons.add(button);
             button.setSize(buttonWidth,buttonHeight);
             button.setFocusable(false);
             button.setFocusPainted(false);
             button.addActionListener(buttonListener);
+            int finalI = i;
+            button.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent e){
+                    lastInfo = textualView.getTextAreaText();
+                    textualView.setTextAreaText(buttonInfos[finalI]);
+                }
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    textualView.setTextAreaText(lastInfo);
+                }
+            });
             buttonArea.add(button);
             getContentPane().add(buttonArea,BorderLayout.SOUTH);
         }

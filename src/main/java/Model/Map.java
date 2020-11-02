@@ -84,5 +84,28 @@ public class Map {
         return maxY;
     }
 
+    public Intersection NearestIntersection(int x, int y) {
+        Intersection nearest = null;
+        double gapX = 0;
+        double gapY = 0;
+        for (Intersection p : allIntersections.values()) {
+            if (nearest == null) {
+                nearest = p;
+                gapX = Math.abs(p.getX() - x);
+                gapY = Math.abs(p.getY() - y);
+                continue;
+            }
+            double gapX2 = Math.abs(p.getX() - x);
+            double gapY2 = Math.abs(p.getY() - y);
+            if ((gapX2 < gapX && gapX2 < gapY) || (gapY2 < gapX && gapY2 < gapY)) {
+                nearest = p;
+                gapX = gapX2;
+                gapY = gapY2;
+            }
+
+        }
+
+        return nearest;
+    }
 
 }

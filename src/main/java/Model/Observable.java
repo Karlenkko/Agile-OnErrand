@@ -1,4 +1,6 @@
-package Observer;
+package Model;
+
+import View.Observer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,8 +16,5 @@ public class Observable {
 	public void notifyObservers(Object arg){
 		for (Observer o : obs) 
 			o.update(this, arg);
-	}
-	public void notifyObservers(){
-		notifyObservers(null);
 	}
 }

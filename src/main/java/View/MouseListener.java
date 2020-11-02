@@ -28,32 +28,37 @@ public class MouseListener extends MouseAdapter {
         //Zoom in
         if(e.getWheelRotation()<0){
             window.getGraphicalView().setZoomFactor(1.1*window.getGraphicalView().getZoomFactor());
-            window.getGraphicalView().setMouseX(Math.max(e.getX() - 8, 0));
-            window.getGraphicalView().setMouseY(Math.max(e.getY() - 30, 0));
+            window.getGraphicalView().setMouseX(Math.max(e.getX(), 0));
+            window.getGraphicalView().setMouseY(Math.max(e.getY(), 0));
             window.getGraphicalView().repaint();
         }
         //Zoom out
         if(e.getWheelRotation()>0){
             window.getGraphicalView().setZoomFactor(window.getGraphicalView().getZoomFactor()/1.1);
-            window.getGraphicalView().setMouseX(Math.max(e.getX() - 8, 0));
-            window.getGraphicalView().setMouseY(Math.max(e.getY() - 30, 0));
+            window.getGraphicalView().setMouseX(Math.max(e.getX() , 0));
+            window.getGraphicalView().setMouseY(Math.max(e.getY() , 0));
             window.getGraphicalView().repaint();
         }
     }
 
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        super.mouseDragged(e);
+//    @Override
+//    public void mouseDragged(MouseEvent e) {
+//        super.mouseDragged(e);
+//
+//        System.out.println(dragStartX);
+//        System.out.println(dragStartY);
+//        window.getGraphicalView().setDragger(true);
+//        window.getGraphicalView().setTransX(e.getX() - dragStartX);
+//        window.getGraphicalView().setTransX(e.getY() - dragStartY);
+//        window.getGraphicalView().repaint();
+//        dragStartX = e.getX();
+//        dragStartY = e.getY();
+//    }
 
-        System.out.println(dragStartX);
-        System.out.println(dragStartY);
-        window.getGraphicalView().setDragger(true);
-        window.getGraphicalView().setTransX(e.getX() - dragStartX);
-        window.getGraphicalView().setTransX(e.getY() - dragStartY);
-        window.getGraphicalView().repaint();
-        dragStartX = e.getX();
-        dragStartY = e.getY();
-    }
-
+//    @Override
+//    public void mouseEntered(MouseEvent e) {
+//        super.mouseEntered(e);
+//        System.out.println(e.getButton());
+//    }
 }

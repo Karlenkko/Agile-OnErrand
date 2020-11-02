@@ -3,24 +3,21 @@ package View;
 import Algorithm.TSP;
 import Model.*;
 
-import Observer.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.LinkedList;
 
 public class GraphicalView extends JPanel implements Observer {
 
     private static final long serialVersionID = 1L;
     private static final int DEFAULT_SIZE = 600;
     private static final int MIN_SIZE = 400;
-    private static final int ARR_SIZE = 6;
+    private static final int ARR_SIZE = 4;
+    private static final int INTERSECTION_SIZE = 8;
     private int viewSize = DEFAULT_SIZE;    // always a square
     private Map map;
     private Mission mission;
@@ -53,7 +50,7 @@ public class GraphicalView extends JPanel implements Observer {
      */
     public GraphicalView(Map map, Mission mission, Window window, TSP tsp) {
         super();
-        //TODO: added to Observer
+        mission.addObserver(this);
         setBackground(Color.white);
         window.getContentPane().add(this);
         this.map = map;
@@ -126,8 +123,16 @@ public class GraphicalView extends JPanel implements Observer {
 
             double zoomableX = Math.max(actualXSize * (zoomFactor - 1), 0);
             double zoomableY = Math.max(actualYSize * (zoomFactor - 1), 0);
-            transX = zoomableX > this.mouseX ? this.mouseX : zoomableX;
-            transY = zoomableY > this.mouseY ? this.mouseY : zoomableY;
+
+            transX = mouseX * (zoomFactor - 1) ;
+            transY = mouseY * (zoomFactor - 1) ;
+            transX = zoomableX > transX ? transX : zoomableX;
+            transY = zoomableY > transY ? transY : zoomableY;
+//            System.out.println(mouseX);
+//            System.out.println(mouseY);
+//            System.out.println(transX);
+//            System.out.println(transY);
+//            System.out.println("");
             zoomer = false;
             g2d.transform(at);
             g2d.translate(-transX, -transY);
@@ -159,20 +164,20 @@ public class GraphicalView extends JPanel implements Observer {
         if(paintRequest) {
             ArrayList<Request> allRequests = mission.getAllRequests();
             g2d.setColor(Color.RED);
-            g2d.setStroke(new BasicStroke(6));
+            g2d.setStroke(new BasicStroke(INTERSECTION_SIZE));
             double x = mission.getDepot().getX() - minX;
             double y = mission.getDepot().getY() - minY;
             g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
 
             for (int i = 0; i < allRequests.size(); ++i) {
                 g2d.setColor(Color.BLUE);
-                g2d.setStroke(new BasicStroke(6));
+//                g2d.setStroke(new BasicStroke(INTERSECTION_SIZE));
                 double pickupX = allRequests.get(i).getPickup().getX() - minX;
                 double pickupY = allRequests.get(i).getPickup().getY() - minY;
                 g2d.draw(new Line2D.Double(pickupX/rate,pickupY/rate,pickupX/rate,pickupY/rate));
 
                 g2d.setColor(Color.ORANGE);
-                g2d.setStroke(new BasicStroke(6));
+//                g2d.setStroke(new BasicStroke(INTERSECTION_SIZE));
                 double deliveryX = allRequests.get(i).getDelivery().getX() - minX;
                 double deliveryY = allRequests.get(i).getDelivery().getY() - minY ;
                 g2d.draw(new Line2D.Double(deliveryX/rate,deliveryY/rate,deliveryX/rate,deliveryY/rate));
@@ -233,6 +238,8 @@ public class GraphicalView extends JPanel implements Observer {
 
     public void setMouseX(double mouseX) {
         this.mouseX = mouseX;
+        System.out.println(mouseX);
+        this.mouseX -= this.getBounds().getX();
     }
 
     public double getMouseY() {
@@ -241,6 +248,8 @@ public class GraphicalView extends JPanel implements Observer {
 
     public void setMouseY(double mouseY) {
         this.mouseY = mouseY;
+        System.out.println(mouseY);
+        this.mouseY -= this.getBounds().getY();
     }
 
     public double getTransX() {
