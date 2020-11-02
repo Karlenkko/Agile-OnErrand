@@ -46,5 +46,23 @@ public interface State {
 
     }
 
+    default void addRequest(Controller controller, Window window){
 
+    }
+
+    default void leftClick(Controller controller, Window window, Intersection intersection){
+
+    }
+
+    default void rightClick(Controller controller, Window window){
+
+    }
+
+    default void validNewRequest(Controller controller, Window newWindow){
+
+    }
+
+    default void cancelNewRequest(Controller controller, Window newWindow){
+
+    }
 }

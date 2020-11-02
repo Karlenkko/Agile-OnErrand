@@ -37,4 +37,12 @@ public class CalculateState implements State{
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
     }
+
+    public void addRequest(Controller controller, Window window){
+
+        //TODO:Click on the button "add request to add two points of pickup and delivery
+
+        controller.setCurrentState(controller.addRequestState1);
+
+    }
 }
