@@ -86,7 +86,18 @@ public void init()  throws ParseException {
 }
 
 @After
-public void exit(){
+public void clean(){
+
+    builder = null;
+    largeMap = null;
+    mediumMap = null;
+    smallMap = null;
+    requestsLarge7 = null;
+    requestsLarge9 = null;
+    requestsMedium3 = null;
+    requestsMedium5 = null;
+    requestsSmall1 = null;
+    requestsSmall2 = null;
 }
 /** 
 * 
