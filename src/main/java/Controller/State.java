@@ -61,4 +61,6 @@ public interface State {
     default void validNewRequest(Controller controller, Window newWindow){}
 
     default void cancelNewRequest(Controller controller, Window newWindow){}
+
+    default void generateRoadMap(Controller controller){}
 }

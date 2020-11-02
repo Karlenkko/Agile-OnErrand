@@ -106,4 +106,6 @@ public class Controller {
 
     public void validNewRequest(){ currentState.validNewRequest(this, window); }
 
+    public void generateRoadMap(){ currentState.generateRoadMap(this);}
+
 }
