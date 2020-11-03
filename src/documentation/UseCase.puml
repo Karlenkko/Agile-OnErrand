@@ -28,7 +28,7 @@ package Application {
     DeleteRequest ..> CalculateTour : extend
 }
     User -[hidden]->Application
-    User ---> LoadMap
+    User --> LoadMap
     User --> LoadRequests
     User --> CalculateTour
     User --> GenerateRoadMap
