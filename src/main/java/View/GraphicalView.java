@@ -33,6 +33,8 @@ public class GraphicalView extends JPanel implements Observer {
     private double minX;
     private double minY;
     private double rate;
+    private double[] rates;
+    private double[] delta;
     private static final int SPACE = 10;
 
     private static double zoomFactor;
@@ -45,6 +47,11 @@ public class GraphicalView extends JPanel implements Observer {
 
     private double transX = 0;
     private double transY = 0;
+
+    private double maxX = 0;
+    private double maxY = 0;
+
+    private boolean first = false;
     /**
      * Constructor of object GraphicalView using the map, mission and the window
      * @param map the map whose informations are filled that will be painted
@@ -65,20 +72,28 @@ public class GraphicalView extends JPanel implements Observer {
         paintAdd = false;
         zoomFactor = 1;
         zoomer = false;
+
+        rate = 0;
+        rates = new double[2];
+        delta = new double[2];
+    }
+
+    public void setFirst(boolean first) {
+        this.first = first;
     }
 
     public void setMapSize() {
-        /*
-        minX = map.getMinX();
-        minY = map.getMinY();
-        double maxX = map.getMaxX();
-        double maxY = map.getMaxY();
-        double rateX = (maxX - minX)/(this.getSize().width - SPACE);
-        double rateY = (maxY - minY)/(this.getSize().height - SPACE);
-        rate = Math.max(rateX, rateY);
-         */
         //TODO refactoring later
-        map.resizeIntersection(this.getSize().width, this.getSize().height);
+        if (map.getAllIntersections().size() != 0 && first == false) {
+            delta = map.resizeIntersection();
+            first = true;
+        }
+
+        rates[0] = delta[0]/this.getSize().getWidth();
+        rates[1] = delta[1]/this.getSize().getHeight();
+        rate = Math.max(rates[0], rates[1]);
+        System.out.println(rate);
+
         setPaintMap(true);
     }
 
@@ -105,6 +120,7 @@ public class GraphicalView extends JPanel implements Observer {
         else{
             this.zoomFactor=zoomFactor;
         }
+        //this.zoomFactor = Math.min(this.zoomFactor, 1.8);
         this.zoomer=true;
     }
 
@@ -123,24 +139,17 @@ public class GraphicalView extends JPanel implements Observer {
         Graphics2D g2d = (Graphics2D) g;
         // zoom or rotate
         if (zoomer) {
-            g2d.translate(transX, transY);
+
             at = new AffineTransform();
             at.scale(zoomFactor, zoomFactor);
-            double actualXSize = this.getSize().getWidth() - SPACE;
-            double actualYSize = this.getSize().getHeight() - SPACE;
 
-            double zoomableX = Math.max(actualXSize * (zoomFactor - 1), 0);
-            double zoomableY = Math.max(actualYSize * (zoomFactor - 1), 0);
+            double zoomableX = Math.max(this.getWidth() * (zoomFactor - 1), 0);
+            double zoomableY = Math.max(this.getHeight() * (zoomFactor - 1), 0);
 
             transX = mouseX * (zoomFactor - 1) ;
             transY = mouseY * (zoomFactor - 1) ;
-            transX = zoomableX > transX ? transX : zoomableX;
-            transY = zoomableY > transY ? transY : zoomableY;
-//            System.out.println(mouseX);
-//            System.out.println(mouseY);
-//            System.out.println(transX);
-//            System.out.println(transY);
-//            System.out.println("");
+            transX = Math.min(zoomableX, transX);
+            transY = Math.min(zoomableY, transY);
             zoomer = false;
             g2d.transform(at);
             g2d.translate(-transX, -transY);
@@ -154,7 +163,8 @@ public class GraphicalView extends JPanel implements Observer {
 
             g2d.setColor(Color.black);
             g2d.setStroke(new BasicStroke(3));
-            g2d.draw(new Line2D.Double(intersection.getX(),intersection.getY(),intersection.getX(),intersection.getY()));
+            g2d.draw(new Line2D.Double(intersection.getX()/rate,intersection.getY()/rate,
+                    intersection.getX()/rate,intersection.getY()/rate));
 
 
         }
@@ -166,7 +176,7 @@ public class GraphicalView extends JPanel implements Observer {
             double y2 = segment.getDestination().getY();
             g2d.setColor(Color.lightGray);
             g2d.setStroke(new BasicStroke(1));
-            g2d.draw(new Line2D.Double(x,y,x2,y2));
+            g2d.draw(new Line2D.Double(x/rate,y/rate,x2/rate,y2/rate));
 
         }
 
@@ -176,18 +186,18 @@ public class GraphicalView extends JPanel implements Observer {
             g2d.setStroke(new BasicStroke(INTERSECTION_SIZE));
             double x = mission.getDepot().getX();
             double y = mission.getDepot().getY();
-            g2d.draw(new Line2D.Double(x,y,x,y));
+            g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
 
             for (int i = 0; i < allRequests.size(); ++i) {
                 g2d.setColor(Color.BLUE);
                 double pickupX = allRequests.get(i).getPickup().getX();
                 double pickupY = allRequests.get(i).getPickup().getY();
-                g2d.draw(new Line2D.Double(pickupX,pickupY,pickupX,pickupY));
+                g2d.draw(new Line2D.Double(pickupX/rate,pickupY/rate,pickupX/rate,pickupY/rate));
 
                 g2d.setColor(Color.ORANGE);
                 double deliveryX = allRequests.get(i).getDelivery().getX();
                 double deliveryY = allRequests.get(i).getDelivery().getY();
-                g2d.draw(new Line2D.Double(deliveryX,deliveryY,deliveryX,deliveryY));
+                g2d.draw(new Line2D.Double(deliveryX/rate,deliveryY/rate,deliveryX/rate,deliveryY/rate));
             }
         }
 
@@ -203,7 +213,7 @@ public class GraphicalView extends JPanel implements Observer {
                 double y1 = intersection1.getY();
                 double x2 = intersection2.getX();
                 double y2 = intersection2.getY();
-                drawArrow(g,x2,y2,x1,y1);
+                drawArrow(g,x2/rate,y2/rate,x1/rate,y1/rate);
             }
         }
 
@@ -213,7 +223,7 @@ public class GraphicalView extends JPanel implements Observer {
             System.out.println(x+" "+y);
             g2d.setColor(Color.MAGENTA);
             g2d.setStroke(new BasicStroke(6));
-            g2d.draw(new Line2D.Double(x,y,x,y));
+            g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
         }
 
 
@@ -260,9 +270,8 @@ public class GraphicalView extends JPanel implements Observer {
     }
 
     public void setMouseX(double mouseX) {
-        this.mouseX = mouseX;
-        System.out.println(mouseX);
-        this.mouseX -= this.getBounds().getX();
+        this.mouseX = (mouseX + transX) / zoomFactor;
+        this.mouseX = Math.min(this.getWidth(), this.mouseX);
     }
 
     public double getMouseY() {
@@ -270,9 +279,9 @@ public class GraphicalView extends JPanel implements Observer {
     }
 
     public void setMouseY(double mouseY) {
-        this.mouseY = mouseY;
-        System.out.println(mouseY);
-        this.mouseY -= this.getBounds().getY();
+        this.mouseY = (mouseY + transY) / zoomFactor;
+        this.mouseX = Math.min(this.getHeight(), this.mouseY);
+
     }
 
     public double getTransX() {

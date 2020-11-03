@@ -38,6 +38,7 @@ public class Map {
         minY = Math.min(minY, intersection.getY());
         maxX = Math.max(maxX, intersection.getX());
         maxY = Math.max(maxY, intersection.getY());
+
     }
 
     /**
@@ -86,17 +87,19 @@ public class Map {
         return maxY;
     }
 
-    public void resizeIntersection(int width, int height) {
-        double rateX = (maxX - minX)/width;
-        double rateY = (maxY - minY)/height;
-        double rate = Math.max(rateX, rateY);
+    public double[] resizeIntersection() {
+        double deltaX = (maxX - minX);
+        double deltaY = (maxY - minY);
         for (Intersection intersection : allIntersections.values()) {
             double x = intersection.getX() - minX;
             double y = intersection.getY() - minY;
-            intersection.setX(x/rate);
-            intersection.setY(y/rate);
-            System.out.println(intersection.getX()+" "+intersection.getY());
+            intersection.setX(x);
+            intersection.setY(y);
         }
+        double[] delta = new double[2];
+        delta[0] = deltaX;
+        delta[1] = deltaY;
+        return delta;
     }
 
     public Intersection NearestIntersection(int x, int y) {

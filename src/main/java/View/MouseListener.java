@@ -33,16 +33,16 @@ public class MouseListener extends MouseAdapter {
 //        System.out.println(e.getWheelRotation());
         //Zoom in
         if(e.getWheelRotation()<0){
+            window.getGraphicalView().setMouseX(Math.max(e.getX()-window.getInsets().left, 0));
+            window.getGraphicalView().setMouseY(Math.max(e.getY()-window.getInsets().top, 0));
             window.getGraphicalView().setZoomFactor(1.1*window.getGraphicalView().getZoomFactor());
-            window.getGraphicalView().setMouseX(Math.max(e.getX(), 0));
-            window.getGraphicalView().setMouseY(Math.max(e.getY(), 0));
             window.getGraphicalView().repaint();
         }
         //Zoom out
         if(e.getWheelRotation()>0){
+            window.getGraphicalView().setMouseX(Math.max(e.getX()-window.getInsets().left, 0));
+            window.getGraphicalView().setMouseY(Math.max(e.getY()-window.getInsets().top, 0));
             window.getGraphicalView().setZoomFactor(window.getGraphicalView().getZoomFactor()/1.1);
-            window.getGraphicalView().setMouseX(Math.max(e.getX() , 0));
-            window.getGraphicalView().setMouseY(Math.max(e.getY() , 0));
             window.getGraphicalView().repaint();
         }
     }
