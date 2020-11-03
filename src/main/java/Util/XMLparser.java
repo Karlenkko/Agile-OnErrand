@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 public class XMLparser {
 
     public static void parserMap(Map map) throws ParserConfigurationException, IOException, SAXException, ExceptionXML {
-        File xml = XMLfileOpener.getInstance().open(true);
+        File xml = FileOpener.getInstance().open(true);
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = docBuilder.parse(xml);
         document.getDocumentElement().normalize();
@@ -32,7 +32,7 @@ public class XMLparser {
     }
 
     public static void parserRequest(Mission mission, Map map) throws ParserConfigurationException, IOException, SAXException, ExceptionXML {
-        File xml = XMLfileOpener.getInstance().open(true);
+        File xml = FileOpener.getInstance().open(true);
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = docBuilder.parse(xml);
         document.getDocumentElement().normalize();

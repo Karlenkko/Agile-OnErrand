@@ -18,6 +18,8 @@ public class ButtonListener implements ActionListener {
             case Window.LOAD_MAP: controller.loadMap(); break;
             case Window.LOAD_REQUESTS: controller.loadRequests(); break;
             case Window.CALCULATE: controller.calculateTour(); break;
+            case Window.ADD_REQUEST:controller.addRequest(); break;
+            case Window.GENERATE_ROADMAP:controller.generateRoadMap(); break;
             //TODO: three other button need to be implement later
         }
 

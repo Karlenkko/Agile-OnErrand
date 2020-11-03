@@ -100,11 +100,12 @@ public class Controller {
     }
 
     public void addRequest(){ currentState.addRequest(this, window); }
-
-    public void leftClick(Intersection intersection){ currentState.leftClick(this , window , intersection); }
+    public void leftClick(int positionX, int positionY){ currentState.leftClick(this , window , positionX, positionY); }
 
     public void rightClick(){ currentState.rightClick(this, window);}
 
     public void validNewRequest(){ currentState.validNewRequest(this, window); }
+
+    public void generateRoadMap(){ currentState.generateRoadMap(this);}
 
 }

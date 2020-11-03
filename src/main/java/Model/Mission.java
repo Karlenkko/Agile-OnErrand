@@ -2,16 +2,14 @@ package Model;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Mission extends Observable {
     private static Intersection depot;
     private static LocalTime departureTime;
     private static ArrayList<Request> allRequests;
     private static LinkedList<Long> tour;
+    private static LinkedList<Long> tourIntersections;
     private static HashMap<Long, LocalTime> arrivalTimeSchedule;
     private static HashMap<Long, LocalTime> departureTimeSchedule;
     private final static double SPEED = 25.0/6.0; // m/s
@@ -25,6 +23,7 @@ public class Mission extends Observable {
         departureTime = null;
         allRequests = new ArrayList<>();
         tour = new LinkedList<>();
+        tourIntersections = new LinkedList<>();
         arrivalTimeSchedule = new HashMap<>();
         departureTimeSchedule = new HashMap<>();
     }
@@ -82,9 +81,11 @@ public class Mission extends Observable {
         return departureTimeSchedule;
     }
 
-    public void updateTour(Long[] sequence, double[] interAddressLength) {
-        tour = new LinkedList<Long>(Arrays.asList(sequence));
-        LocalTime tempTime = departureTime;
+    public void updateTour(Long[] sequence, List<Long> bestSolIntersection, double[] interAddressLength) {
+        tour = new LinkedList<>(Arrays.asList(sequence));
+        tourIntersections = new LinkedList<>(bestSolIntersection);
+        LocalTime tempTime;
+        tempTime = departureTime;
         // first arrival
         departureTimeSchedule.put(depot.getId(), departureTime);
         for (Request request : allRequests) {
@@ -168,5 +169,18 @@ public class Mission extends Observable {
             }
         }
         return nearest;
+    }
+
+    public LocalTime getArrivalTime(Long addressId) {
+        return arrivalTimeSchedule.getOrDefault(addressId, LocalTime.MIDNIGHT);
+    }
+
+    // there is a overloading
+    public LocalTime getDepartureTime(Long addressId) {
+        return departureTimeSchedule.getOrDefault(addressId, LocalTime.MIDNIGHT);
+    }
+
+    public LinkedList<Long> getTourIntersections() {
+        return tourIntersections;
     }
 }

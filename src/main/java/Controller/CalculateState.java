@@ -5,6 +5,8 @@ import Algorithm.TSP;
 import Algorithm.TSP1;
 import Model.Request;
 import Model.Segment;
+import Util.ExceptionXML;
+import Util.TourSerializer;
 import View.Window;
 
 import java.util.ArrayList;
@@ -32,10 +34,20 @@ public class CalculateState implements State{
         //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
         Long[] solutions = tsp.searchSolution(10000, controller.getCompleteGraph());
         System.out.println("Solution of cost "+tsp.getSolutionCost());
-        controller.getMission().updateTour(solutions, tsp.getBestSolAddressCost());
+        controller.getMission().updateTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
+    }
+
+    public void generateRoadMap(Controller controller)  {
+        try {
+            TourSerializer tourSerializer = new TourSerializer(controller.getMission(), controller.getMap());
+            tourSerializer.generateRoadMap();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void addRequest(Controller controller, Window window){

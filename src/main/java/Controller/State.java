@@ -50,7 +50,7 @@ public interface State {
 
     }
 
-    default void leftClick(Controller controller, Window window, Intersection intersection){
+    default void leftClick(Controller controller, Window window, int positionX, int positionY){
 
     }
 
@@ -58,11 +58,9 @@ public interface State {
 
     }
 
-    default void validNewRequest(Controller controller, Window newWindow){
+    default void validNewRequest(Controller controller, Window newWindow){}
 
-    }
+    default void cancelNewRequest(Controller controller, Window newWindow){}
 
-    default void cancelNewRequest(Controller controller, Window newWindow){
-
-    }
+    default void generateRoadMap(Controller controller){}
 }
