@@ -35,6 +35,8 @@ Package Algorithm{
     class MapGraph
     class Seqlter
 
+
+
     TemplateTSP -> MapGraph
     Controller -up-> TSP
     TSP1 --|> TemplateTSP
@@ -48,6 +50,11 @@ Package Model{
     class Mission
     class Request
     class Segment
+    class Observable
+
+    CompleteGraph --|> Mission
+    CompleteGraph --|> Map
+    Mission --|> Observable
 
     Map --> Intersection
     Map --> Segment
@@ -73,6 +80,10 @@ Package View{
     class GraphicalView
     class ButtonListener
     class MouseListener
+    interface Observer
+
+    TextualView ..|> Observer
+    GraphicalView ..|> Observer
 
     Controller --> Window
     Window --> TextualView
@@ -89,15 +100,7 @@ Package View{
     ButtonListener --> Controller
 
 }
-Package Observer{
-    interface Observer
-    class Observable
 
-    TextualView ..|> Observer
-    GraphicalView ..|> Observer
-
-    Mission --|> Observable
-}
 
 
 
