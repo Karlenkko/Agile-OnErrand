@@ -14,19 +14,19 @@ import java.util.LinkedList;
 
 public class CompleteGraph implements Graph {
 
-	private HashMap<Long, ArrayList<Long>> toAddresses;
-	private HashMap<Long, ArrayList<Double>> toDistances;
-	private HashMap<Long, Double> length;
-	private HashMap<Long, Long> precedent;
-	private HashMap<String, ArrayList<Long>> solutions;
-	private ArrayList<Long> requests;
-	private ArrayList<Long> gray = new ArrayList<>();
-	private ArrayList<Long> black = new ArrayList<>();
+	protected HashMap<Long, ArrayList<Long>> toAddresses;
+	protected HashMap<Long, ArrayList<Double>> toDistances;
+	protected HashMap<Long, Double> length;
+	protected HashMap<Long, Long> precedent;
+	protected HashMap<String, ArrayList<Long>> solutions;
+	protected ArrayList<Long> requests;
+	protected ArrayList<Long> gray = new ArrayList<>();
+	protected ArrayList<Long> black = new ArrayList<>();
 
-	private HashMap<Long, Long> allRequests;
+	protected HashMap<Long, Long> allRequests;
 	public static double min;
 
-	private Double[][] graph;
+	protected Double[][] graph;
 
 	public CompleteGraph(){
 		toAddresses = new HashMap<>();
