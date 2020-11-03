@@ -155,7 +155,8 @@ public void testParserRequest() throws Exception {
 @Test
 public void testBuildMapFromDOMXML() throws Exception {
 //TODO: Test goes here...
-    try {
+/*
+try {
         Method method = XMLparser.getClass().get("buildMapFromDOMXML",Document.class,Map.class);
         method.setAccessible(true);
         method.invoke(<Object>,<Parameter>);
@@ -163,7 +164,7 @@ public void testBuildMapFromDOMXML() throws Exception {
     } catch(IllegalAccessException e) {
     } catch(InvocationTargetException e) {
     }
-/*
+
 try { 
    Method method = XMLparser.getClass().getMethod("buildMapFromDOMXML", Document.class, Map.class); 
    method.setAccessible(true); 
