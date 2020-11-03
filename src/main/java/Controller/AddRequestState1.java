@@ -19,7 +19,7 @@ public class AddRequestState1 implements State {
 
     public void rightClick(Controller controller, Window window) {
         // TODO: Cancel the addition of the new request
-        controller.setCurrentState(controller.calculateState);
+        controller.setCurrentState(controller.calculatedState);
     }
 
 }
