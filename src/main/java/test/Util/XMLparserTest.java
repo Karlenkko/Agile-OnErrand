@@ -151,21 +151,20 @@ public void testParserRequest() throws Exception {
 * 
 * Method: buildMapFromDOMXML(Document document, Map map) 
 * 
-*/ 
-@Test
-public void testBuildMapFromDOMXML() throws Exception {
-//TODO: Test goes here...
+*/
+//@Test
+//public void testBuildMapFromDOMXML() throws Exception {
+////TODO: Test goes here...
+//    try {
+//        Method method = XMLparser.getClass().get("buildMapFromDOMXML",Document.class,Map.class);
+//        method.setAccessible(true);
+//        method.invoke(<Object>,<Parameter>);
+//    }catch(NoSuchMethodException e) {
+//    } catch(IllegalAccessException e) {
+//    } catch(InvocationTargetException e) {
+//    }
 /*
 try {
-        Method method = XMLparser.getClass().get("buildMapFromDOMXML",Document.class,Map.class);
-        method.setAccessible(true);
-        method.invoke(<Object>,<Parameter>);
-    }catch(NoSuchMethodException e) {
-    } catch(IllegalAccessException e) {
-    } catch(InvocationTargetException e) {
-    }
-
-try { 
    Method method = XMLparser.getClass().getMethod("buildMapFromDOMXML", Document.class, Map.class); 
    method.setAccessible(true); 
    method.invoke(<Object>, <Parameters>); 
@@ -174,7 +173,7 @@ try {
 } catch(InvocationTargetException e) { 
 }
 */
-} 
+//}
 
 /** 
 * 

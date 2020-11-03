@@ -14,14 +14,21 @@ Package Controller{
     interface State
     Controller --> State
     InitialState ..|> State
-    CalculateState ..|> State
+    CalculatedState ..|> State
     MapLoadedState ..|> State
     RequestLoadedState ..|> State
+    AddRequestState1..|> State
+    AddRequestState2..|> State
+    AddRequestState3..|> State
+    AddRequestState4..|> State
+    AddRequestState5..|> State
 }
 Package Util{
     class XMLParser
     class XMLfileOpener
     class ExceptionXML
+    class TourSerializer
+
 
     XMLParser --> XMLfileOpener
 
@@ -55,6 +62,9 @@ Package Model{
     CompleteGraph --|> Mission
     CompleteGraph --|> Map
     Mission --|> Observable
+    TourSerializer --|> Map
+    TourSerializer --|> Mission
+    TourSerializer --|> Segment
 
     Map --> Intersection
     Map --> Segment

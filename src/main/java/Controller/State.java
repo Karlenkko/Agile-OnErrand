@@ -36,7 +36,7 @@ public interface State {
            window.getGraphicalView().setPaintRequest(true);
            window.getGraphicalView().repaint();
            window.getTextualView().initiateRequestTable();
-           controller.setCurrentState(controller.calculateState);
+           controller.setCurrentState(controller.requestLoadedState);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "alert", JOptionPane.ERROR_MESSAGE);
