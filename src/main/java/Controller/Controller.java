@@ -41,7 +41,7 @@ public class Controller {
         this.mission = mission;
         this.mapGraph = mapGraph;
         this.tsp = tsp;
-        this.completeGraph = mapGraph;
+        this.completeGraph = completeGraph;
         window = new Window(this.map, this.mission, tsp, this);
         currentState = initialState;
     }
@@ -99,6 +99,8 @@ public class Controller {
     }
 
     public void addRequest(){ currentState.addRequest(this, window); }
+
+    public void deleteRequest(){ currentState.deleteRequest(this,window); }
     public void leftClick(int positionX, int positionY){ currentState.leftClick(this , window , positionX, positionY); }
 
     public void rightClick(){ currentState.rightClick(this, window);}
