@@ -12,8 +12,6 @@ public class AddRequestState1 implements State {
 
         Intersection intersection = controller.getMission().NearestRequest(positionX,positionY, window.getRate());
         controller.getMission().addNewAdd(intersection.getId());
-
-        System.out.println(intersection.getId());
         window.getGraphicalView().setPaintAdd(true);
         window.getGraphicalView().repaint();
 

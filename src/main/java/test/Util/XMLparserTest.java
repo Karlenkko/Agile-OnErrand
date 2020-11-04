@@ -152,88 +152,66 @@ public void testParserRequest() throws Exception {
 * Method: buildMapFromDOMXML(Document document, Map map) 
 * 
 */
-//@Test
-//public void testBuildMapFromDOMXML() throws Exception {
-////TODO: Test goes here...
-//    try {
-//        Method method = XMLparser.getClass().get("buildMapFromDOMXML",Document.class,Map.class);
-//        method.setAccessible(true);
-//        method.invoke(<Object>,<Parameter>);
-//    }catch(NoSuchMethodException e) {
-//    } catch(IllegalAccessException e) {
-//    } catch(InvocationTargetException e) {
-//    }
-/*
-try {
-   Method method = XMLparser.getClass().getMethod("buildMapFromDOMXML", Document.class, Map.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
+@Test
+public void testBuildMapFromDOMXML() throws Exception {
+    parserMap(map);
+    HashMap<Long, Intersection> mapIntersections = map.getAllIntersections();
+    assertEquals(45.775486, mapIntersections.get(Long.parseLong("2684668925")).getLatitude(), 0.000001);
+    assertEquals(4.888253, mapIntersections.get(Long.parseLong("2684668925")).getLongitude(), 0.000001);
+
+
 }
-*/
-//}
 
 /** 
 * 
 * Method: buildRequestFromDOMXML(Document document, Mission mission) 
 * 
-*/ 
-@Test
-public void testBuildRequestFromDOMXML() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = XMLparser.getClass().getMethod("buildRequestFromDOMXML", Document.class, Mission.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-} 
+//*/
+//@Test
+//public void testBuildRequestFromDOMXML() throws Exception {
+//    buildRequestFromDOMXML(document, request);
+//    parserRequest(mission, map);
+//
+//    ArrayList<Request> missionRequests = mission.getAllRequests();
+//    System.out.println(missionRequests.get(0).getPickup());
+//    assertEquals(1362781062, missionRequests.get(0).getPickup().getId(), 0);
+//    assertEquals(27359745, missionRequests.get(0).getDelivery().getId(), 0);
+//}
+//
+///**
+//*
+//* Method: createIntersection(Element element)
+//*
+//*/
+//@Test
+//public void testCreateIntersection() throws Exception {
+//    try {
+//        Method method = XMLparser.createIntersection().getMethod("createSegment", Intersection.class, Map.class);
+//        method.setAccessible(true);
+//        method.invoke(<Intersection>, <5.06>);
+//    } catch(NoSuchMethodException e) {
+//    } catch(IllegalAccessException e) {
+//    }
 
-/** 
-* 
-* Method: createIntersection(Element element) 
-* 
-*/ 
-@Test
-public void testCreateIntersection() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = XMLparser.getClass().getMethod("createIntersection", Element.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-} 
+//}
 
 /** 
 * 
 * Method: createSegment(Element element, Map map) 
 * 
 */ 
-@Test
-public void testCreateSegment() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = XMLparser.getClass().getMethod("createSegment", Element.class, Map.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-} 
+//@Test
+//public void testCreateSegment() throws Exception {
+////TODO: Test goes here...
+//try {
+//   Method method = XMLparser.createSegment().getMethod("createSegment", Segment.class, Map.class);
+//   method.setAccessible(true);
+//   method.invoke(<Segment>, <Parameters>);
+//} catch(NoSuchMethodException e) {
+//} catch(IllegalAccessException e) {
+//} catch(InvocationTargetException e) {
+//}
+//}
 
 /** 
 * 

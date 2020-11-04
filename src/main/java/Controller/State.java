@@ -59,6 +59,8 @@ public interface State {
 
     }
 
+    default void deleteRequest(Controller controller, Window window){}
+
     default void validNewRequest(Controller controller, Window newWindow){}
 
     default void cancelNewRequest(Controller controller, Window newWindow){}
