@@ -1,6 +1,5 @@
 package Model;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -14,7 +13,7 @@ public class Mission extends Observable {
     private static HashMap<Long, LocalTime> departureTimeSchedule;
     private final static double SPEED = 25.0/6.0; // m/s
 
-
+    private static ArrayList<Long> newAddLinkedList;
     /**
      * Constructor of the object Mission
      */
@@ -182,5 +181,13 @@ public class Mission extends Observable {
 
     public LinkedList<Long> getTourIntersections() {
         return tourIntersections;
+    }
+
+    public ArrayList<Long> getNewAddLinkedList(){
+        return newAddLinkedList;
+    }
+
+    public void setNewAddLinkedList(ArrayList<Long> newAddLinkedList) {
+        this.newAddLinkedList = newAddLinkedList;
     }
 }
