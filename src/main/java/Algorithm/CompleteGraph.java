@@ -76,7 +76,8 @@ public class CompleteGraph implements Graph {
 		}
 	}
 
-	public void Dijistra() {
+	public void dijkstra() {
+		int i = 1;
 		for(Long origin : requests) {
 			gray.add(origin);
 			length.put(origin, 0.0);
@@ -117,7 +118,7 @@ public class CompleteGraph implements Graph {
 					graph[requests.indexOf(origin)][requests.indexOf(grayAddress)] = length.get(grayAddress);
 
 				}
-				if (solutions.size() == requests.size()) {
+				if (solutions.size() == requests.size() * i) {
 					break;
 				}
 			}

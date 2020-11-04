@@ -15,6 +15,9 @@ public class BasicTest {
         MapGraph mapGraph = new MapGraph();
         CompleteGraph completeGraph = new CompleteGraph();
         TSP tsp = new TSP1();
+
+        // TODO: initialisation tsp move to map
+        // MAP: new tsp & mapgraph
         new Controller(map, mission, mapGraph, tsp, completeGraph);
     }
 }
