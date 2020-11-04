@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.Intersection;
-import Model.Request;
 import View.PopupWindow;
 import View.Window;
 
@@ -18,22 +17,21 @@ public class AddRequestState4 implements State{
 
         ArrayList<Long> newAddList = controller.getMission().getNewAddList();
 
-        if(!newAddList.contains(intersection.getId()) && controller.getMission().requestValid(newAddList.get(0), intersection.getId())){
+        if(!newAddList.contains(intersection.getId())){
             controller.getMission().addNewAdd(intersection.getId());
 
             window.getGraphicalView().setPaintAdd(true);
             window.getGraphicalView().repaint();
 
-            PopupWindow popupWindow = new PopupWindow();
+            PopupWindow popupWindow = new PopupWindow(controller);
 
-            int pickupTime = popupWindow.getPickUpTime();
-            int deliveryTime = popupWindow.getDeliveryTime();
-
-            controller.getMission().addRequest(new Request(controller.getMap().getAllIntersections().get(newAddList.get(1)),controller.getMap().getAllIntersections().get(newAddList.get(2)),pickupTime,deliveryTime));
+            System.out.println(controller.getMission().getNewRequest());
 
             // need for further discussion
             controller.setCurrentState(controller.calculatedState);
 
+        }else if(controller.getMission().requestValid(newAddList.get(0), intersection.getId())){
+            System.out.println("The first point chosen can't be the delivery point of the last point chosen.");
         }else{
             System.out.println("You have selected the same point. Please choose another point.");
         }

@@ -1,5 +1,7 @@
 package View;
 
+import Controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,9 +20,11 @@ public class PopupWindow extends JFrame {
     JTextField pickupField = new JTextField(20);
     JTextField deliveryField = new JTextField(20);
     JPanel buttons = new JPanel();
+    Controller controller;
 
 
-    public PopupWindow(){
+    public PopupWindow(Controller controller) {
+        this.controller = controller;
         JPanel pick = new JPanel();
         pickupField.addKeyListener(new KeyAdapter(){
             public void keyTyped(KeyEvent e) {
@@ -75,7 +79,10 @@ public class PopupWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             // TODO: Transmise the data of the pickup and delivery time to create a new Request.
-
+            int pickupTime = getPickUpTime();
+            int deliveryTime = getDeliveryTime();
+            controller.getMission().getNewRequest().setDeliveryDuration(pickupTime);
+            controller.getMission().getNewRequest().setPickupDuration(deliveryTime);
 
             System.out.println("The pickup time is "+ getPickUpTime() +" seconds and the delivery time is " + getDeliveryTime() + " seconds");
             jf.dispose();

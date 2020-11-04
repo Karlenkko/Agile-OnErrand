@@ -11,12 +11,8 @@ public class AddRequestState2 implements State{
         // TODO: Click on the intersection and make it as the pickup point of the new request
 
         Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY,window.getRate());
-        System.out.println(intersection.getId());
-
         if(!controller.getMission().getNewAddList().contains(intersection.getId())){
             controller.getMission().addNewAdd(intersection.getId());
-
-            System.out.println("aaaa");
 
             window.getGraphicalView().setPaintAdd(true);
             window.getGraphicalView().repaint();
