@@ -1,7 +1,6 @@
 package test.Util;
 
 import Model.*;
-import Util.ExceptionXML;
 import Util.XMLparser;
 import org.junit.Test;
 import org.junit.Before; 
@@ -154,9 +153,27 @@ public void testParserRequest() throws Exception {
 * 
 */ 
 @Test
-public void testBuildMapFromDOMXML() throws ParserConfigurationException, IOException, SAXException, ExceptionXML {
-    parserMap(map);
+public void testBuildMapFromDOMXML() throws Exception {
+//TODO: Test goes here...
+/*
+try {
+        Method method = XMLparser.getClass().get("buildMapFromDOMXML",Document.class,Map.class);
+        method.setAccessible(true);
+        method.invoke(<Object>,<Parameter>);
+    }catch(NoSuchMethodException e) {
+    } catch(IllegalAccessException e) {
+    } catch(InvocationTargetException e) {
+    }
 
+try { 
+   Method method = XMLparser.getClass().getMethod("buildMapFromDOMXML", Document.class, Map.class); 
+   method.setAccessible(true); 
+   method.invoke(<Object>, <Parameters>); 
+} catch(NoSuchMethodException e) { 
+} catch(IllegalAccessException e) { 
+} catch(InvocationTargetException e) { 
+}
+*/
 } 
 
 /** 
@@ -165,9 +182,18 @@ public void testBuildMapFromDOMXML() throws ParserConfigurationException, IOExce
 * 
 */ 
 @Test
-public void testBuildRequestFromDOMXML() throws Exception {
-    parserMap(map);
-    parserRequest(mission,map);
+public void testBuildRequestFromDOMXML() throws Exception { 
+//TODO: Test goes here... 
+/* 
+try { 
+   Method method = XMLparser.getClass().getMethod("buildRequestFromDOMXML", Document.class, Mission.class); 
+   method.setAccessible(true); 
+   method.invoke(<Object>, <Parameters>); 
+} catch(NoSuchMethodException e) { 
+} catch(IllegalAccessException e) { 
+} catch(InvocationTargetException e) { 
+} 
+*/ 
 } 
 
 /** 
@@ -196,9 +222,7 @@ try {
 * 
 */ 
 @Test
-public void testCreateSegment() throws Exception {
-    parserMap(map);
-
+public void testCreateSegment() throws Exception { 
 //TODO: Test goes here... 
 /* 
 try { 
