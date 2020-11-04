@@ -14,6 +14,7 @@ public class Mission extends Observable {
     private final static double SPEED = 25.0/6.0; // m/s
 
     private static ArrayList<Long> newAddList;
+    private static Request newRequest;
 
     /**
      * Constructor of the object Mission
@@ -195,6 +196,29 @@ public class Mission extends Observable {
 
     public void resetNewAdd() {
         newAddList.clear();
+    }
+
+    public void removeAdd() {
+        if (newAddList.size() != 0) {
+            newAddList.remove(newAddList.size()-1);
+        }
+    }
+
+    public Request getNewRequest() {
+        return newRequest;
+    }
+
+    public void setNewRequest(Request newRequest) {
+        Mission.newRequest = newRequest;
+    }
+
+    public boolean requestValid(Long idBefore, Long idAfter) {
+        for (Request request : allRequests) {
+            if (idAfter == request.getPickup().getId() && idBefore == request.getDelivery().getId()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
