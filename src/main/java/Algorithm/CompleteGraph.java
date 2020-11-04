@@ -119,6 +119,7 @@ public class CompleteGraph implements Graph {
 
 				}
 				if (solutions.size() == requests.size() * i) {
+					++ i;
 					break;
 				}
 			}
