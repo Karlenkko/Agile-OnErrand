@@ -4,6 +4,7 @@ package Algorithm;
 import Model.*;
 import Model.Map;
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ManyToManyShortestPathsAlgorithm.ManyToManyShortestPaths;
 import org.jgrapht.alg.shortestpath.DijkstraManyToManyShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
@@ -55,14 +56,6 @@ public class MapGraph extends CompleteGraph{
     }
 
     /**
-     * Add an Intersection to the MapGraph using its id
-     * @param intersectionId the id of the Intersection
-     */
-    private void addVertex(long intersectionId) {
-        g.addVertex(intersectionId);
-    }
-
-    /**
      * Add a Segment to the MapGraph without its name
      * @param sourceIntersectionId the origin/source Intersection id
      * @param targetIntersectionId the destination/target Intersection id
@@ -92,22 +85,37 @@ public class MapGraph extends CompleteGraph{
         shortestPaths = shortestPathAlgo.getManyToManyPaths(allAddresses, allAddresses);
         System.out.println(shortestPaths.getPath(1349383079L, 55444018L));
         for (Long address : allAddresses) {
-
+            for (Long anotherAddress : allAddresses) {
+//                if (address.equals(anotherAddress)) {
+//                    continue;
+//                }
+                ArrayList<Long> shortestRoute = new ArrayList<>();
+                GraphPath<Long, DefaultWeightedEdge> graphPath = shortestPaths.getPath(address, anotherAddress);
+                shortestRoute.addAll(graphPath.getVertexList());
+                solutions.put(address + " " + anotherAddress, shortestRoute);
+                graph[requests.indexOf(address)][requests.indexOf(anotherAddress)] = shortestPaths.getWeight(address, anotherAddress);
+            }
         }
-
+        for (int i1 = 0; i1 < graph.length; i1++) {
+            for (int i2 = 0; i2 < graph.length; i2++) {
+                System.out.print(graph[i1][i2] + " ");
+            }
+            System.out.println("\n");
+        }
+        System.out.println(solutions.size());
     }
 
 
 
     /**
-     * @param i
-     * @param j
+     * @param origin
+     * @param destination
      * @return the cost of arc (i,j) if (i,j) is an arc; -1 otherwise
      */
 //    @Override
-    public double getCost(long i, long j) {
-        return shortestPathAlgo.getPathWeight(i, j);
-    }
+//    public double getCost(long origin, long destination) {
+//        return shortestPaths.getWeight(origin, destination);
+//    }
 
 
 

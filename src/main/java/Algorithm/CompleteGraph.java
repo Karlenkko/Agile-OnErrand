@@ -124,7 +124,13 @@ public class CompleteGraph implements Graph {
 			}
 			initial();
 		}
-
+		for (int i1 = 0; i1 < graph.length; i1++) {
+			for (int i2 = 0; i2 < graph.length; i2++) {
+				System.out.print(graph[i1][i2] + " ");
+			}
+			System.out.println("\n");
+		}
+		System.out.println(solutions.size());
 	}
 
 	public void show() {
