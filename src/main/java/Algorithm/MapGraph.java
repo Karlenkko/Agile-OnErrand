@@ -118,6 +118,9 @@ public class MapGraph extends CompleteGraph{
 //    }
 
 
-
+    @Override
+    public boolean isArc(long origin, long destination) {
+        return super.isArc(origin, destination);
+    }
 }
 
