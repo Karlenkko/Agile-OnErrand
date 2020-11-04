@@ -14,14 +14,14 @@ public class AddRequestState4 implements State{
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         // TODO: Click on the intersection already exist and mark it as the intersection which conbine the old roadMap
         // It will also show a window to enter the new Window which can take the duration for the pickup and delivery
-        Intersection intersection = controller.getMission().NearestRequest(positionX,positionY);
+        Intersection intersection = controller.getMission().NearestRequest(positionX,positionY,window.getRate());
 
         ArrayList<Long> newAddList = controller.getMission().getNewAddList();
 
         if(!newAddList.contains(intersection.getId()) && controller.getMission().requestValid(newAddList.get(0), intersection.getId())){
             controller.getMission().addNewAdd(intersection.getId());
 
-            window.getGraphicalView().setPaintAdd(true,intersection);
+            window.getGraphicalView().setPaintAdd(true);
             window.getGraphicalView().repaint();
 
             PopupWindow popupWindow = new PopupWindow();

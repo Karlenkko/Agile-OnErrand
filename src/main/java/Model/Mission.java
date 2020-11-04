@@ -148,22 +148,22 @@ public class Mission extends Observable {
         Mission.arrivalTimeSchedule = timeSchedule;
     }
 
-    public Intersection NearestRequest(int x, int y) {
+    public Intersection NearestRequest(int x, int y, double rate) {
         Intersection nearest = depot;
-        double gapX = Math.abs(nearest.getX() - x);
-        double gapY = Math.abs(nearest.getY() - y);
+        double gapX = Math.abs(nearest.getX()/rate - x);
+        double gapY = Math.abs(nearest.getY()/rate - y);
         for (Request request : allRequests) {
             Intersection p1 = request.getPickup();
             Intersection p2 = request.getDelivery();
-            double gapX2 = Math.abs(p1.getX() - x);
-            double gapY2 = Math.abs(p1.getY() - y);
+            double gapX2 = Math.abs(p1.getX()/rate - x);
+            double gapY2 = Math.abs(p1.getY()/rate - y);
             if ((gapX2 + gapY2) < (gapX + gapY)) {
                 nearest = p1;
                 gapX = gapX2;
                 gapY = gapY2;
             }
-            gapX2 = Math.abs(p2.getX() - x);
-            gapY2 = Math.abs(p2.getY() - y);
+            gapX2 = Math.abs(p2.getX()/rate - x);
+            gapY2 = Math.abs(p2.getY()/rate - y);
             if ((gapX2 + gapY2) < (gapX + gapY)) {
                 nearest = p2;
                 gapX = gapX2;

@@ -134,4 +134,8 @@ public class Window extends JFrame{
     public TextualView getTextualView() {
         return textualView;
     }
+
+    public double getRate() {
+        return this.getGraphicalView().getRate();
+    }
 }
