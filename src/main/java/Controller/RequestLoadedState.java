@@ -22,7 +22,7 @@ public class RequestLoadedState implements State{
         // start TSP calculation
         TSP tsp = controller.getTsp();
         //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
-        Long[] solutions = tsp.searchSolution(10000, controller.getCompleteGraph());
+        Long[] solutions = tsp.searchSolution(120000, controller.getCompleteGraph());
         System.out.println("Solution of cost "+tsp.getSolutionCost());
         controller.getMission().updateTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
         window.getGraphicalView().setPaintTour(true);

@@ -1,7 +1,4 @@
-import Algorithm.CompleteGraph;
-import Algorithm.MapGraph;
-import Algorithm.TSP;
-import Algorithm.TSP1;
+import Algorithm.*;
 import Controller.Controller;
 import Model.Map;
 import Model.Mission;
@@ -14,7 +11,7 @@ public class BasicTest {
         Mission mission = new Mission();
         MapGraph mapGraph = new MapGraph();
         CompleteGraph completeGraph = new CompleteGraph();
-        TSP tsp = new TSP1();
+        TSP tsp = new TSP2();
 
         // TODO: initialisation tsp move to map
         // MAP: new tsp & mapgraph

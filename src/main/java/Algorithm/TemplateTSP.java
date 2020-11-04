@@ -1,9 +1,6 @@
 package Algorithm;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 public abstract class TemplateTSP implements TSP {
 	private Long[] bestSolAddress;
@@ -94,7 +91,13 @@ public abstract class TemplateTSP implements TSP {
 	private void branchAndBound(long currentVertex, Collection<Long> unvisited,
 			Collection<Long> visited, double currentCost){
 		if (System.currentTimeMillis() - startTime > timeLimit) {
-			return;
+			System.out.println("continue ?");
+			int go = new Scanner(System.in).nextInt();
+			if (go == 1) {
+				timeLimit += 10000;
+			} else {
+				return;
+			}
 		}
 	    if (unvisited.size() == 0){
 	    	if (g.isArc(currentVertex,g.getDepotAddress())){

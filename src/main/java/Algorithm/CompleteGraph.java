@@ -25,6 +25,7 @@ public class CompleteGraph implements Graph {
 
 	protected HashMap<Long, Long> allRequests;
 	public static double min;
+	public static HashMap<Long, Double> minHash;
 
 	protected Double[][] graph;
 
@@ -37,6 +38,7 @@ public class CompleteGraph implements Graph {
 		precedent = new HashMap<>();
 		allRequests = new HashMap<>();
 		min = 100000000;
+		minHash = new HashMap<>();
 	}
 
 	public void reset() {
@@ -47,6 +49,8 @@ public class CompleteGraph implements Graph {
 		solutions.clear();
 		requests.clear();
 		allRequests.clear();
+		min = 100000000;
+		minHash.clear();
 	}
 
 	public void setRequests(ArrayList<Request> allRequests, Intersection depot) {
@@ -115,6 +119,7 @@ public class CompleteGraph implements Graph {
 					if(min > length.get(grayAddress)) {
 						min = length.get(grayAddress);
 					}
+					updateMinHash(grayAddress, length.get(grayAddress));
 					graph[requests.indexOf(origin)][requests.indexOf(grayAddress)] = length.get(grayAddress);
 
 				}
@@ -133,6 +138,18 @@ public class CompleteGraph implements Graph {
 		}
 		System.out.println(solutions.size());
 	}
+
+
+	public void updateMinHash(Long id, Double length) {
+		if (minHash.containsKey(id)) {
+			if (minHash.get(id) > length) {
+				minHash.put(id, length);
+			}
+		} else {
+			minHash.put(id, length);
+		}
+	}
+
 
 	public void show() {
 		for (String id : solutions.keySet()) {
