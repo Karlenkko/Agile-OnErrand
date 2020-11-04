@@ -3,7 +3,6 @@ package Controller;
 import Algorithm.CompleteGraph;
 import Algorithm.MapGraph;
 import Algorithm.TSP;
-import Model.Intersection;
 import Model.Map;
 import Model.Mission;
 import View.Window;
@@ -23,7 +22,7 @@ public class Controller {
     protected final InitialState initialState = new InitialState();
     protected final MapLoadedState mapLoadedState = new MapLoadedState();
     protected final RequestLoadedState requestLoadedState = new RequestLoadedState();
-    protected final CalculateState calculateState = new CalculateState();
+    protected final CalculatedState calculatedState = new CalculatedState();
     protected final AddRequestState1 addRequestState1 = new AddRequestState1();
     protected final AddRequestState2 addRequestState2 = new AddRequestState2();
     protected final AddRequestState3 addRequestState3 = new AddRequestState3();
@@ -100,6 +99,8 @@ public class Controller {
     }
 
     public void addRequest(){ currentState.addRequest(this, window); }
+
+    public void deleteRequest(){ currentState.deleteRequest(this,window); }
     public void leftClick(int positionX, int positionY){ currentState.leftClick(this , window , positionX, positionY); }
 
     public void rightClick(){ currentState.rightClick(this, window);}

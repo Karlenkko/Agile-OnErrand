@@ -16,6 +16,7 @@ public interface State {
     default void loadMap(Controller controller, Window window) {
         try {
             XMLparser.parserMap(controller.getMap());
+            window.getGraphicalView().setFirst(false);
             window.getGraphicalView().setMapSize();
             window.getGraphicalView().setPaintRequest(false);
             window.getGraphicalView().setPaintTour(false);
@@ -35,7 +36,7 @@ public interface State {
            window.getGraphicalView().setPaintRequest(true);
            window.getGraphicalView().repaint();
            window.getTextualView().initiateRequestTable();
-           controller.setCurrentState(controller.calculateState);
+           controller.setCurrentState(controller.requestLoadedState);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "alert", JOptionPane.ERROR_MESSAGE);
@@ -57,6 +58,8 @@ public interface State {
     default void rightClick(Controller controller, Window window){
 
     }
+
+    default void deleteRequest(Controller controller, Window window){}
 
     default void validNewRequest(Controller controller, Window newWindow){}
 

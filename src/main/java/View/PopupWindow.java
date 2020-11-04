@@ -1,7 +1,11 @@
 package View;
 
+import Controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -16,9 +20,23 @@ public class PopupWindow extends JFrame {
     JTextField pickupField = new JTextField(20);
     JTextField deliveryField = new JTextField(20);
     JPanel buttons = new JPanel();
-    public PopupWindow(){
+    Controller controller;
+
+
+    public PopupWindow(Controller controller) {
+        this.controller = controller;
         JPanel pick = new JPanel();
         pickupField.addKeyListener(new KeyAdapter(){
+            public void keyTyped(KeyEvent e) {
+                int keyChar = e.getKeyChar();
+                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9){
+                }else{
+                    e.consume();
+                }
+            }
+        });
+
+        deliveryField.addKeyListener(new KeyAdapter(){
             public void keyTyped(KeyEvent e) {
                 int keyChar = e.getKeyChar();
                 if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9){
@@ -41,8 +59,42 @@ public class PopupWindow extends JFrame {
         buttons.add(cancel);
         jf.add(buttons, BorderLayout.SOUTH);
 
+        valid.addActionListener(new validButtonListener());
+        cancel.addActionListener(new returnActionListener());
+
         jf.pack();
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    public int getPickUpTime(){
+        return Integer.parseInt((pickupField.getText()));
+    }
+
+    public int getDeliveryTime(){
+        return Integer.parseInt((deliveryField.getText()));
+    }
+
+    class validButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO: Transmise the data of the pickup and delivery time to create a new Request.
+            int pickupTime = getPickUpTime();
+            int deliveryTime = getDeliveryTime();
+            controller.getMission().getNewRequest().setDeliveryDuration(pickupTime);
+            controller.getMission().getNewRequest().setPickupDuration(deliveryTime);
+
+            System.out.println("The pickup time is "+ getPickUpTime() +" seconds and the delivery time is " + getDeliveryTime() + " seconds");
+            jf.dispose();
+        }
+    }
+
+    class returnActionListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO: Go back to AddRequestState4
+
+            jf.dispose();
+        }
     }
 }

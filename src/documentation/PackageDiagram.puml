@@ -14,14 +14,21 @@ Package Controller{
     interface State
     Controller --> State
     InitialState ..|> State
-    CalculateState ..|> State
+    CalculatedState ..|> State
     MapLoadedState ..|> State
     RequestLoadedState ..|> State
+    AddRequestState1..|> State
+    AddRequestState2..|> State
+    AddRequestState3..|> State
+    AddRequestState4..|> State
+    AddRequestState5..|> State
 }
 Package Util{
     class XMLParser
     class XMLfileOpener
     class ExceptionXML
+    class TourSerializer
+
 
     XMLParser --> XMLfileOpener
 
@@ -34,6 +41,8 @@ Package Algorithm{
     class CompleteGraph
     class MapGraph
     class Seqlter
+
+
 
     TemplateTSP -> MapGraph
     Controller -up-> TSP
@@ -48,6 +57,14 @@ Package Model{
     class Mission
     class Request
     class Segment
+    class Observable
+
+    CompleteGraph --|> Mission
+    CompleteGraph --|> Map
+    Mission --|> Observable
+    TourSerializer --|> Map
+    TourSerializer --|> Mission
+    TourSerializer --|> Segment
 
     Map --> Intersection
     Map --> Segment
@@ -73,6 +90,10 @@ Package View{
     class GraphicalView
     class ButtonListener
     class MouseListener
+    interface Observer
+
+    TextualView ..|> Observer
+    GraphicalView ..|> Observer
 
     Controller --> Window
     Window --> TextualView
@@ -89,15 +110,7 @@ Package View{
     ButtonListener --> Controller
 
 }
-Package Observer{
-    interface Observer
-    class Observable
 
-    TextualView ..|> Observer
-    GraphicalView ..|> Observer
-
-    Mission --|> Observable
-}
 
 
 

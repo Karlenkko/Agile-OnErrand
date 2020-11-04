@@ -1,6 +1,5 @@
 package Model;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -14,6 +13,8 @@ public class Mission extends Observable {
     private static HashMap<Long, LocalTime> departureTimeSchedule;
     private final static double SPEED = 25.0/6.0; // m/s
 
+    private static ArrayList<Long> newAddList;
+    private static Request newRequest;
 
     /**
      * Constructor of the object Mission
@@ -26,6 +27,7 @@ public class Mission extends Observable {
         tourIntersections = new LinkedList<>();
         arrivalTimeSchedule = new HashMap<>();
         departureTimeSchedule = new HashMap<>();
+        newAddList = new ArrayList<>();
     }
 
     /**
@@ -146,22 +148,22 @@ public class Mission extends Observable {
         Mission.arrivalTimeSchedule = timeSchedule;
     }
 
-    public Intersection NearestRequest(int x, int y) {
+    public Intersection NearestRequest(int x, int y, double rate) {
         Intersection nearest = depot;
-        double gapX = Math.abs(nearest.getX() - x);
-        double gapY = Math.abs(nearest.getY() - y);
+        double gapX = Math.abs(nearest.getX()/rate - x);
+        double gapY = Math.abs(nearest.getY()/rate - y);
         for (Request request : allRequests) {
             Intersection p1 = request.getPickup();
             Intersection p2 = request.getDelivery();
-            double gapX2 = Math.abs(p1.getX() - x);
-            double gapY2 = Math.abs(p1.getY() - y);
+            double gapX2 = Math.abs(p1.getX()/rate - x);
+            double gapY2 = Math.abs(p1.getY()/rate - y);
             if ((gapX2 + gapY2) < (gapX + gapY)) {
                 nearest = p1;
                 gapX = gapX2;
                 gapY = gapY2;
             }
-            gapX2 = Math.abs(p2.getX() - x);
-            gapY2 = Math.abs(p2.getY() - y);
+            gapX2 = Math.abs(p2.getX()/rate - x);
+            gapY2 = Math.abs(p2.getY()/rate - y);
             if ((gapX2 + gapY2) < (gapX + gapY)) {
                 nearest = p2;
                 gapX = gapX2;
@@ -183,4 +185,41 @@ public class Mission extends Observable {
     public LinkedList<Long> getTourIntersections() {
         return tourIntersections;
     }
+
+    public ArrayList<Long> getNewAddList(){
+        return newAddList;
+    }
+
+    public void addNewAdd(Long id) {
+        newAddList.add(id);
+    }
+
+    public void resetNewAdd() {
+        newAddList.clear();
+    }
+
+    public void removeAdd() {
+        if (newAddList.size() != 0) {
+            newAddList.remove(newAddList.size()-1);
+        }
+    }
+
+    public Request getNewRequest() {
+        return newRequest;
+    }
+
+    public void setNewRequest(Request newRequest) {
+        Mission.newRequest = newRequest;
+    }
+
+    public boolean requestValid(Long idBefore, Long idAfter) {
+        for (Request request : allRequests) {
+            if (idAfter == request.getPickup().getId() && idBefore == request.getDelivery().getId()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }

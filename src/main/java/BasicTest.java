@@ -3,7 +3,6 @@ import Algorithm.MapGraph;
 import Algorithm.TSP;
 import Algorithm.TSP1;
 import Controller.Controller;
-import IHM.Meituan;
 import Model.Map;
 import Model.Mission;
 
@@ -16,6 +15,9 @@ public class BasicTest {
         MapGraph mapGraph = new MapGraph();
         CompleteGraph completeGraph = new CompleteGraph();
         TSP tsp = new TSP1();
+
+        // TODO: initialisation tsp move to map
+        // MAP: new tsp & mapgraph
         new Controller(map, mission, mapGraph, tsp, completeGraph);
     }
 }

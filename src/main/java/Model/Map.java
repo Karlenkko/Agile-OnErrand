@@ -38,6 +38,7 @@ public class Map {
         minY = Math.min(minY, intersection.getY());
         maxX = Math.max(maxX, intersection.getX());
         maxY = Math.max(maxY, intersection.getY());
+
     }
 
     /**
@@ -86,32 +87,34 @@ public class Map {
         return maxY;
     }
 
-    public void resizeIntersection(int width, int height) {
-        double rateX = (maxX - minX)/width;
-        double rateY = (maxY - minY)/height;
-        double rate = Math.max(rateX, rateY);
+    public double[] resizeIntersection() {
+        double deltaX = (maxX - minX);
+        double deltaY = (maxY - minY);
         for (Intersection intersection : allIntersections.values()) {
             double x = intersection.getX() - minX;
             double y = intersection.getY() - minY;
-            intersection.setX(x/rate);
-            intersection.setY(y/rate);
-            System.out.println(intersection.getX()+" "+intersection.getY());
+            intersection.setX(x);
+            intersection.setY(y);
         }
+        double[] delta = new double[2];
+        delta[0] = deltaX;
+        delta[1] = deltaY;
+        return delta;
     }
 
-    public Intersection NearestIntersection(int x, int y) {
+    public Intersection NearestIntersection(int x, int y, double rate) {
         Intersection nearest = null;
         double gapX = 0;
         double gapY = 0;
         for (Intersection p : allIntersections.values()) {
             if (nearest == null) {
                 nearest = p;
-                gapX = Math.abs(p.getX() - x);
-                gapY = Math.abs(p.getY() - y);
+                gapX = Math.abs(p.getX()/rate - x);
+                gapY = Math.abs(p.getY()/rate - y);
                 continue;
             }
-            double gapX2 = Math.abs(p.getX() - x);
-            double gapY2 = Math.abs(p.getY() - y);
+            double gapX2 = Math.abs(p.getX()/rate - x);
+            double gapY2 = Math.abs(p.getY()/rate - y);
             if ((gapX2 + gapY2) < (gapX + gapY)) {
                 nearest = p;
                 gapX = gapX2;

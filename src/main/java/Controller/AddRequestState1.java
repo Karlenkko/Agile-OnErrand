@@ -10,8 +10,9 @@ public class AddRequestState1 implements State {
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         // TODO: Click on the intersection already exist and mark it as the position where we cut the old roadMap
 
-        Intersection intersection = controller.getMission().NearestRequest(positionX,positionY);
-        window.getGraphicalView().setPaintAdd(true,intersection);
+        Intersection intersection = controller.getMission().NearestRequest(positionX,positionY, window.getRate());
+        controller.getMission().addNewAdd(intersection.getId());
+        window.getGraphicalView().setPaintAdd(true);
         window.getGraphicalView().repaint();
 
         controller.setCurrentState(controller.addRequestState2);
@@ -19,7 +20,7 @@ public class AddRequestState1 implements State {
 
     public void rightClick(Controller controller, Window window) {
         // TODO: Cancel the addition of the new request
-        controller.setCurrentState(controller.calculateState);
+        controller.setCurrentState(controller.calculatedState);
     }
 
 }

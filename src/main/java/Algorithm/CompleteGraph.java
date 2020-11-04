@@ -5,28 +5,26 @@ import Model.Request;
 import Model.Segment;
 import Model.Map;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 
 public class CompleteGraph implements Graph {
 
-	private HashMap<Long, ArrayList<Long>> toAddresses;
-	private HashMap<Long, ArrayList<Double>> toDistances;
-	private HashMap<Long, Double> length;
-	private HashMap<Long, Long> precedent;
-	private HashMap<String, ArrayList<Long>> solutions;
-	private ArrayList<Long> requests;
-	private ArrayList<Long> gray = new ArrayList<>();
-	private ArrayList<Long> black = new ArrayList<>();
+	protected HashMap<Long, ArrayList<Long>> toAddresses;
+	protected HashMap<Long, ArrayList<Double>> toDistances;
+	protected HashMap<Long, Double> length;
+	protected HashMap<Long, Long> precedent;
+	protected HashMap<String, ArrayList<Long>> solutions;
+	protected ArrayList<Long> requests;
+	protected ArrayList<Long> gray = new ArrayList<>();
+	protected ArrayList<Long> black = new ArrayList<>();
 
-	private HashMap<Long, Long> allRequests;
+	protected HashMap<Long, Long> allRequests;
 	public static double min;
 
-	private Double[][] graph;
+	protected Double[][] graph;
 
 	public CompleteGraph(){
 		toAddresses = new HashMap<>();
@@ -76,7 +74,8 @@ public class CompleteGraph implements Graph {
 		}
 	}
 
-	public void Dijistra() {
+	public void dijkstra() {
+		int i = 1;
 		for(Long origin : requests) {
 			gray.add(origin);
 			length.put(origin, 0.0);
@@ -117,13 +116,20 @@ public class CompleteGraph implements Graph {
 					graph[requests.indexOf(origin)][requests.indexOf(grayAddress)] = length.get(grayAddress);
 
 				}
-				if (solutions.size() == requests.size()) {
+				if (solutions.size() == requests.size() * i) {
+					++ i;
 					break;
 				}
 			}
 			initial();
 		}
-
+		for (int i1 = 0; i1 < graph.length; i1++) {
+			for (int i2 = 0; i2 < graph.length; i2++) {
+				System.out.print(graph[i1][i2] + " ");
+			}
+			System.out.println("\n");
+		}
+		System.out.println(solutions.size());
 	}
 
 	public void show() {

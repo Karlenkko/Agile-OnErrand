@@ -10,7 +10,7 @@ public class AddRequestState5 implements State{
     public void validNewRequest(Controller controller, Window newWindow) {
         // TODO: validate the two duration entered and then create a new Object Request.
 
-        controller.setCurrentState(controller.calculateState);
+        controller.setCurrentState(controller.calculatedState);
     }
 
     public void cancelNewRequest(Controller controller, Window newWindow){
