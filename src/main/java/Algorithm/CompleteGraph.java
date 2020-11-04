@@ -5,11 +5,9 @@ import Model.Request;
 import Model.Segment;
 import Model.Map;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 
 public class CompleteGraph implements Graph {
@@ -119,12 +117,19 @@ public class CompleteGraph implements Graph {
 
 				}
 				if (solutions.size() == requests.size() * i) {
+					++ i;
 					break;
 				}
 			}
 			initial();
 		}
-
+		for (int i1 = 0; i1 < graph.length; i1++) {
+			for (int i2 = 0; i2 < graph.length; i2++) {
+				System.out.print(graph[i1][i2] + " ");
+			}
+			System.out.println("\n");
+		}
+		System.out.println(solutions.size());
 	}
 
 	public void show() {
