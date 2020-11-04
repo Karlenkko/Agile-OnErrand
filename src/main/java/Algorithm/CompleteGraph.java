@@ -54,7 +54,8 @@ public class CompleteGraph implements Graph {
 			requests.add(r.getDelivery().getId());
 			this.allRequests.put(r.getPickup().getId(),r.getDelivery().getId());
 		}
-
+		System.out.println(requests);
+		System.out.println(this.allRequests);
 		graph = new Double[requests.size()][requests.size()];
 		for (int i = 0; i < graph.length; ++i) {
 			for (int j = 0; j < graph[i].length; ++j) {
@@ -123,13 +124,6 @@ public class CompleteGraph implements Graph {
 			}
 			initial();
 		}
-		for (int i1 = 0; i1 < graph.length; i1++) {
-			for (int i2 = 0; i2 < graph.length; i2++) {
-				System.out.print(graph[i1][i2] + " ");
-			}
-			System.out.println("\n");
-		}
-		System.out.println(solutions.size());
 	}
 
 	public void show() {
@@ -176,6 +170,7 @@ public class CompleteGraph implements Graph {
 		int j = requests.indexOf(destination);
 		if (i<0 || i>=getNbVertices() || j<0 || j>=getNbVertices())
 			return -1;
+
 		return graph[i][j];
 	}
 
@@ -198,6 +193,7 @@ public class CompleteGraph implements Graph {
 	}
 
 	public boolean filter(Long nextVertex, Collection<Long> unvisited) {
+		System.out.println(nextVertex);
 		if (allRequests.containsKey(nextVertex)){
 			return true;
 		} else {

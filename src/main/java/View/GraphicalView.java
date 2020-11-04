@@ -1,6 +1,5 @@
 package View;
 
-import Algorithm.TSP;
 import Model.*;
 
 import javax.swing.*;
@@ -21,7 +20,6 @@ public class GraphicalView extends JPanel implements Observer {
     private int viewSize = DEFAULT_SIZE;    // always a square
     private Map map;
     private Mission mission;
-    private TSP tsp;
     private Graphics g;
     private static boolean paintMap;
     private static boolean paintRequest;
@@ -62,15 +60,13 @@ public class GraphicalView extends JPanel implements Observer {
      * @param mission the mission whose informations are filled that will be painted
      * @param window the window where the GraphicalView will be on
      */
-    // TODO:removce tsp
-    public GraphicalView(Map map, Mission mission, Window window, TSP tsp) {
+    public GraphicalView(Map map, Mission mission, Window window) {
         super();
         mission.addObserver(this);
         setBackground(Color.white);
         window.getContentPane().add(this);
         this.map = map;
         this.mission = mission;
-        this.tsp = tsp;
         paintMap = false;
         paintRequest = false;
         paintTour = false;
@@ -220,7 +216,7 @@ public class GraphicalView extends JPanel implements Observer {
 
         if(paintTour){
             HashMap<Long, Intersection> allIntersections = map.getAllIntersections();
-            List<Long> solution = tsp.getBestSolIntersection();
+            List<Long> solution = mission.getTourIntersections();
             for(int i = 1; i < solution.size(); ++i) {
                 g2d.setColor(Color.GREEN);
                 g2d.setStroke(new BasicStroke(2));

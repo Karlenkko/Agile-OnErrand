@@ -83,7 +83,7 @@ public class MapGraph extends CompleteGraph{
     public void dijkstra() {
         shortestPathAlgo = new DijkstraManyToManyShortestPaths<>(g);
         shortestPaths = shortestPathAlgo.getManyToManyPaths(allAddresses, allAddresses);
-        System.out.println(shortestPaths.getPath(1349383079L, 55444018L));
+//        System.out.println(shortestPaths.getPath(1349383079L, 55444018L));
         for (Long address : allAddresses) {
             for (Long anotherAddress : allAddresses) {
 //                if (address.equals(anotherAddress)) {
@@ -96,13 +96,6 @@ public class MapGraph extends CompleteGraph{
                 graph[requests.indexOf(address)][requests.indexOf(anotherAddress)] = shortestPaths.getWeight(address, anotherAddress);
             }
         }
-        for (int i1 = 0; i1 < graph.length; i1++) {
-            for (int i2 = 0; i2 < graph.length; i2++) {
-                System.out.print(graph[i1][i2] + " ");
-            }
-            System.out.println("\n");
-        }
-        System.out.println(solutions.size());
     }
 
 

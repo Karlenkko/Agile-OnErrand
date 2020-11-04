@@ -38,8 +38,8 @@ public abstract class TemplateTSP implements TSP {
 
 		for (int i = 0; i < bestSolAddress.length; i ++) {
 			bestSolAddressCost[i] = g.getCost(bestSolAddress[i], bestSolAddress[(i + 1 >= bestSolAddress.length? 0 : i + 1)]);
-			System.out.print(bestSolAddressCost[i]);
-			System.out.print("  ,");
+//			System.out.print(bestSolAddressCost[i]);
+//			System.out.print("  ,");
 		}
 //		System.out.println();
 //		System.out.println(bestSolIntersection);
@@ -104,10 +104,13 @@ public abstract class TemplateTSP implements TSP {
 	    		}
 	    	}
 	    } else if (currentCost+bound(currentVertex,unvisited) < bestSolCost){
+//	    	System.out.println(currentVertex);
 			Iterator<Long> it = iterator(currentVertex, unvisited, g);
 	        while (it.hasNext()){
 	        	long nextVertex = it.next();
+//	        	System.out.println();
 	        	if(!g.filter(nextVertex, unvisited)) {
+//	        		System.out.println(nextVertex);
 	        		continue;
 				}
 	        	visited.add(nextVertex);
@@ -122,16 +125,10 @@ public abstract class TemplateTSP implements TSP {
 	}
 
 	private void completeTour() {
-//		System.out.println("SSSSSS");
-//
-//		for (String s : g.getSolutions().keySet()) {
-//			System.out.println(s);
-//		}
-//		System.out.println("SSSSSS");
 
-		for (Long l : bestSolAddress) {
-			System.out.println(l);
-		}
+//		for (Long l : bestSolAddress) {
+//			System.out.println(l);
+//		}
 
 		for (int i = 1; i < bestSolAddress.length; i++) {
 //			System.out.println(bestSolAddress[i-1]+" "+bestSolAddress[i]);

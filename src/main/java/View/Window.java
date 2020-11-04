@@ -66,7 +66,7 @@ public class Window extends JFrame{
     public Window(Map map, Mission mission, TSP tsp, Controller controller){
         setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
         createButtons(controller);
-        graphicalView = new GraphicalView(map, mission, this, tsp);
+        graphicalView = new GraphicalView(map, mission, this);
         textualView = new TextualView(mission, this);
         setWindowSize();
         System.out.println(textualView.getWidth());
