@@ -83,7 +83,6 @@ public class MapGraph extends CompleteGraph{
     public void dijkstra() {
         shortestPathAlgo = new DijkstraManyToManyShortestPaths<>(g);
         shortestPaths = shortestPathAlgo.getManyToManyPaths(allAddresses, allAddresses);
-//        System.out.println(shortestPaths.getPath(1349383079L, 55444018L));
         for (Long address : allAddresses) {
             for (Long anotherAddress : allAddresses) {
 //                if (address.equals(anotherAddress)) {
@@ -94,6 +93,9 @@ public class MapGraph extends CompleteGraph{
                 shortestRoute.addAll(graphPath.getVertexList());
                 solutions.put(address + " " + anotherAddress, shortestRoute);
                 graph[requests.indexOf(address)][requests.indexOf(anotherAddress)] = shortestPaths.getWeight(address, anotherAddress);
+                if (min > graph[requests.indexOf(address)][requests.indexOf(anotherAddress)]) {
+                    min = graph[requests.indexOf(address)][requests.indexOf(anotherAddress)];
+                }
             }
         }
     }
@@ -105,15 +107,10 @@ public class MapGraph extends CompleteGraph{
      * @param destination
      * @return the cost of arc (i,j) if (i,j) is an arc; -1 otherwise
      */
-//    @Override
-//    public double getCost(long origin, long destination) {
-//        return shortestPaths.getWeight(origin, destination);
-//    }
-
-
     @Override
-    public boolean isArc(long origin, long destination) {
-        return super.isArc(origin, destination);
+    public double getCost(long origin, long destination) {
+        return shortestPaths.getWeight(origin, destination);
     }
+
 }
 
