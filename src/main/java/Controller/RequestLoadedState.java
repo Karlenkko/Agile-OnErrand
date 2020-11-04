@@ -15,7 +15,7 @@ public class RequestLoadedState implements State{
         controller.getCompleteGraph().reset();
         controller.getCompleteGraph().fillGraph(controller.getMap());
         controller.getCompleteGraph().setRequests(controller.getMission().getAllRequests(), controller.getMission().getDepot());
-        controller.getCompleteGraph().Dijistra();
+        controller.getCompleteGraph().dijkstra();
 //        controller.getCompleteGraph().show();
         System.out.println("test...............");
 

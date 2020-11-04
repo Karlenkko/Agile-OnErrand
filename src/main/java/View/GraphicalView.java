@@ -62,6 +62,7 @@ public class GraphicalView extends JPanel implements Observer {
      * @param mission the mission whose informations are filled that will be painted
      * @param window the window where the GraphicalView will be on
      */
+    // TODO:removce tsp
     public GraphicalView(Map map, Mission mission, Window window, TSP tsp) {
         super();
         mission.addObserver(this);
