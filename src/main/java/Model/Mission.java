@@ -13,7 +13,8 @@ public class Mission extends Observable {
     private static HashMap<Long, LocalTime> departureTimeSchedule;
     private final static double SPEED = 25.0/6.0; // m/s
 
-    private static ArrayList<Long> newAddLinkedList;
+    private static ArrayList<Long> newAddList;
+
     /**
      * Constructor of the object Mission
      */
@@ -25,6 +26,7 @@ public class Mission extends Observable {
         tourIntersections = new LinkedList<>();
         arrivalTimeSchedule = new HashMap<>();
         departureTimeSchedule = new HashMap<>();
+        newAddList = new ArrayList<>();
     }
 
     /**
@@ -183,11 +185,17 @@ public class Mission extends Observable {
         return tourIntersections;
     }
 
-    public ArrayList<Long> getNewAddLinkedList(){
-        return newAddLinkedList;
+    public ArrayList<Long> getNewAddList(){
+        return newAddList;
     }
 
-    public void setNewAddLinkedList(ArrayList<Long> newAddLinkedList) {
-        this.newAddLinkedList = newAddLinkedList;
+    public void addNewAdd(Long id) {
+        newAddList.add(id);
     }
+
+    public void resetNewAdd() {
+        newAddList.clear();
+    }
+
+
 }
