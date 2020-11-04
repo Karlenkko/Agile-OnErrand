@@ -36,4 +36,12 @@ public class Request {
     public int getDeliveryDuration() {
         return deliveryDuration;
     }
+
+    public void setPickupDuration(int pickupDuration) {
+        this.pickupDuration = pickupDuration;
+    }
+
+    public void setDeliveryDuration(int deliveryDuration) {
+        this.deliveryDuration = deliveryDuration;
+    }
 }
