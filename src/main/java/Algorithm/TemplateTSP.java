@@ -11,6 +11,7 @@ public abstract class TemplateTSP implements TSP {
 	private double bestSolCost;
 	private int timeLimit;
 	private long startTime;
+	private boolean until = true;
 	
 	public Long[] searchSolution(int timeLimit, CompleteGraph g){
 		if (timeLimit <= 0) return null;
@@ -91,10 +92,15 @@ public abstract class TemplateTSP implements TSP {
 	private void branchAndBound(long currentVertex, Collection<Long> unvisited,
 			Collection<Long> visited, double currentCost){
 		if (System.currentTimeMillis() - startTime > timeLimit) {
-			System.out.println("continue ?");
-			int go = new Scanner(System.in).nextInt();
-			if (go == 1) {
-				timeLimit += 10000;
+			if (until){
+				System.out.println("continue ?");
+				int go = new Scanner(System.in).nextInt();
+				if (go == 1) {
+					timeLimit += 10000;
+				} else {
+					until = false;
+					return;
+				}
 			} else {
 				return;
 			}

@@ -3,7 +3,7 @@ package Algorithm;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class TSP2 extends TemplateTSP {
+public class TSP2 extends TSP1 {
 
 
 
