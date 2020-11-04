@@ -52,6 +52,10 @@ public class GraphicalView extends JPanel implements Observer {
     private double maxY = 0;
 
     private boolean first = false;
+
+    private double locationX = 0;
+    private double locationY = 0;
+
     /**
      * Constructor of object GraphicalView using the map, mission and the window
      * @param map the map whose informations are filled that will be painted
@@ -137,27 +141,39 @@ public class GraphicalView extends JPanel implements Observer {
         }
 
         Graphics2D g2d = (Graphics2D) g;
+        AffineTransform oldTrans = g2d.getTransform();
         // zoom or rotate
         if (zoomer) {
 
             at = new AffineTransform();
             at.scale(zoomFactor, zoomFactor);
 
-            double zoomableX = Math.max(this.getWidth() * (zoomFactor - 1), 0);
-            double zoomableY = Math.max(this.getHeight() * (zoomFactor - 1), 0);
+            if (zoomFactor > 1) {
+                //transX = (delta[0]/rate)/2 - (mouseX * zoomFactor);
+                //transY = (delta[1]/rate)/3 - (mouseY * zoomFactor);
+                transX = -mouseX * (zoomFactor - 1);
+                transY = -mouseY * (zoomFactor - 1);
+                //transX = - (delta[0]/rate) * (zoomFactor - 1) / 2;
+                //transY = - (delta[1]/rate) * (zoomFactor - 1) / 2;
 
-            transX = mouseX * (zoomFactor - 1) ;
-            transY = mouseY * (zoomFactor - 1) ;
-            transX = Math.min(zoomableX, transX);
-            transY = Math.min(zoomableY, transY);
+            }else {
+                transX = 0;
+                transY = 0;
+            }
+
+            //transX = Math.min(zoomableX, transX);
+            //transY = Math.min(zoomableY, transY);
             zoomer = false;
             g2d.transform(at);
-            g2d.translate(-transX, -transY);
+            g2d.translate(transX/zoomFactor, transY/zoomFactor);
         }
-//        if (dragger) {
-//            g2d.translate(-transX, -transY);
-//            dragger = false;
-//        }
+        if (dragger) {
+            at = new AffineTransform();
+            at.scale(zoomFactor, zoomFactor);
+            g2d.transform(at);
+            g2d.translate(transX/zoomFactor, transY/zoomFactor);
+            dragger = false;
+        }
         HashMap<Long, Intersection> intersections = map.getAllIntersections();
         for (Intersection intersection : intersections.values()) {
 
@@ -226,7 +242,8 @@ public class GraphicalView extends JPanel implements Observer {
             g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
         }
 
-
+        g2d.translate(-transX, -transY);
+        g2d.setTransform(oldTrans);
 
     }
 
@@ -270,8 +287,11 @@ public class GraphicalView extends JPanel implements Observer {
     }
 
     public void setMouseX(double mouseX) {
-        this.mouseX = (mouseX + transX) / zoomFactor;
-        this.mouseX = Math.min(this.getWidth(), this.mouseX);
+        locationX = mouseX;
+        this.mouseX = (mouseX - transX) / zoomFactor;
+        this.mouseX = Math.max(this.mouseX, 0);
+        this.mouseX = Math.min(this.mouseX, delta[0]/rate);
+
     }
 
     public double getMouseY() {
@@ -279,8 +299,11 @@ public class GraphicalView extends JPanel implements Observer {
     }
 
     public void setMouseY(double mouseY) {
-        this.mouseY = (mouseY + transY) / zoomFactor;
-        this.mouseX = Math.min(this.getHeight(), this.mouseY);
+        locationY = mouseY;
+        this.mouseY = (mouseY - transY) / zoomFactor;
+        this.mouseY = Math.max(this.mouseY, 0);
+        this.mouseY = Math.min(this.mouseY, delta[1]/rate);
+
 
     }
 
@@ -288,16 +311,16 @@ public class GraphicalView extends JPanel implements Observer {
         return transX;
     }
 
-    public void setTransX(double transX) {
-        this.transX = transX;
+    public void addTransX(double transX) {
+        this.transX += (transX/10);
     }
 
     public double getTransY() {
         return transY;
     }
 
-    public void setTransY(double transY) {
-        this.transY = transY;
+    public void addTransY(double transY) {
+        this.transY += (transY/10);
     }
 
     public void setDragger(boolean dragger) {
