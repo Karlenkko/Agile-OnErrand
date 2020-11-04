@@ -16,6 +16,7 @@ public interface State {
     default void loadMap(Controller controller, Window window) {
         try {
             XMLparser.parserMap(controller.getMap());
+            window.getGraphicalView().setFirst(false);
             window.getGraphicalView().setMapSize();
             window.getGraphicalView().setPaintRequest(false);
             window.getGraphicalView().setPaintTour(false);

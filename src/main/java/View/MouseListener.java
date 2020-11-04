@@ -3,6 +3,7 @@ package View;
 import Controller.Controller;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -14,6 +15,7 @@ public class MouseListener extends MouseAdapter {
 
     private double dragStartX;
     private double dragStartY;
+    private Point mousePt;
 
     public MouseListener(Controller controller, GraphicalView graphicalView, Window window) {
         this.controller = controller;
@@ -33,34 +35,33 @@ public class MouseListener extends MouseAdapter {
 //        System.out.println(e.getWheelRotation());
         //Zoom in
         if(e.getWheelRotation()<0){
+            window.getGraphicalView().setMouseX(e.getX()-window.getInsets().left);
+            window.getGraphicalView().setMouseY(e.getY()-window.getInsets().top);
             window.getGraphicalView().setZoomFactor(1.1*window.getGraphicalView().getZoomFactor());
-            window.getGraphicalView().setMouseX(Math.max(e.getX(), 0));
-            window.getGraphicalView().setMouseY(Math.max(e.getY(), 0));
             window.getGraphicalView().repaint();
         }
         //Zoom out
         if(e.getWheelRotation()>0){
+            window.getGraphicalView().setMouseX(e.getX()-window.getInsets().left);
+            window.getGraphicalView().setMouseY(e.getY()-window.getInsets().top);
             window.getGraphicalView().setZoomFactor(window.getGraphicalView().getZoomFactor()/1.1);
-            window.getGraphicalView().setMouseX(Math.max(e.getX() , 0));
-            window.getGraphicalView().setMouseY(Math.max(e.getY() , 0));
             window.getGraphicalView().repaint();
         }
     }
 
+    @Override
+    public void mousePressed(MouseEvent e) {
+        mousePt = e.getPoint();
+    }
 
-//    @Override
-//    public void mouseDragged(MouseEvent e) {
-//        super.mouseDragged(e);
-//
-//        System.out.println(dragStartX);
-//        System.out.println(dragStartY);
-//        window.getGraphicalView().setDragger(true);
-//        window.getGraphicalView().setTransX(e.getX() - dragStartX);
-//        window.getGraphicalView().setTransX(e.getY() - dragStartY);
-//        window.getGraphicalView().repaint();
-//        dragStartX = e.getX();
-//        dragStartY = e.getY();
-//    }
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        super.mouseDragged(e);
+        window.getGraphicalView().setDragger(true);
+        window.getGraphicalView().addTransX(e.getX() - mousePt.getX());
+        window.getGraphicalView().addTransY(e.getY() - mousePt.getY());
+        window.getGraphicalView().repaint();
+    }
 
 //    @Override
 //    public void mouseEntered(MouseEvent e) {
