@@ -10,11 +10,24 @@ public class AddRequestState2 implements State{
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         // TODO: Click on the intersection and make it as the pickup point of the new request
 
-        Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY);
-        window.getGraphicalView().setPaintAdd(true,intersection);
-        window.getGraphicalView().repaint();
+        Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY,window.getRate());
+        System.out.println(intersection.getId());
 
-        controller.setCurrentState(controller.addRequestState3);
+        if(!controller.getMission().getNewAddList().contains(intersection.getId())){
+            controller.getMission().addNewAdd(intersection.getId());
+
+            System.out.println("aaaa");
+
+            window.getGraphicalView().setPaintAdd(true);
+            window.getGraphicalView().repaint();
+
+            controller.setCurrentState(controller.addRequestState3);
+
+        }else{
+            System.out.println("You have selected the same point. Please choose another point.");
+        }
+
+
     }
 
     public void rightClick(Controller controller, Window window) {

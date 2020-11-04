@@ -235,12 +235,16 @@ public class GraphicalView extends JPanel implements Observer {
         }
 
         if (paintAdd) {
-            double x = intersection.getX();
-            double y = intersection.getY();
-            System.out.println(x+" "+y);
-            g2d.setColor(Color.MAGENTA);
-            g2d.setStroke(new BasicStroke(6));
-            g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
+            for(Long id : mission.getNewAddList()) {
+                Intersection intersection = map.getAllIntersections().get(id);
+                double x = intersection.getX();
+                double y = intersection.getY();
+                System.out.println(x+" "+y);
+                g2d.setColor(Color.MAGENTA);
+                g2d.setStroke(new BasicStroke(6));
+                g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
+            }
+
         }
 
         g2d.translate(-transX, -transY);
@@ -269,9 +273,8 @@ public class GraphicalView extends JPanel implements Observer {
         GraphicalView.paintTour = paintTour;
     }
 
-    public void setPaintAdd(boolean paintAdd, Intersection intersection) {
+    public void setPaintAdd(boolean paintAdd) {
         GraphicalView.paintAdd = paintAdd;
-        this.intersection = intersection;
     }
 
 
@@ -326,5 +329,9 @@ public class GraphicalView extends JPanel implements Observer {
 
     public void setDragger(boolean dragger) {
         this.dragger = dragger;
+    }
+
+    public double getRate() {
+        return rate;
     }
 }

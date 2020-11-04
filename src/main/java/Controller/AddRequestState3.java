@@ -9,10 +9,18 @@ public class AddRequestState3 implements State{
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         // TODO: Click on the intersection and make it as the delivery point of the new request
-        Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY);
-        window.getGraphicalView().setPaintAdd(true,intersection);
-        window.getGraphicalView().repaint();
-        controller.setCurrentState(controller.addRequestState4);
+        Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY,window.getRate());
+        if(!controller.getMission().getNewAddList().contains(intersection.getId())){
+            controller.getMission().addNewAdd(intersection.getId());
+
+            window.getGraphicalView().setPaintAdd(true);
+            window.getGraphicalView().repaint();
+
+            controller.setCurrentState(controller.addRequestState4);
+
+        }else{
+            System.out.println("You have selected the same point. Please choose another point.");
+        }
     }
 
     public void rightClick(Controller controller, Window window) {

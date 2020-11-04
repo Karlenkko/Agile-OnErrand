@@ -102,19 +102,19 @@ public class Map {
         return delta;
     }
 
-    public Intersection NearestIntersection(int x, int y) {
+    public Intersection NearestIntersection(int x, int y, double rate) {
         Intersection nearest = null;
         double gapX = 0;
         double gapY = 0;
         for (Intersection p : allIntersections.values()) {
             if (nearest == null) {
                 nearest = p;
-                gapX = Math.abs(p.getX() - x);
-                gapY = Math.abs(p.getY() - y);
+                gapX = Math.abs(p.getX()/rate - x);
+                gapY = Math.abs(p.getY()/rate - y);
                 continue;
             }
-            double gapX2 = Math.abs(p.getX() - x);
-            double gapY2 = Math.abs(p.getY() - y);
+            double gapX2 = Math.abs(p.getX()/rate - x);
+            double gapY2 = Math.abs(p.getY()/rate - y);
             if ((gapX2 + gapY2) < (gapX + gapY)) {
                 nearest = p;
                 gapX = gapX2;
