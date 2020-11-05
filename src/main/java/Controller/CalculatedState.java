@@ -34,7 +34,7 @@ public class CalculatedState implements State{
         //TODO:Click on the button "add request to add two points of pickup and delivery
 
         controller.setCurrentState(controller.addRequestState1);
-
+        System.out.println("addRequest");
     }
 
     public void deleteRequest(Controller controller, Window window){

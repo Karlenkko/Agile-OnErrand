@@ -231,6 +231,12 @@ public class Mission extends Observable {
         newAddList.clear();
     }
 
+    public void updateAllRequests() {
+        allRequests.add(newRequest);
+        resetNewAdd();
+        setNewRequest(null);
+    }
+
     public void removeAdd() {
         if (newAddList.size() != 0) {
             newAddList.remove(newAddList.size()-1);

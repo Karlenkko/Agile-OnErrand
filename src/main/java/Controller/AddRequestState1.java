@@ -9,8 +9,11 @@ public class AddRequestState1 implements State {
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         // TODO: Click on the intersection already exist and mark it as the position where we cut the old roadMap
+        System.out.println("addState1");
 
         Intersection intersection = controller.getMission().NearestRequest(positionX,positionY, window.getRate());
+        System.out.println(intersection.getId());
+
         controller.getMission().addNewAdd(intersection.getId());
         window.getGraphicalView().setPaintAdd(true);
         window.getGraphicalView().repaint();

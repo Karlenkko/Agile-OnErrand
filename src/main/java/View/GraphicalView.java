@@ -231,16 +231,18 @@ public class GraphicalView extends JPanel implements Observer {
         }
 
         if (paintAdd) {
-            for(Long id : mission.getNewAddList()) {
-                Intersection intersection = map.getAllIntersections().get(id);
-                double x = intersection.getX();
-                double y = intersection.getY();
-                System.out.println(x+" "+y);
-                g2d.setColor(Color.MAGENTA);
-                g2d.setStroke(new BasicStroke(6));
-                g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
+            if(mission.getNewAddList().size() != 0) {
+                for(Long id : mission.getNewAddList()) {
+                    System.out.println("in");
+                    Intersection intersection = map.getAllIntersections().get(id);
+                    double x = intersection.getX();
+                    double y = intersection.getY();
+                    System.out.println(x+" "+y);
+                    g2d.setColor(Color.MAGENTA);
+                    g2d.setStroke(new BasicStroke(6));
+                    g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
+                }
             }
-
         }
 
         g2d.translate(-transX, -transY);
