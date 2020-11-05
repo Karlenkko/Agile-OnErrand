@@ -11,7 +11,7 @@ public class BasicTest {
         Mission mission = new Mission();
         MapGraph mapGraph = new MapGraph();
         CompleteGraph completeGraph = new CompleteGraph();
-        TSP tsp = new TSP2();
+        TSP tsp = new TSP1();
 
         // TODO: initialisation tsp move to map
         // MAP: new tsp & mapgraph

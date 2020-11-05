@@ -120,6 +120,36 @@ public class Mission extends Observable {
         System.out.println(arrivalTimeSchedule);
     }
 
+    public void addTour(Long[] sequence, List<Long> bestSolIntersection, double[] interAddressLength) {
+
+
+        int start = tour.indexOf(sequence[0]);
+        int end = tour.indexOf(sequence[sequence.length-1]);
+        for (int i = start+1; i<end; ++i) {
+            System.out.println(tour.remove(start+1));
+
+        }
+        for (int i = 1; i < sequence.length-1; ++i) {
+            tour.add(start+i, sequence[i]);
+
+        }
+
+        System.out.println("bestSolution");
+        for(Long l : tourIntersections) {
+            System.out.print(l+" ");
+        }
+        System.out.println("bestSolution");
+
+        start = tourIntersections.indexOf(sequence[0]);
+        end = tourIntersections.indexOf(sequence[sequence.length-1]);
+        for (int i = start+1; i<end; ++i) {
+            tourIntersections.remove(start+1);
+        }
+        for (int i = 1; i < bestSolIntersection.size()-1; ++i) {
+            tourIntersections.add(start+i, bestSolIntersection.get(i));
+        }
+
+    }
 
     public void initialTour() {
         tour.clear();
@@ -137,7 +167,10 @@ public class Mission extends Observable {
      * @param tour the new tour for the mission
      */
     public void setTour(LinkedList<Long> tour) {
-        Mission.tour = tour;
+        this.tour.set(0, tour.get(0));
+        for(int i = 1; i < tour.size(); ++i) {
+            this.tour.set(i, tour.get(tour.size()-i));
+        }
     }
 
     /**

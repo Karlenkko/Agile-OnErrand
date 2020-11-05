@@ -28,7 +28,7 @@ public class AddRequestState4 implements State{
             System.out.println(controller.getMission().getNewRequest());
 
             // need for further discussion
-            controller.setCurrentState(controller.calculatedState);
+            controller.setCurrentState(controller.addRequestState5);
 
         }else if(controller.getMission().requestValid(newAddList.get(0), intersection.getId())){
             System.out.println("The first point chosen can't be the delivery point of the last point chosen.");

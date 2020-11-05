@@ -80,7 +80,7 @@ public class MapGraph extends CompleteGraph{
      * Calculate the shortest paths among all pickup and delivery
      */
     @Override
-    public void dijkstra() {
+    public void dijkstra(boolean recalcul) {
         shortestPathAlgo = new DijkstraManyToManyShortestPaths<>(g);
         shortestPaths = shortestPathAlgo.getManyToManyPaths(allAddresses, allAddresses);
         for (Long address : allAddresses) {
