@@ -4,7 +4,7 @@ public interface Graph {
 	/**
 	 * @return the number of vertices in <code>this</code>
 	 */
-	public abstract int getNbVertices();
+	public abstract int getNbVertices(boolean recalcul);
 
 	/**
 	 * @param i 

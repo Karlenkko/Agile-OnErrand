@@ -41,7 +41,7 @@ public class Controller {
         this.mission = mission;
         this.mapGraph = mapGraph;
         this.tsp = tsp;
-        this.completeGraph = mapGraph;
+        this.completeGraph = completeGraph;
         window = new Window(this.map, this.mission, tsp, this);
         currentState = initialState;
     }

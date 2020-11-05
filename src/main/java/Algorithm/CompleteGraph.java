@@ -8,6 +8,7 @@ import Model.Map;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 
 public class CompleteGraph implements Graph {
@@ -25,18 +26,26 @@ public class CompleteGraph implements Graph {
 	public static double min;
 	public static HashMap<Long, Double> minHash;
 
+	protected ArrayList<Long> recalculatedRequests;
+
 	protected Double[][] graph;
+	protected Double[][] newgraph;
+
+	protected HashMap<String, ArrayList<Long>> newSolutions;
 
 	public CompleteGraph(){
 		toAddresses = new HashMap<>();
 		toDistances = new HashMap<>();
 		requests = new ArrayList<>();
 		solutions = new HashMap<>();
+		newSolutions= new HashMap<>();
 		length = new HashMap<>();
 		precedent = new HashMap<>();
 		allRequests = new HashMap<>();
+		recalculatedRequests = new ArrayList<>();
 		min = 100000000;
 		minHash = new HashMap<>();
+
 	}
 
 	public void reset() {
@@ -45,10 +54,52 @@ public class CompleteGraph implements Graph {
 		length.clear();
 		precedent.clear();
 		solutions.clear();
+		newSolutions.clear();
 		requests.clear();
+		recalculatedRequests.clear();
 		allRequests.clear();
 		min = 100000000;
 		minHash.clear();
+	}
+
+	public void setRecalculatedRequests(ArrayList<Long> addRequestList, LinkedList<Long> tour,Request newRequest) {
+		Long before = addRequestList.get(0);
+		Long after = addRequestList.get(3);
+		this.allRequests.put(newRequest.getPickup().getId(),newRequest.getDelivery().getId());
+		recalculatedRequests.add(addRequestList.get(0));
+		recalculatedRequests.add(addRequestList.get(1));
+		recalculatedRequests.add(addRequestList.get(2));
+		boolean add = false;
+
+		int x = 0;
+		for (int i = 0; i < tour.size(); ++i) {
+			if (add) {
+				recalculatedRequests.add(tour.get(i));
+				x++;
+			}
+			if (tour.get(i)-before == 0) {
+				System.out.println("add");
+				add = true;
+			}
+			if (tour.get(i)-after == 0) {
+				add = false;
+			}
+		}
+
+		/*
+		for (int i = 1; i < recalculatedRequests.size()-1; ++i) {
+			this.newAllRequests.put(recalculatedRequests.get(0),recalculatedRequests.get(i));
+			this.newAllRequests.put(recalculatedRequests.get(i),recalculatedRequests.get(recalculatedRequests.size()-1));
+		}
+		this.newAllRequests.put(recalculatedRequests.get(0),recalculatedRequests.get(recalculatedRequests.size()-1));
+		 */
+		newgraph = new Double[recalculatedRequests.size()][recalculatedRequests.size()];
+		for (int i = 0; i < newgraph.length; ++i) {
+			for (int j = 0; j < newgraph[i].length; ++j) {
+				newgraph[i][j] = -1.0;
+			}
+		}
+
 	}
 
 	public void setRequests(ArrayList<Request> allRequests, Intersection depot) {
@@ -58,8 +109,7 @@ public class CompleteGraph implements Graph {
 			requests.add(r.getDelivery().getId());
 			this.allRequests.put(r.getPickup().getId(),r.getDelivery().getId());
 		}
-		System.out.println(requests);
-		System.out.println(this.allRequests);
+
 		graph = new Double[requests.size()][requests.size()];
 		for (int i = 0; i < graph.length; ++i) {
 			for (int j = 0; j < graph[i].length; ++j) {
@@ -79,9 +129,30 @@ public class CompleteGraph implements Graph {
 		}
 	}
 
-	public void dijkstra() {
-		int i = 1;
-		for(Long origin : requests) {
+	public ArrayList<Long> getRequests() {
+		return requests;
+	}
+
+	public Double[][] getGraph() {
+		return graph;
+	}
+
+	public void dijkstra(boolean recalcul) {
+		min = 1000000;
+		ArrayList<Long> requestsList = new ArrayList<>();
+		Double[][] requestGraph;
+		HashMap<String, ArrayList<Long>> solutionList = new HashMap<>();
+		if (recalcul) {
+			requestsList = recalculatedRequests;
+			requestGraph = newgraph;
+			solutionList = newSolutions;
+		} else {
+			requestsList = requests;
+			requestGraph = graph;
+			solutionList = solutions;
+		}
+		for(Long origin : requestsList) {
+			int i = 0;
 			gray.add(origin);
 			length.put(origin, 0.0);
 			precedent.put(origin, -1L);
@@ -106,7 +177,8 @@ public class CompleteGraph implements Graph {
 					}
 				}
 				black.add(grayAddress);
-				if (requests.contains(grayAddress)) {
+				if (requestsList.contains(grayAddress)) {
+					System.out.println(origin + " " +grayAddress);
 					Long d = grayAddress;
 					ArrayList<Long> route = new ArrayList<>();
 					while (precedent.get(d) != -1L) {
@@ -114,21 +186,22 @@ public class CompleteGraph implements Graph {
 						d = precedent.get(d);
 					}
 					route.add(0, d);
-					solutions.put(origin + " " +grayAddress, route);
+					solutionList.put(origin + " " +grayAddress, route);
 					if(min > length.get(grayAddress)) {
 						min = length.get(grayAddress);
 					}
-					updateMinHash(grayAddress, length.get(grayAddress));
-					graph[requests.indexOf(origin)][requests.indexOf(grayAddress)] = length.get(grayAddress);
-
+					//updateMinHash(grayAddress, length.get(grayAddress));
+					requestGraph[requestsList.indexOf(origin)][requestsList.indexOf(grayAddress)] = length.get(grayAddress);
+					++i;
 				}
-				if (solutions.size() == requests.size() * i) {
-					++ i;
+				if (i == requestsList.size()) {
+					System.out.println("break");
 					break;
 				}
 			}
 			initial();
 		}
+
 	}
 
 
@@ -172,12 +245,16 @@ public class CompleteGraph implements Graph {
 		precedent.clear();
 	}
 
-	public HashMap<String, ArrayList<Long>> getSolutions() {
+	public HashMap<String, ArrayList<Long>> getSolutions(boolean recalcul) {
+		if (recalcul)
+			return newSolutions;
 		return solutions;
 	}
 
 	@Override
-	public int getNbVertices() {
+	public int getNbVertices(boolean recalul) {
+		if (recalul)
+			return recalculatedRequests.size();
 		return requests.size();
 	}
 
@@ -185,7 +262,14 @@ public class CompleteGraph implements Graph {
 	public double getCost(long origin, long destination) {
 		int i = requests.indexOf(origin);
 		int j = requests.indexOf(destination);
-		if (i<0 || i>=getNbVertices() || j<0 || j>=getNbVertices())
+		if (i == -1 || j == -1) {
+			i = recalculatedRequests.indexOf(origin);
+			j = recalculatedRequests.indexOf(destination);
+			if (i<0 || i>=recalculatedRequests.size() || j<0 || j>=recalculatedRequests.size())
+				return -1;
+			return newgraph[i][j];
+		}
+		if (i<0 || i>=getNbVertices(false) || j<0 || j>=getNbVertices(false))
 			return -1;
 
 		return graph[i][j];
@@ -196,21 +280,40 @@ public class CompleteGraph implements Graph {
 //		System.out.println(origin+" "+destination);
 		int i = requests.indexOf(origin);
 		int j = requests.indexOf(destination);
-		if (i<0 || i>=getNbVertices() || j<0 || j>=getNbVertices())
+		if (i == -1 || j == -1) {
+			i = recalculatedRequests.indexOf(origin);
+			j = recalculatedRequests.indexOf(destination);
+			if (i<0 || i>=recalculatedRequests.size() || j<0 || j>=recalculatedRequests.size())
+				return false;
+			return i != j;
+		}
+		if (i<0 || i>=getNbVertices(false) || j<0 || j>=getNbVertices(false))
 			return false;
 		return i != j;
 	}
 
-	public ArrayList<Long> getAllAddresses(){
+	public ArrayList<Long> getAllAddresses(boolean recalcule){
+		if (recalcule) {
+			return recalculatedRequests;
+		}
 		return requests;
 	}
 
-	public Long getDepotAddress() {
+	public Long getDepotAddress(boolean recalcule) {
+		if (recalcule) {
+			return recalculatedRequests.get(0);
+		}
 		return requests.get(0);
 	}
 
-	public boolean filter(Long nextVertex, Collection<Long> unvisited) {
-		System.out.println(nextVertex);
+	public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalcul) {
+		if (recalcul) {
+			System.out.println(nextVertex+" "+unvisited.size());
+			if (nextVertex-recalculatedRequests.get(recalculatedRequests.size()-1)==0 && unvisited.size()!=1){
+				return false;
+			}
+		}
+
 		if (allRequests.containsKey(nextVertex)){
 			return true;
 		} else {

@@ -1,5 +1,6 @@
 package Controller;
 
+import Algorithm.CompleteGraph;
 import Algorithm.TSP;
 import View.Window;
 
@@ -15,14 +16,14 @@ public class RequestLoadedState implements State{
         controller.getCompleteGraph().reset();
         controller.getCompleteGraph().fillGraph(controller.getMap());
         controller.getCompleteGraph().setRequests(controller.getMission().getAllRequests(), controller.getMission().getDepot());
-        controller.getCompleteGraph().dijkstra();
+        controller.getCompleteGraph().dijkstra(false);
 //        controller.getCompleteGraph().show();
         System.out.println("test...............");
 
         // start TSP calculation
         TSP tsp = controller.getTsp();
         //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
-        Long[] solutions = tsp.searchSolution(120000, controller.getCompleteGraph());
+        Long[] solutions = tsp.searchSolution(30000, controller.getCompleteGraph());
         System.out.println("Solution of cost "+tsp.getSolutionCost());
         controller.getMission().updateTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
         window.getGraphicalView().setPaintTour(true);

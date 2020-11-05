@@ -86,6 +86,7 @@ public class PopupWindow extends JFrame {
 
             System.out.println("The pickup time is "+ getPickUpTime() +" seconds and the delivery time is " + getDeliveryTime() + " seconds");
             jf.dispose();
+            controller.validNewRequest();
         }
     }
 

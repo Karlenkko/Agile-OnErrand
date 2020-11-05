@@ -12,6 +12,11 @@ public abstract class TemplateTSP implements TSP {
 	private int timeLimit;
 	private long startTime;
 	private boolean until = true;
+	private boolean recalcul = false;
+
+	public void setRecalcul(boolean recalcul) {
+		this.recalcul = recalcul;
+	}
 	
 	public Long[] searchSolution(int timeLimit, CompleteGraph g){
 		if (timeLimit <= 0) return null;
@@ -20,32 +25,42 @@ public abstract class TemplateTSP implements TSP {
 		this.g = g;
 
 		bestSolIntersection = new LinkedList<>();
-		bestSolAddress = new Long[g.getNbVertices()];
-		bestSolAddressCost = new double[g.getNbVertices()];
+		bestSolAddress = new Long[g.getNbVertices(recalcul)];
+		bestSolAddressCost = new double[g.getNbVertices(recalcul)];
 		LinkedList<Long> unvisited = new LinkedList<>();
-		for(Long l : g.getAllAddresses()) {
+
+		System.out.println("unvisited");
+		for(Long l : g.getAllAddresses(recalcul)) {
+			System.out.println(l);
 			unvisited.add(l);
 		}
-		unvisited.remove(g.getDepotAddress());
+		System.out.println("unvisited");
+		System.out.println("depot");
+		System.out.println(g.getDepotAddress(recalcul));
+		System.out.println("depot");
+
+		unvisited.remove(g.getDepotAddress(recalcul));
 		LinkedList<Long> visited = new LinkedList<>();
-		visited.add(g.getDepotAddress()); // The first visited vertex is 0
+		visited.add(g.getDepotAddress(recalcul)); // The first visited vertex is 0
 		bestSolCost = Double.MAX_VALUE;
-		branchAndBound(g.getDepotAddress(), unvisited, visited, 0);
+		branchAndBound(g.getDepotAddress(recalcul), unvisited, visited, 0);
 		//fillTour();
 		completeTour();
 
 		for (int i = 0; i < bestSolAddress.length; i ++) {
 			bestSolAddressCost[i] = g.getCost(bestSolAddress[i], bestSolAddress[(i + 1 >= bestSolAddress.length? 0 : i + 1)]);
-//			System.out.print(bestSolAddressCost[i]);
-//			System.out.print("  ,");
+			System.out.print(bestSolAddressCost[i]);
+			System.out.print("  ,");
 		}
+
+
 //		System.out.println();
 //		System.out.println(bestSolIntersection);
 		return bestSolAddress;
 	}
 	
 	public Long getSolution(int i){
-		if (g != null && i>=0 && i<g.getNbVertices())
+		if (g != null && i>=0 && i<g.getNbVertices(recalcul))
 			return bestSolAddress[i];
 		return -1L;
 	}
@@ -106,10 +121,10 @@ public abstract class TemplateTSP implements TSP {
 			}
 		}
 	    if (unvisited.size() == 0){
-	    	if (g.isArc(currentVertex,g.getDepotAddress())){
-	    		if (currentCost+g.getCost(currentVertex,g.getDepotAddress()) < bestSolCost){
+	    	if (g.isArc(currentVertex,g.getDepotAddress(recalcul))){
+	    		if (currentCost+g.getCost(currentVertex,g.getDepotAddress(recalcul)) < bestSolCost){
 	    			visited.toArray(bestSolAddress);
-	    			bestSolCost = currentCost+g.getCost(currentVertex,g.getDepotAddress());
+	    			bestSolCost = currentCost+g.getCost(currentVertex,g.getDepotAddress(recalcul));
 	    		}
 	    	}
 	    } else if (currentCost+bound(currentVertex,unvisited) < bestSolCost){
@@ -118,7 +133,7 @@ public abstract class TemplateTSP implements TSP {
 	        while (it.hasNext()){
 	        	long nextVertex = it.next();
 //	        	System.out.println();
-	        	if(!g.filter(nextVertex, unvisited)) {
+	        	if(!g.filter(nextVertex, unvisited, recalcul)) {
 //	        		System.out.println(nextVertex);
 	        		continue;
 				}
@@ -138,13 +153,22 @@ public abstract class TemplateTSP implements TSP {
 //		for (Long l : bestSolAddress) {
 //			System.out.println(l);
 //		}
+		/*
+		int size = bestSolAddress.length;
+		if (recalcul) {
+			--size;
+		}
 
+		 */
 		for (int i = 1; i < bestSolAddress.length; i++) {
-//			System.out.println(bestSolAddress[i-1]+" "+bestSolAddress[i]);
-			bestSolIntersection.addAll(g.getSolutions().get(bestSolAddress[i-1]+" "+bestSolAddress[i]));
+			System.out.println(bestSolAddress[i-1]+" "+bestSolAddress[i]);
+			bestSolIntersection.addAll(g.getSolutions(recalcul).get(bestSolAddress[i-1]+" "+bestSolAddress[i]));
 			bestSolIntersection.remove(bestSolIntersection.size() - 1);
 		}
-		bestSolIntersection.addAll(g.getSolutions().get(bestSolAddress[bestSolAddress.length-1]+" "+bestSolAddress[0]));
+		bestSolIntersection.add(bestSolAddress[bestSolAddress.length-1]);
+		if (!recalcul) {
+			bestSolIntersection.addAll(g.getSolutions(recalcul).get(bestSolAddress[bestSolAddress.length-1]+" "+bestSolAddress[0]));
+		}
 	}
 
 	public double[] getBestSolAddressCost() {

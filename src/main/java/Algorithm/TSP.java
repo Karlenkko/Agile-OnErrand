@@ -16,6 +16,7 @@ public interface TSP {
 	 */
 	public Long[] searchSolution(int timeLimit, CompleteGraph g);
 
+	public void setRecalcul(boolean recalcul);
 	/**
 	 * @param i
 	 * @return the ith visited vertex in the solution computed by <code>searchSolution</code> 
