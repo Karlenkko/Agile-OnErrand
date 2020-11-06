@@ -147,10 +147,34 @@ public void testParserMap() throws Exception {
     // Verify the data of the segments
 
     LinkedList<Segment> mapSegments = map.getAllSegments();
+
+    // Verify that one of the information of the first segment is correct
+
     assertEquals(Long.parseLong("2509481775"), mapSegments.get(0).getDestination().getId(), 0);
     assertEquals(Long.parseLong("2684668925"), mapSegments.get(0).getOrigin().getId(), 0);
     assertEquals("Rue Château-Gaillard", mapSegments.get(0).getName());
     assertEquals(97.249695, mapSegments.get(0).getLength(), 0.000001);
+
+    // Verify the number total of the intersection is correct
+
+    assertEquals(7811, mapSegments.size());
+
+    // Verify that the each segment has a length positive
+
+    for (int i = 0; i < mapSegments.size(); i++) {
+        if(mapSegments.get(i).getLength() < 0){
+            assertTrue("The length of the Segment "+ mapSegments.get(i).getName() +" can't be negative.",false);
+        }
+    }
+
+    //Verify that the origin and destination of a segment should be a part of the map
+    for (int i = 0; i < mapSegments.size(); i++) {
+        Intersection intersectionDestination = mapSegments.get(i).getDestination();
+        Intersection intersectionOrigin = mapSegments.get(i).getOrigin();
+        if(!mapIntersections.containsValue(intersectionDestination) || !mapIntersections.containsValue(intersectionOrigin)){
+            assertTrue("The origin or the destination of the segment "+ mapSegments.get(i).getName() +" is not on the map given.",false);
+        }
+    }
 
 }
 
