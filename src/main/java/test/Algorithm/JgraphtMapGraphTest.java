@@ -5,13 +5,13 @@ import org.junit.Before;
 import org.junit.After; 
 
 /** 
-* MapGraph Tester. 
+* JgraphtMapGraph Tester.
 * 
 * @author <Authors name> 
 * @since <pre>Oct 18, 2020</pre> 
 * @version 1.0 
 */ 
-public class MapGraphTest { 
+public class JgraphtMapGraphTest {
 
 @Before
 public void before() throws Exception { 

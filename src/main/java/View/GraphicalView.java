@@ -121,7 +121,7 @@ public class GraphicalView extends JPanel implements Observer {
         else{
             this.zoomFactor=zoomFactor;
         }
-        //this.zoomFactor = Math.min(this.zoomFactor, 1.8);
+        //this.zoomFactor = Math.minCost(this.zoomFactor, 1.8);
         this.zoomer=true;
     }
 
@@ -158,8 +158,8 @@ public class GraphicalView extends JPanel implements Observer {
                 transY = 0;
             }
 
-            //transX = Math.min(zoomableX, transX);
-            //transY = Math.min(zoomableY, transY);
+            //transX = Math.minCost(zoomableX, transX);
+            //transY = Math.minCost(zoomableY, transY);
             zoomer = false;
             g2d.transform(at);
             g2d.translate(transX/zoomFactor, transY/zoomFactor);

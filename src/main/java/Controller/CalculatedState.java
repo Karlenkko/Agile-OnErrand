@@ -1,20 +1,10 @@
 package Controller;
 
-import Algorithm.MapGraph;
-import Algorithm.TSP;
-import Algorithm.TSP1;
-import Model.Request;
-import Model.Segment;
-import Util.ExceptionXML;
 import Util.TourSerializer;
-import View.TextualView;
 import View.Window;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Set;
 
 public class CalculatedState implements State{
 

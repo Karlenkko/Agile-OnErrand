@@ -12,9 +12,9 @@ public class AddRequestState5 implements State{
     public void validNewRequest(Controller controller, Window window) {
         // TODO: validate the two duration entered and then create a new Object Request.
         System.out.println("calculating tour");
-        //MapGraph.reset();
+        //JgraphtMapGraph.reset();
         //controller.getMapGraph().fillGraph(controller.getMap(), controller.getMission());
-        //MapGraph.calculateShortestPaths();
+        //JgraphtMapGraph.calculateShortestPaths();
         System.out.println("test...............");
         controller.getCompleteGraph().setRecalculatedRequests(controller.getMission().getNewAddList(),
                 controller.getMission().getTour(), controller.getMission().getNewRequest());

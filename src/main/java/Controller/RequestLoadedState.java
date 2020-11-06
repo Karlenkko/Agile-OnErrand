@@ -1,6 +1,5 @@
 package Controller;
 
-import Algorithm.CompleteGraph;
 import Algorithm.TSP;
 import View.Window;
 
@@ -9,9 +8,9 @@ public class RequestLoadedState implements State{
     @Override
     public void calculateTour(Controller controller, Window window) {
         System.out.println("calculating tour");
-        //MapGraph.reset();
+        //JgraphtMapGraph.reset();
         //controller.getMapGraph().fillGraph(controller.getMap(), controller.getMission());
-        //MapGraph.calculateShortestPaths();
+        //JgraphtMapGraph.calculateShortestPaths();
         System.out.println("test...............");
         controller.getCompleteGraph().reset();
         controller.getCompleteGraph().fillGraph(controller.getMap());

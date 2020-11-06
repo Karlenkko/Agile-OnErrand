@@ -1,6 +1,6 @@
 package Controller;
 
-import Algorithm.CompleteGraph;
+import Algorithm.JgraphtMapGraph;
 import Algorithm.MapGraph;
 import Algorithm.TSP;
 import Model.Map;
@@ -10,8 +10,9 @@ import View.Window;
 public class Controller {
     private Map map;
     private Mission mission;
+    private JgraphtMapGraph jgraphtMapGraph;
     private MapGraph mapGraph;
-    private CompleteGraph completeGraph;
+//    private Graph graph;
 
     private TSP tsp;
 
@@ -31,17 +32,17 @@ public class Controller {
 
     /**
      * Constructor of object Controller, creates an instance of Controller
-     * with the empty but instanced cityMap, mission and mapGraph
+     * with the empty but instanced cityMap, mission and jgraphtMapGraph
      * @param map the object Map, currently empty
      * @param mission the object Mission, currently empty
-     * @param mapGraph the object MapGraph, currently empty
+     * @param jgraphtMapGraph the object JgraphtMapGraph, currently empty
      */
-    public Controller(Map map, Mission mission, MapGraph mapGraph, TSP tsp, CompleteGraph completeGraph) {
+    public Controller(Map map, Mission mission, JgraphtMapGraph jgraphtMapGraph, TSP tsp, MapGraph mapGraph) {
         this.map = map;
         this.mission = mission;
-        this.mapGraph = mapGraph;
+        this.jgraphtMapGraph = jgraphtMapGraph;
         this.tsp = tsp;
-        this.completeGraph = completeGraph;
+        this.mapGraph = mapGraph;
         window = new Window(this.map, this.mission, tsp, this);
         currentState = initialState;
     }
@@ -62,16 +63,16 @@ public class Controller {
         return mission;
     }
 
-    public MapGraph getMapGraph() {
-        return mapGraph;
+    public JgraphtMapGraph getMapGraph() {
+        return jgraphtMapGraph;
     }
 
     public TSP getTsp() {
         return tsp;
     }
 
-    public CompleteGraph getCompleteGraph() {
-        return completeGraph;
+    public MapGraph getCompleteGraph() {
+        return mapGraph;
     }
 
     /**

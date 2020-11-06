@@ -1,15 +1,9 @@
 package Controller;
 
-import Algorithm.MapGraph;
-import Algorithm.TSP;
-import Model.Intersection;
-import Model.Request;
-import Model.Segment;
 import Util.XMLparser;
 import View.Window;
 
 import javax.swing.*;
-import java.util.*;
 
 public interface State {
 

@@ -1,10 +1,22 @@
 package Algorithm;
 
+import Model.Intersection;
+import Model.Map;
+import Model.Request;
+
+import java.util.List;
+
 public interface Graph {
 	/**
 	 * @return the number of vertices in <code>this</code>
 	 */
-	public abstract int getNbVertices(boolean recalcul);
+	public abstract int getNbVertices(boolean recalculate);
+
+	public abstract void fillGraph(Map map);
+
+	public abstract void setRequests(List<Request> allRequests, Intersection depot);
+
+	public abstract void reset();
 
 	/**
 	 * @param i 

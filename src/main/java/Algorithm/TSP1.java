@@ -9,17 +9,17 @@ public class TSP1 extends TemplateTSP {
 
 	@Override
 	protected int bound(long currentVertex, Collection<Long> unvisited) {
-		return (int) ((int)unvisited.size()*CompleteGraph.min);
+		return (int) ((int)unvisited.size()* MapGraph.minCost);
 	}
 
 	/*
 	@Override
-	protected Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, MapGraph g) {
+	protected Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, JgraphtMapGraph g) {
 		return new SeqIter(unvisited, currentVertex, g);
 	}
 	 */
 	@Override
-	protected Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, CompleteGraph g) {
+	protected Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, MapGraph g) {
 		return new SeqIter(unvisited, currentVertex, g);
 	}
 

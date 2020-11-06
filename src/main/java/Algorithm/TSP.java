@@ -1,6 +1,5 @@
 package Algorithm;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public interface TSP {
@@ -12,9 +11,9 @@ public interface TSP {
 	 * @param g
 	 */
 	/*
-	public Long[] searchSolution(int timeLimit, MapGraph g);
+	public Long[] searchSolution(int timeLimit, JgraphtMapGraph g);
 	 */
-	public Long[] searchSolution(int timeLimit, CompleteGraph g);
+	public Long[] searchSolution(int timeLimit, MapGraph g);
 
 	public void setRecalcul(boolean recalcul);
 	/**
