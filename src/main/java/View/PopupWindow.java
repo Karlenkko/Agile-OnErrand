@@ -81,8 +81,8 @@ public class PopupWindow extends JFrame {
             // TODO: Transmise the data of the pickup and delivery time to create a new Request.
             int pickupTime = getPickUpTime();
             int deliveryTime = getDeliveryTime();
-            controller.getMission().getNewRequest().setDeliveryDuration(pickupTime);
-            controller.getMission().getNewRequest().setPickupDuration(deliveryTime);
+            controller.getMission().getNewRequest().setPickupDuration(pickupTime);
+            controller.getMission().getNewRequest().setDeliveryDuration(deliveryTime);
 
             System.out.println("The pickup time is "+ getPickUpTime() +" seconds and the delivery time is " + getDeliveryTime() + " seconds");
             jf.dispose();
