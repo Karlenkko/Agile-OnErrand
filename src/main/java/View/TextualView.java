@@ -142,7 +142,7 @@ public class TextualView extends JPanel implements Observer {
 
         for (int i=0; i < tour.size(); ++i) {
             if (mission.getDepot().getId() == (long)tour.get(i)) {
-                requestTour.add(tour.get(i).toString());
+//                requestTour.add(tour.get(i).toString());
                 String[] row = {
                         Integer.toString(i+1),
                         "depot",

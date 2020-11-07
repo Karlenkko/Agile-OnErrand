@@ -154,7 +154,7 @@ public abstract class TemplateTSP implements TSP {
 //			System.out.println(l);
 //		}
 		/*
-		int size = bestSolAddress.length;
+		int size = bestSolAddress.toIntersectionCosts;
 		if (recalcul) {
 			--size;
 		}
@@ -177,11 +177,11 @@ public abstract class TemplateTSP implements TSP {
 
 	/*
 	private void fillTour() {
-		for (int i = 1; i < bestSolAddress.length; i++) {
+		for (int i = 1; i < bestSolAddress.toIntersectionCosts; i++) {
 			bestSolIntersection.addAll(g.getShortestPathAlgo().getPath(bestSolAddress[i - 1], bestSolAddress[i]).getVertexList());
 			bestSolIntersection.remove(bestSolIntersection.size() - 1);
 		}
-		bestSolIntersection.addAll(g.getShortestPathAlgo().getPath(bestSolAddress[bestSolAddress.length - 1], bestSolAddress[0]).getVertexList());
+		bestSolIntersection.addAll(g.getShortestPathAlgo().getPath(bestSolAddress[bestSolAddress.toIntersectionCosts - 1], bestSolAddress[0]).getVertexList());
 	}
 	 */
 

@@ -9,7 +9,7 @@ public class TSP1 extends TemplateTSP {
 
 	@Override
 	protected int bound(long currentVertex, Collection<Long> unvisited) {
-		return (int) ((int)unvisited.size()* MapGraph.minCost);
+		return (int) (unvisited.size() * MapGraph.minCost);
 	}
 
 	/*
@@ -20,7 +20,8 @@ public class TSP1 extends TemplateTSP {
 	 */
 	@Override
 	protected Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, MapGraph g) {
-		return new SeqIter(unvisited, currentVertex, g);
+//		return new SeqIter(unvisited, currentVertex, g);
+        return new MinFirstIter(unvisited, currentVertex, g);
 	}
 
 }

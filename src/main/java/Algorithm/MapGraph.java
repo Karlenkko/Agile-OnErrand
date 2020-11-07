@@ -10,10 +10,10 @@ import java.util.*;
 
 public class MapGraph implements Graph {
 
-	protected HashMap<Long, ArrayList<Long>> toAddresses;
-	protected HashMap<Long, ArrayList<Double>> toDistances;
-	protected HashMap<Long, Double> length;
-	protected HashMap<Long, Long> precedent;
+	protected HashMap<Long, ArrayList<Long>> intersectionToIntersections;
+	protected HashMap<Long, ArrayList<Double>> intersectionToIntersectionDistances;
+	protected HashMap<Long, Double> toIntersectionCosts;
+	protected HashMap<Long, Long> intersectionPrecedents;
 	protected HashMap<String, ArrayList<Long>> shortestPaths;
 	protected ArrayList<Long> allAddresses;
 	protected ArrayList<Long> gray = new ArrayList<>();
@@ -31,13 +31,13 @@ public class MapGraph implements Graph {
 	protected HashMap<String, ArrayList<Long>> newSolutions;
 
 	public MapGraph(){
-		toAddresses = new HashMap<>();
-		toDistances = new HashMap<>();
+		intersectionToIntersections = new HashMap<>();
+		intersectionToIntersectionDistances = new HashMap<>();
 		allAddresses = new ArrayList<>();
 		shortestPaths = new HashMap<>();
 		newSolutions= new HashMap<>();
-		length = new HashMap<>();
-		precedent = new HashMap<>();
+		toIntersectionCosts = new HashMap<>();
+		intersectionPrecedents = new HashMap<>();
 		requestPairs = new HashMap<>();
 		recalculatedRequests = new ArrayList<>();
 		minCost = Double.MAX_VALUE;
@@ -46,10 +46,10 @@ public class MapGraph implements Graph {
 	}
 
 	public void reset() {
-		toAddresses.clear();
-		toDistances.clear();
-		length.clear();
-		precedent.clear();
+		intersectionToIntersections.clear();
+		intersectionToIntersectionDistances.clear();
+		toIntersectionCosts.clear();
+		intersectionPrecedents.clear();
 		shortestPaths.clear();
 		newSolutions.clear();
 		allAddresses.clear();
@@ -111,12 +111,12 @@ public class MapGraph implements Graph {
 
 	public void fillGraph(Map map){
 		for (Segment segment : map.getAllSegments()) {
-			if (!toAddresses.containsKey(segment.getOrigin().getId())) {
-				toAddresses.put(segment.getOrigin().getId(), new ArrayList<>());
-				toDistances.put(segment.getOrigin().getId(), new ArrayList<>());
+			if (!intersectionToIntersections.containsKey(segment.getOrigin().getId())) {
+				intersectionToIntersections.put(segment.getOrigin().getId(), new ArrayList<>());
+				intersectionToIntersectionDistances.put(segment.getOrigin().getId(), new ArrayList<>());
 			}
-			toAddresses.get(segment.getOrigin().getId()).add(segment.getDestination().getId());
-			toDistances.get(segment.getOrigin().getId()).add(segment.getLength());
+			intersectionToIntersections.get(segment.getOrigin().getId()).add(segment.getDestination().getId());
+			intersectionToIntersectionDistances.get(segment.getOrigin().getId()).add(segment.getLength());
 		}
 	}
 
@@ -145,25 +145,30 @@ public class MapGraph implements Graph {
 		for(Long origin : requestsList) {
 			int i = 0;
 			gray.add(origin);
-			length.put(origin, 0.0);
-			precedent.put(origin, -1L);
+			toIntersectionCosts.put(origin, 0.0);
+			intersectionPrecedents.put(origin, -1L);
 			while (gray.size() != 0) {
 				Long grayAddress = getMinGray();
 				gray.remove(grayAddress);
-				if (! toAddresses.containsKey(grayAddress)) {
+				if (! intersectionToIntersections.containsKey(grayAddress)) {
 					black.add(grayAddress);
 					continue;
 				}
-				for (Long destination : toAddresses.get(grayAddress)) {
-					double newLength = length.get(grayAddress) + toDistances.get(grayAddress).get(toAddresses.get(grayAddress).indexOf(destination));
-					if (length.containsKey(destination)) {
-						if (newLength < length.get(destination)) {
-							length.put(destination, newLength);
-							precedent.put(destination, grayAddress);
+				for (Long destination : intersectionToIntersections.get(grayAddress)) {
+					double newLength =
+							toIntersectionCosts.get(grayAddress) +
+									intersectionToIntersectionDistances.
+											get(grayAddress).
+											get(intersectionToIntersections.
+													get(grayAddress).indexOf(destination));
+					if (toIntersectionCosts.containsKey(destination)) {
+						if (newLength < toIntersectionCosts.get(destination)) {
+							toIntersectionCosts.put(destination, newLength);
+							intersectionPrecedents.put(destination, grayAddress);
 						}
 					} else {
-						length.put(destination, newLength);
-						precedent.put(destination, grayAddress);
+						toIntersectionCosts.put(destination, newLength);
+						intersectionPrecedents.put(destination, grayAddress);
 						gray.add(destination);
 					}
 				}
@@ -172,17 +177,17 @@ public class MapGraph implements Graph {
 					System.out.println(origin + " " +grayAddress);
 					Long d = grayAddress;
 					ArrayList<Long> route = new ArrayList<>();
-					while (precedent.get(d) != -1L) {
+					while (intersectionPrecedents.get(d) != -1L) {
 						route.add(0, d);
-						d = precedent.get(d);
+						d = intersectionPrecedents.get(d);
 					}
 					route.add(0, d);
 					solutionList.put(origin + " " +grayAddress, route);
-					if(minCost > length.get(grayAddress)) {
-						minCost = length.get(grayAddress);
+					if(minCost > toIntersectionCosts.get(grayAddress)) {
+						minCost = toIntersectionCosts.get(grayAddress);
 					}
-					//updateMinHash(grayAddress, length.get(grayAddress));
-					requestGraph[requestsList.indexOf(origin)][requestsList.indexOf(grayAddress)] = length.get(grayAddress);
+					//updateMinHash(grayAddress, toIntersectionCosts.get(grayAddress));
+					requestGraph[requestsList.indexOf(origin)][requestsList.indexOf(grayAddress)] = toIntersectionCosts.get(grayAddress);
 					++i;
 				}
 				if (i == requestsList.size()) {
@@ -218,11 +223,11 @@ public class MapGraph implements Graph {
 	}
 
 	private Long getMinGray() {
-		Double min = length.get(gray.get(0));
+		Double min = toIntersectionCosts.get(gray.get(0));
 		Long id = gray.get(0);
 		for (int i = 1; i < gray.size(); ++i) {
-			if (min > length.get(gray.get(i))) {
-				min = length.get(gray.get(i));
+			if (min > toIntersectionCosts.get(gray.get(i))) {
+				min = toIntersectionCosts.get(gray.get(i));
 				id = gray.get(i);
 			}
 		}
@@ -232,8 +237,8 @@ public class MapGraph implements Graph {
 	private void initial() {
 		gray.clear();
 		black.clear();
-		length.clear();
-		precedent.clear();
+		toIntersectionCosts.clear();
+		intersectionPrecedents.clear();
 	}
 
 	public HashMap<String, ArrayList<Long>> getShortestPaths(boolean recalculate) {

@@ -52,13 +52,6 @@ public class JgraphtMapGraph implements Algorithm.Graph {
     @Override
     public void fillGraph(Map map) {
         for (Segment segment : map.getAllSegments()) {
-//            if (!toAddresses.containsKey(segment.getOrigin().getId())) {
-//                toAddresses.put(segment.getOrigin().getId(), new ArrayList<>());
-//                toDistances.put(segment.getOrigin().getId(), new ArrayList<>());
-//            }
-//            toAddresses.get(segment.getOrigin().getId()).add(segment.getDestination().getId());
-//            toDistances.get(segment.getOrigin().getId()).add(segment.getLength());
-
             g.addVertex(segment.getOrigin().getId());
             g.addVertex(segment.getDestination().getId());
             addEdge(segment.getOrigin().getId(), segment.getDestination().getId(), segment.getLength());
@@ -69,7 +62,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
      * Add a Segment to the JgraphtMapGraph without its name
      * @param sourceIntersectionId the origin/source Intersection id
      * @param targetIntersectionId the destination/target Intersection id
-     * @param length the length of the Segment, expressed in meters
+     * @param length the toIntersectionCosts of the Segment, expressed in meters
      */
     private void addEdge(long sourceIntersectionId, long targetIntersectionId, double length) {
         g.addEdge(sourceIntersectionId,targetIntersectionId);
