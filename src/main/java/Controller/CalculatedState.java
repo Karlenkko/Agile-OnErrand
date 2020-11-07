@@ -75,7 +75,7 @@ public class CalculatedState implements State{
             bestSolIntersection.addAll(controller.getGraph().getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
             double[] interAddressLength = new double[1];
             interAddressLength[0] = controller.getGraph().getCost(sequence[0], sequence[1]);
-            controller.getMission().addTour(sequence, bestSolIntersection,interAddressLength);
+            controller.getMission().updatePartialTour(sequence, bestSolIntersection,interAddressLength);
 
             // delete the delivery of the request
             addressToUpdate = controller.getMission().getBeforeAfterAddress(request.getDelivery().getId());
@@ -86,7 +86,7 @@ public class CalculatedState implements State{
             bestSolIntersection.addAll(controller.getGraph().getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
             interAddressLength = new double[1];
             interAddressLength[0] = controller.getGraph().getCost(sequence[0], sequence[1]);
-            controller.getMission().addTour(sequence, bestSolIntersection,interAddressLength);
+            controller.getMission().updatePartialTour(sequence, bestSolIntersection,interAddressLength);
 
 
             window.getGraphicalView().setPaintTour(true);

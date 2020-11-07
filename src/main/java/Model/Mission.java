@@ -121,7 +121,7 @@ public class Mission extends Observable {
         arrivalTimeSchedule.put(depot.getId(), tempTime);
     }
 
-    public void addTour(Long[] sequence, List<Long> bestSolIntersection, double[] interAddressLength) {
+    public void updatePartialTour(Long[] sequence, List<Long> bestSolIntersection, double[] interAddressLength) {
 
         //updateAllRequests();
 
@@ -138,7 +138,12 @@ public class Mission extends Observable {
 
 
         start = tourIntersections.indexOf(sequence[0]);
-        end = tourIntersections.indexOf(sequence[sequence.length-1]);
+        for (int i= start; i < tourIntersections.size(); ++ i) {
+            if (sequence[sequence.length - 1].equals(tourIntersections.get(i))) {
+                end = i;
+                break;
+            }
+        }
         end = end == 0 ? tourIntersections.size()-1 : end;
         for (int i = start+1; i<end; ++i) {
             tourIntersections.remove(start+1);

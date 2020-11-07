@@ -23,12 +23,12 @@ public class AddRequestState5 implements State{
 
         // start TSP calculation
         TSP tsp = controller.getTsp();
-        tsp.setRecalcul(true);
+        tsp.setRecalculate(true);
         //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
         Long[] solutions = tsp.searchSolution(30000, controller.getGraph());
         controller.getGraph().updateMapGraph();
         controller.getMission().updateAllRequests();
-        controller.getMission().addTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
+        controller.getMission().updatePartialTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
