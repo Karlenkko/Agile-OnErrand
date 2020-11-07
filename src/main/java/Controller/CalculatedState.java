@@ -33,11 +33,8 @@ public class CalculatedState implements State{
         int rowNumber = table.getSelectedRow();
 
         String type = (String)table.getValueAt(rowNumber,1);
-        int num;
         if (type.charAt(0) == 'p'){
             String[] res = type.split("p");
-            num = Integer.parseInt(res[2]);
-
             for (int i = 0; i < table.getRowCount(); i++) {
                 String requestType = (String)table.getValueAt(i,1);
                 if(requestType.contains(res[2])){
@@ -45,10 +42,8 @@ public class CalculatedState implements State{
                     -- i;
                 }
             }
-        }else if(type.charAt(0) == 'p'){
+        }else if(type.charAt(0) == 'd'){
             String[] res = type.split("y");
-            num = Integer.parseInt(res[1]);
-
             for (int i = 0; i < table.getRowCount(); i++) {
                 String requestType = (String)table.getValueAt(i,1);
                 if(requestType.contains(res[1])){
