@@ -191,17 +191,52 @@ public void testParserRequest() throws Exception {
     // Load the large map then the requestLarge7
 
     ArrayList<Request> missionRequests = mission.getAllRequests();
-    System.out.println(missionRequests.get(0).getPickup());
-    assertEquals(1362781062, missionRequests.get(0).getPickup().getId(), 0);
-    assertEquals(27359745, missionRequests.get(0).getDelivery().getId(), 0);
+    Intersection missionDepot = mission.getDepot();
+    HashMap<Long, Intersection> mapIntersections = map.getAllIntersections();
+
+    // Verify that the first request of the mission is correct.
+
+    assertEquals(1362781062, missionRequests.get(0).getPickup().getId(),0);
+    assertEquals(27359745, missionRequests.get(0).getDelivery().getId(),0);
     assertEquals(540, missionRequests.get(0).getPickupDuration());
     assertEquals(540, missionRequests.get(0).getDeliveryDuration());
 
-    Intersection missionDepot = mission.getDepot();
+    // Verify for each request, they have a valid duration( > 0) and the pickup address and the delivery address is in the given map.
+
+    for (int i = 0; i < missionRequests.size(); i++) {
+        Request request = missionRequests.get(i);
+
+        assertTrue("The pickup duration cannot be negative",request.getPickupDuration() >= 0);
+        assertTrue("The delivery duration cannot be negative",request.getDeliveryDuration() >= 0);
+
+        Intersection intersectionPickup = request.getPickup();
+        Intersection intersectionDelivery = request.getDelivery();
+        if(!mapIntersections.containsValue(intersectionPickup) || !mapIntersections.containsValue(intersectionDelivery)){
+            assertTrue("The intersection for pickup or delivery of request is not on the map given.",false);
+        }
+
+    }
+
+    // Verify that the depot of the mission is correct.
+
     assertEquals(25610888, missionDepot.getId(), 0);
     LocalTime eightOClock = LocalTime.of(8,0,0);
     assertEquals(eightOClock.toString(),mission.getDepartureTime().toString());
 
+    // Verify that the depot point is on the map given.
+
+    if(!mapIntersections.containsValue(missionDepot)){
+        assertTrue("The intersection for mission depot is not on the map given.",false);
+    }
+
+    // The intersection of the mission depot cannot be the same as the intersections for pickup and delivery.
+
+    for (int i = 0; i < missionRequests.size(); i++) {
+        Request request = missionRequests.get(i);
+        assertTrue("The pickup or delivery intersection cannot be the depot intersection",
+                request.getPickup().getId() != missionDepot.getId()
+                        && request.getDelivery().getId() != missionDepot.getId());
+    }
 }
 
 
@@ -210,15 +245,15 @@ public void testParserRequest() throws Exception {
 * Method: buildMapFromDOMXML(Document document, Map map) 
 * 
 */
-@Test
-public void testBuildMapFromDOMXML() throws Exception {
-
-    parserMap(map);
-    HashMap<Long, Intersection> mapIntersections = map.getAllIntersections();
-    assertEquals(45.775486, mapIntersections.get(Long.parseLong("2684668925")).getLatitude(), 0.000001);
-    assertEquals(4.888253, mapIntersections.get(Long.parseLong("2684668925")).getLongitude(), 0.000001);
-
-}
+//@Test
+//public void testBuildMapFromDOMXML() throws Exception {
+//
+//    parserMap(map);
+//    HashMap<Long, Intersection> mapIntersections = map.getAllIntersections();
+//    assertEquals(45.775486, mapIntersections.get(Long.parseLong("2684668925")).getLatitude(), 0.000001);
+//    assertEquals(4.888253, mapIntersections.get(Long.parseLong("2684668925")).getLongitude(), 0.000001);
+//
+//}
 
 /** 
 * 
