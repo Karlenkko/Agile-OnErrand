@@ -123,7 +123,7 @@ public class Mission extends Observable {
 
     public void addTour(Long[] sequence, List<Long> bestSolIntersection, double[] interAddressLength) {
 
-        updateAllRequests();
+        //updateAllRequests();
 
         int start = tour.indexOf(sequence[0]);
         int end = tour.indexOf(sequence[sequence.length-1]);
@@ -136,14 +136,10 @@ public class Mission extends Observable {
 
         }
 
-        System.out.println("bestSolution");
-        for(Long l : tourIntersections) {
-            System.out.print(l+" ");
-        }
-        System.out.println("bestSolution");
 
         start = tourIntersections.indexOf(sequence[0]);
         end = tourIntersections.indexOf(sequence[sequence.length-1]);
+        end = end == 0 ? tourIntersections.size()-1 : end;
         for (int i = start+1; i<end; ++i) {
             tourIntersections.remove(start+1);
         }
@@ -288,6 +284,23 @@ public class Mission extends Observable {
         }
         return true;
     }
+
+    public Request deleteRequest(int index) {
+        return allRequests.remove(index-1);
+    }
+
+    public ArrayList<Long> getBeforeAfterAddress(Long id) {
+        ArrayList<Long> addressToUpdate = new ArrayList<>();
+        int i = tour.indexOf(id);
+        addressToUpdate.add(tour.get(i-1));
+        if (i+1 > tour.size()){
+            addressToUpdate.add(tour.get(0));
+        } else {
+            addressToUpdate.add(tour.get(i+1));
+        }
+        return addressToUpdate;
+    }
+
 
 
 }

@@ -25,17 +25,17 @@ public class MapGraph implements Graph {
 
 	protected ArrayList<Long> recalculatedRequests;
 
-	protected Double[][] costGraph;
-	protected Double[][] newCostGraph;
+	protected double[][] costGraph;
+	protected double[][] newCostGraph;
 
-	protected HashMap<String, ArrayList<Long>> newSolutions;
+	protected HashMap<String, ArrayList<Long>> newShortestPaths;
 
 	public MapGraph(){
 		intersectionToIntersections = new HashMap<>();
 		intersectionToIntersectionDistances = new HashMap<>();
 		allAddresses = new ArrayList<>();
 		shortestPaths = new HashMap<>();
-		newSolutions= new HashMap<>();
+		newShortestPaths = new HashMap<>();
 		toIntersectionCosts = new HashMap<>();
 		intersectionPrecedents = new HashMap<>();
 		requestPairs = new HashMap<>();
@@ -51,7 +51,7 @@ public class MapGraph implements Graph {
 		toIntersectionCosts.clear();
 		intersectionPrecedents.clear();
 		shortestPaths.clear();
-		newSolutions.clear();
+		newShortestPaths.clear();
 		allAddresses.clear();
 		recalculatedRequests.clear();
 		requestPairs.clear();
@@ -73,7 +73,6 @@ public class MapGraph implements Graph {
 				recalculatedRequests.add(aLong);
 			}
 			if (aLong.equals(before)) {
-				System.out.println("add");
 				add = true;
 			}
 			if (aLong.equals(after)) {
@@ -88,8 +87,8 @@ public class MapGraph implements Graph {
 		}
 		this.newAllRequests.put(recalculatedRequests.get(0),recalculatedRequests.get(recalculatedRequests.size()-1));
 		 */
-		newCostGraph = new Double[recalculatedRequests.size()][recalculatedRequests.size()];
-		for (Double[] doubles : newCostGraph) {
+		newCostGraph = new double[recalculatedRequests.size()][recalculatedRequests.size()];
+		for (double[] doubles : newCostGraph) {
 			Arrays.fill(doubles, -1.0);
 		}
 
@@ -103,8 +102,8 @@ public class MapGraph implements Graph {
 			this.requestPairs.put(r.getPickup().getId(),r.getDelivery().getId());
 		}
 
-		costGraph = new Double[allAddresses.size()][allAddresses.size()];
-		for (Double[] doubles : costGraph) {
+		costGraph = new double[allAddresses.size()][allAddresses.size()];
+		for (double[] doubles : costGraph) {
 			Arrays.fill(doubles, -1.0);
 		}
 	}
@@ -124,19 +123,19 @@ public class MapGraph implements Graph {
 		return allAddresses;
 	}
 
-	public Double[][] getCostGraph() {
+	public double[][] getCostGraph() {
 		return costGraph;
 	}
 
 	public void dijkstra(boolean recalculate) {
 		minCost = Double.MAX_VALUE;
 		ArrayList<Long> requestsList;
-		Double[][] requestGraph;
+		double[][] requestGraph;
 		HashMap<String, ArrayList<Long>> solutionList;
 		if (recalculate) {
 			requestsList = recalculatedRequests;
 			requestGraph = newCostGraph;
-			solutionList = newSolutions;
+			solutionList = newShortestPaths;
 		} else {
 			requestsList = allAddresses;
 			requestGraph = costGraph;
@@ -243,7 +242,7 @@ public class MapGraph implements Graph {
 
 	public HashMap<String, ArrayList<Long>> getShortestPaths(boolean recalculate) {
 		if (recalculate)
-			return newSolutions;
+			return newShortestPaths;
 		return shortestPaths;
 	}
 
@@ -320,6 +319,49 @@ public class MapGraph implements Graph {
 			}
 		}
 		return true;
+	}
+
+	public void updateMapGraph() {
+		shortestPaths.putAll(newShortestPaths);
+		int size = allAddresses.size() + 2;
+		double[][] tempCostGraph = new double[size][size];
+		for(int i = 0; i < costGraph.length; ++i) {
+			for (int j = 0; j < costGraph[i].length; ++j) {
+				tempCostGraph[i][j] = costGraph[i][j];
+			}
+		}
+
+		for(int i = 0; i < newCostGraph.length; ++i) {
+			for (int j = 0; j < newCostGraph[i].length; ++j) {
+				int indexOrigin = 0;
+				if (i == 1 || i == 2) {
+					indexOrigin = i + costGraph.length - 1;
+				}
+				if (allAddresses.contains(recalculatedRequests.get(i))) {
+					indexOrigin = allAddresses.indexOf(recalculatedRequests.get(i));
+				}
+
+				int indexDestination = 0;
+				if (i == 1 || i == 2) {
+					indexDestination = i + costGraph.length - 1;
+				}
+				if (allAddresses.contains(recalculatedRequests.get(i))) {
+					indexDestination = allAddresses.indexOf(recalculatedRequests.get(i));
+				}
+
+				tempCostGraph[indexOrigin][indexDestination] = newCostGraph[i][j];
+
+			}
+		}
+
+		costGraph = tempCostGraph;
+
+		allAddresses.add(recalculatedRequests.get(1));
+		allAddresses.add(recalculatedRequests.get(2));
+
+		recalculatedRequests.clear();
+		newShortestPaths.clear();
+
 	}
 
 }

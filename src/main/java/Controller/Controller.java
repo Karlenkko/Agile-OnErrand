@@ -63,15 +63,12 @@ public class Controller {
         return mission;
     }
 
-    public JgraphtMapGraph getMapGraph() {
-        return jgraphtMapGraph;
-    }
 
     public TSP getTsp() {
         return tsp;
     }
 
-    public MapGraph getCompleteGraph() {
+    public MapGraph getGraph() {
         return mapGraph;
     }
 

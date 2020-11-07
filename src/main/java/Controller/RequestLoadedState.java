@@ -12,10 +12,10 @@ public class RequestLoadedState implements State{
         //controller.getMapGraph().fillGraph(controller.getMap(), controller.getMission());
         //JgraphtMapGraph.calculateShortestPaths();
         System.out.println("test...............");
-        controller.getCompleteGraph().reset();
-        controller.getCompleteGraph().fillGraph(controller.getMap());
-        controller.getCompleteGraph().setRequests(controller.getMission().getAllRequests(), controller.getMission().getDepot());
-        controller.getCompleteGraph().dijkstra(false);
+        controller.getGraph().reset();
+        controller.getGraph().fillGraph(controller.getMap());
+        controller.getGraph().setRequests(controller.getMission().getAllRequests(), controller.getMission().getDepot());
+        controller.getGraph().dijkstra(false);
 //        controller.getCompleteGraph().show();
         System.out.println("test...............");
 
@@ -23,7 +23,7 @@ public class RequestLoadedState implements State{
         TSP tsp = controller.getTsp();
         tsp.setRecalcul(false);
         //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
-        Long[] solutions = tsp.searchSolution(30000, controller.getCompleteGraph());
+        Long[] solutions = tsp.searchSolution(30000, controller.getGraph());
         System.out.println("Solution of cost "+tsp.getSolutionCost());
         controller.getMission().updateTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
         window.getGraphicalView().setPaintTour(true);

@@ -1,10 +1,12 @@
 package Controller;
 
+import Model.Request;
 import Util.TourSerializer;
 import View.Window;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 public class CalculatedState implements State{
 
@@ -33,8 +35,11 @@ public class CalculatedState implements State{
         int rowNumber = table.getSelectedRow();
 
         String type = (String)table.getValueAt(rowNumber,1);
+        int num = -1;
         if (type.charAt(0) == 'p'){
             String[] res = type.split("p");
+            num = Integer.parseInt(res[2]);
+
             for (int i = 0; i < table.getRowCount(); i++) {
                 String requestType = (String)table.getValueAt(i,1);
                 if(requestType.contains(res[2])){
@@ -44,6 +49,8 @@ public class CalculatedState implements State{
             }
         }else if(type.charAt(0) == 'd'){
             String[] res = type.split("y");
+            num = Integer.parseInt(res[1]);
+
             for (int i = 0; i < table.getRowCount(); i++) {
                 String requestType = (String)table.getValueAt(i,1);
                 if(requestType.contains(res[1])){
@@ -52,15 +59,40 @@ public class CalculatedState implements State{
                 }
             }
         }else{
+            // TODO: handle exception
             System.out.println("You cannot delete the information for depot.");
         }
 
-        // Num now represents which request is being deleted.
+        if (num != -1) {
+            Request request = controller.getMission().deleteRequest(num);
 
-        // TODO: Update the request list
+            // delete the pickup of the request
+            ArrayList<Long> addressToUpdate = controller.getMission().getBeforeAfterAddress(request.getPickup().getId());
+            Long[] sequence = new Long[2];
+            sequence[0] = addressToUpdate.get(0);
+            sequence[1] = addressToUpdate.get(1);
+            ArrayList<Long> bestSolIntersection = new ArrayList<>();
+            bestSolIntersection.addAll(controller.getGraph().getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
+            double[] interAddressLength = new double[1];
+            interAddressLength[0] = controller.getGraph().getCost(sequence[0], sequence[1]);
+            controller.getMission().addTour(sequence, bestSolIntersection,interAddressLength);
 
-        // TODO: Repaint the Graphical View
+            // delete the delivery of the request
+            addressToUpdate = controller.getMission().getBeforeAfterAddress(request.getDelivery().getId());
+            sequence = new Long[2];
+            sequence[0] = addressToUpdate.get(0);
+            sequence[1] = addressToUpdate.get(1);
+            bestSolIntersection = new ArrayList<>();
+            bestSolIntersection.addAll(controller.getGraph().getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
+            interAddressLength = new double[1];
+            interAddressLength[0] = controller.getGraph().getCost(sequence[0], sequence[1]);
+            controller.getMission().addTour(sequence, bestSolIntersection,interAddressLength);
 
-        // TODO: Update the route calculated and the time calculated in the table
+
+            window.getGraphicalView().setPaintTour(true);
+            window.getGraphicalView().repaint();
+            window.getTextualView().updateRequestTable();
+        }
+
     }
 }

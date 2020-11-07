@@ -1,7 +1,6 @@
 package Controller;
 
 import Algorithm.TSP;
-import Model.Request;
 import View.Window;
 
 public class AddRequestState5 implements State{
@@ -16,9 +15,9 @@ public class AddRequestState5 implements State{
         //controller.getMapGraph().fillGraph(controller.getMap(), controller.getMission());
         //JgraphtMapGraph.calculateShortestPaths();
         System.out.println("test...............");
-        controller.getCompleteGraph().setRecalculatedRequests(controller.getMission().getNewAddList(),
+        controller.getGraph().setRecalculatedRequests(controller.getMission().getNewAddList(),
                 controller.getMission().getTour(), controller.getMission().getNewRequest());
-        controller.getCompleteGraph().dijkstra(true);
+        controller.getGraph().dijkstra(true);
 //        controller.getCompleteGraph().show();
         System.out.println("test...............");
 
@@ -26,8 +25,9 @@ public class AddRequestState5 implements State{
         TSP tsp = controller.getTsp();
         tsp.setRecalcul(true);
         //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
-        Long[] solutions = tsp.searchSolution(30000, controller.getCompleteGraph());
-        System.out.println("Solution of cost "+tsp.getSolutionCost());
+        Long[] solutions = tsp.searchSolution(30000, controller.getGraph());
+        controller.getGraph().updateMapGraph();
+        controller.getMission().updateAllRequests();
         controller.getMission().addTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
