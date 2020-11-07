@@ -28,8 +28,7 @@ public class RequestLoadedState implements State{
         controller.getMission().updateTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
-        //TODO: update TextualView
-        //window.getTextualView().updateRequestTable();
+        window.getTextualView().updateRequestTable();
         controller.setCurrentState(controller.calculatedState);
     }
 }

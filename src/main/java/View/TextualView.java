@@ -140,7 +140,6 @@ public class TextualView extends JPanel implements Observer {
         tableModel.getDataVector().removeAllElements();
         LinkedList<Long> tour = mission.getTour();
 
-        requestTour.clear();
         for (int i=0; i < tour.size(); ++i) {
             if (mission.getDepot().getId() == (long)tour.get(i)) {
                 requestTour.add(tour.get(i).toString());
