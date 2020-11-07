@@ -31,9 +31,11 @@ public class JgraphtMapGraph implements Algorithm.Graph {
 //        super();
         g = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 //        addressPriorities = new HashMap<>();
+        shortestPaths = new HashMap<>();
         allAddresses = new ArrayList<>();
         recalculatedRequests = new ArrayList<>();
         requestPairs = new HashMap<>();
+        minCost = Double.MAX_VALUE;
 //        depotAddress = -1L;
     }
 
@@ -44,6 +46,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         allAddresses.clear();
         recalculatedRequests.clear();
         requestPairs.clear();
+        shortestPaths.clear();
     }
 
     @Override
@@ -91,7 +94,6 @@ public class JgraphtMapGraph implements Algorithm.Graph {
 
     @Override
     public void setRequests(List<Request> allRequests, Intersection depot) {
-//        super.setRequests(allRequests, depot);
         allAddresses.add(depot.getId());
         for (Request request : allRequests) {
             allAddresses.add(request.getDelivery().getId());
