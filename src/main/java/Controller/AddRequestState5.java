@@ -29,11 +29,9 @@ public class AddRequestState5 implements State{
         Long[] solutions = tsp.searchSolution(30000, controller.getCompleteGraph());
         System.out.println("Solution of cost "+tsp.getSolutionCost());
         controller.getMission().addTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
-        controller.getMission().updateAllRequests();
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
-        //TODO: update TextualView
-        //window.getTextualView().updateRequestTable();
+        window.getTextualView().updateRequestTable();
         controller.setCurrentState(controller.calculatedState);
     }
 

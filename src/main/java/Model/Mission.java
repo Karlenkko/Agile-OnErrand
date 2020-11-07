@@ -1,5 +1,6 @@
 package Model;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -96,6 +97,7 @@ public class Mission extends Observable {
                 arrivalTimeSchedule.put(sequence[1], tempTime);
                 tempTime = tempTime.plusSeconds(request.getPickupDuration());
                 departureTimeSchedule.put(sequence[1], tempTime);
+                break;
             }
         }
 
@@ -117,11 +119,11 @@ public class Mission extends Observable {
         // arrival back to the depot
         tempTime = tempTime.plusSeconds((long) (interAddressLength[interAddressLength.length - 1] / SPEED));
         arrivalTimeSchedule.put(depot.getId(), tempTime);
-        System.out.println(arrivalTimeSchedule);
     }
 
     public void addTour(Long[] sequence, List<Long> bestSolIntersection, double[] interAddressLength) {
 
+        updateAllRequests();
 
         int start = tour.indexOf(sequence[0]);
         int end = tour.indexOf(sequence[sequence.length-1]);
@@ -149,6 +151,33 @@ public class Mission extends Observable {
             tourIntersections.add(start+i, bestSolIntersection.get(i));
         }
 
+        LocalTime tempTime = departureTimeSchedule.get(sequence[0]);
+
+        for (int i = 1; i < interAddressLength.length-1; i++) {
+            tempTime = tempTime.plusSeconds((long) (interAddressLength[i - 1] / SPEED));
+            arrivalTimeSchedule.put(sequence[i], tempTime);
+            for (Request request : allRequests) {
+                if (request.getPickup().getId().equals(sequence[i])) {
+                    tempTime = tempTime.plusSeconds(request.getPickupDuration());
+                    departureTimeSchedule.put(sequence[i], tempTime);
+                    break;
+                } else if (request.getDelivery().getId().equals(sequence[i])) {
+                    tempTime = tempTime.plusSeconds(request.getDeliveryDuration());
+                    departureTimeSchedule.put(sequence[i], tempTime);
+                    break;
+                }
+            }
+        }
+
+        LocalTime previousTime = arrivalTimeSchedule.get(sequence[sequence.length-1]);
+        tempTime = tempTime.plusSeconds((long) (interAddressLength[interAddressLength.length-1] / SPEED));
+        long elapsedSeconds = Duration.between(previousTime, tempTime).toSeconds();
+        for (int i = tour.indexOf(sequence[sequence.length-1]); i < tour.size(); ++i) {
+            Long addressId = tour.get(i);
+            arrivalTimeSchedule.put(addressId, arrivalTimeSchedule.get(addressId).plusSeconds(elapsedSeconds));
+            departureTimeSchedule.put(addressId, departureTimeSchedule.get(addressId).plusSeconds(elapsedSeconds));
+        }
+        arrivalTimeSchedule.put(depot.getId(), arrivalTimeSchedule.get(depot.getId()).plusSeconds(elapsedSeconds));
     }
 
     public void initialTour() {
