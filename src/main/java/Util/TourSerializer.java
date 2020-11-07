@@ -100,6 +100,7 @@ public class TourSerializer {
         navMessage.append(", whose longitude is ").append(mission.getDepot().getLongitude());
         navMessage.append(" and whose latitude is ").append(mission.getDepot().getLatitude()).append(".");
         navMessage.append("\n");
+        navMessage.append("\n");
     }
 
     private void segmentNavigation(Long origin, Long destination) {
