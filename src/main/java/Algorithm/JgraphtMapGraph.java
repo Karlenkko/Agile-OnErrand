@@ -15,10 +15,12 @@ import java.util.*;
 
 public class JgraphtMapGraph implements Algorithm.Graph {
     private static Graph<Long, DefaultWeightedEdge> g;
-//    private static HashMap<Long, Long> addressPriorities;
-    private static HashSet<Long> allAddresses;
+    private static HashMap<Long, Long> requestPairs;
+    private static ArrayList<Long> allAddresses;
+    private static ArrayList<Long> recalculatedRequests;
     private static DijkstraManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPathAlgo;
-    private static ManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPaths;
+    private static ManyToManyShortestPaths<Long, DefaultWeightedEdge> jgraphtShortestPaths;
+    protected HashMap<String, ArrayList<Long>> shortestPaths;
     public static double minCost;
 //    private static long depotAddress;
 
@@ -29,7 +31,9 @@ public class JgraphtMapGraph implements Algorithm.Graph {
 //        super();
         g = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 //        addressPriorities = new HashMap<>();
-        allAddresses = new HashSet<>();
+        allAddresses = new ArrayList<>();
+        recalculatedRequests = new ArrayList<>();
+        requestPairs = new HashMap<>();
 //        depotAddress = -1L;
     }
 
@@ -38,7 +42,23 @@ public class JgraphtMapGraph implements Algorithm.Graph {
 //        super.reset();
         g = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
         allAddresses.clear();
+        recalculatedRequests.clear();
+        requestPairs.clear();
     }
+
+    @Override
+    public ArrayList<Long> getAllAddresses(boolean recalculate) {
+        if (recalculate) {
+            return recalculatedRequests;
+        }
+        return allAddresses;
+    }
+
+//    @Override
+//    public ArrayList<Long> getAllAddresses() {
+//        return new ArrayList<>(allAddresses);
+//    }
+
 
     /**
      * @param recalculate
@@ -46,7 +66,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
      */
     @Override
     public int getNbVertices(boolean recalculate) {
-        return 0;
+        return allAddresses.size();
     }
 
     @Override
@@ -76,6 +96,30 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         for (Request request : allRequests) {
             allAddresses.add(request.getDelivery().getId());
             allAddresses.add(request.getPickup().getId());
+            this.requestPairs.put(request.getPickup().getId(),request.getDelivery().getId());
+        }
+    }
+
+    @Override
+    public void setRecalculatedRequests(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest) {
+        Long before = addRequestAddressList.get(0);
+        Long after = addRequestAddressList.get(3);
+        this.requestPairs.put(newRequest.getPickup().getId(),newRequest.getDelivery().getId());
+        recalculatedRequests.add(addRequestAddressList.get(0));
+        recalculatedRequests.add(addRequestAddressList.get(1));
+        recalculatedRequests.add(addRequestAddressList.get(2));
+        boolean add = false;
+
+        for (Long aLong : tour) {
+            if (add) {
+                recalculatedRequests.add(aLong);
+            }
+            if (aLong.equals(before)) {
+                add = true;
+            }
+            if (aLong.equals(after)) {
+                add = false;
+            }
         }
     }
 
@@ -84,19 +128,23 @@ public class JgraphtMapGraph implements Algorithm.Graph {
      */
     public void dijkstra(boolean recalculate) {
         shortestPathAlgo = new DijkstraManyToManyShortestPaths<>(g);
-        shortestPaths = shortestPathAlgo.getManyToManyPaths(allAddresses, allAddresses);
-        for (Long address : allAddresses) {
-            for (Long anotherAddress : allAddresses) {
+        HashSet<Long> addressSet = new HashSet<>(allAddresses);
+        if (recalculate) {
+            addressSet.addAll(recalculatedRequests);
+        }
+        jgraphtShortestPaths = shortestPathAlgo.getManyToManyPaths(addressSet, addressSet);
+        for (Long address : addressSet) {
+            for (Long anotherAddress : addressSet) {
 //                if (address.equals(anotherAddress)) {
 //                    continue;
 //                }
                 ArrayList<Long> shortestRoute = new ArrayList<>();
-                GraphPath<Long, DefaultWeightedEdge> graphPath = shortestPaths.getPath(address, anotherAddress);
-//                shortestRoute.addAll(graphPath.getVertexList());
-//                solutions.put(address + " " + anotherAddress, shortestRoute);
-//                graph[requests.indexOf(address)][requests.indexOf(anotherAddress)] = shortestPaths.getWeight(address, anotherAddress);
-                if (minCost > shortestPaths.getWeight(address, anotherAddress)) {
-                    minCost = shortestPaths.getWeight(address, anotherAddress);
+                GraphPath<Long, DefaultWeightedEdge> graphPath = jgraphtShortestPaths.getPath(address, anotherAddress);
+                shortestRoute.addAll(graphPath.getVertexList());
+                shortestPaths.put(address + " " + anotherAddress, shortestRoute);
+//                graph[requests.indexOf(address)][requests.indexOf(anotherAddress)] = jgraphtShortestPaths.getWeight(address, anotherAddress);
+                if (minCost > jgraphtShortestPaths.getWeight(address, anotherAddress)) {
+                    minCost = jgraphtShortestPaths.getWeight(address, anotherAddress);
                 }
             }
         }
@@ -111,19 +159,69 @@ public class JgraphtMapGraph implements Algorithm.Graph {
      */
     @Override
     public double getCost(long origin, long destination) {
-        return shortestPaths.getWeight(origin, destination);
+        return jgraphtShortestPaths.getWeight(origin, destination);
     }
 
     /**
-     * @param i
-     * @param j
+     * @param origin
+     * @param destination
      * @return true if <code>(i,j)</code> is an arc of <code>this</code>
      */
     @Override
-    public boolean isArc(long i, long j) {
-        return false;
+    public boolean isArc(long origin, long destination) {
+        int i = allAddresses.indexOf(origin);
+        int j = allAddresses.indexOf(destination);
+        if (i == -1 || j == -1) {
+            i = recalculatedRequests.indexOf(origin);
+            j = recalculatedRequests.indexOf(destination);
+            if (i<0 || i>=recalculatedRequests.size() || j<0 || j>=recalculatedRequests.size())
+                return false;
+            return i != j;
+        }
+        if (i<0 || i>=getNbVertices(false) || j<0 || j>=getNbVertices(false))
+            return false;
+        return i != j;
     }
 
+    @Override
+    public HashMap<String, ArrayList<Long>> getShortestPaths(boolean recalculate) {
+        return shortestPaths;
+    }
+
+    @Override
+    public Long getStartAddress(boolean recalculate) {
+        if (recalculate) {
+            return recalculatedRequests.get(0);
+        }
+        return allAddresses.get(0);
+    }
+
+    @Override
+    public void updateGraph() {
+        allAddresses.add(recalculatedRequests.get(1));
+        allAddresses.add(recalculatedRequests.get(2));
+
+        recalculatedRequests.clear();
+    }
+
+    public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate) {
+        if (recalculate) {
+            if (nextVertex.equals(recalculatedRequests.get(recalculatedRequests.size()-1)) && unvisited.size()!=1){
+                return false;
+            }
+        }
+
+        if (requestPairs.containsKey(nextVertex)){
+            return true;
+        } else {
+            for(Long origin : requestPairs.keySet()) {
+                if(requestPairs.get(origin).equals(nextVertex)) {
+                    return !unvisited.contains(origin);
+                }
+            }
+        }
+        return true;
+    }
 
 }
 

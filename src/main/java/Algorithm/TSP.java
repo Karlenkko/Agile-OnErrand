@@ -13,7 +13,7 @@ public interface TSP {
 	/*
 	public Long[] searchSolution(int timeLimit, JgraphtMapGraph g);
 	 */
-	public Long[] searchSolution(int timeLimit, MapGraph g);
+	public Long[] searchSolution(int timeLimit, Graph g);
 
 	public void setRecalculate(boolean recalculate);
 	/**

@@ -5,7 +5,7 @@ import java.util.*;
 public class MinFirstIter implements Iterator<Long> {
     private LinkedHashMap<Long, Double> unvisitedCosts;
 
-    public MinFirstIter(Collection<Long> unvisited, Long currentVertex, MapGraph g) {
+    public MinFirstIter(Collection<Long> unvisited, Long currentVertex, Graph g) {
         unvisitedCosts = new LinkedHashMap<>();
         double cost;
         for (Long s : unvisited) {

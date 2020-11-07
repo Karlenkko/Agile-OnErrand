@@ -55,7 +55,7 @@ public class MapGraph implements Graph {
 		allAddresses.clear();
 		recalculatedRequests.clear();
 		requestPairs.clear();
-		minCost = 100000000;
+		minCost = Double.MAX_VALUE;
 		minHash.clear();
 	}
 
@@ -119,13 +119,13 @@ public class MapGraph implements Graph {
 		}
 	}
 
-	public ArrayList<Long> getAllAddresses() {
-		return allAddresses;
-	}
+//	public ArrayList<Long> getAllAddresses() {
+//		return allAddresses;
+//	}
 
-	public double[][] getCostGraph() {
-		return costGraph;
-	}
+//	public double[][] getCostGraph() {
+//		return costGraph;
+//	}
 
 	public void dijkstra(boolean recalculate) {
 		minCost = Double.MAX_VALUE;
@@ -294,7 +294,7 @@ public class MapGraph implements Graph {
 		return allAddresses;
 	}
 
-	public Long getDepotAddress(boolean recalculate) {
+	public Long getStartAddress(boolean recalculate) {
 		if (recalculate) {
 			return recalculatedRequests.get(0);
 		}
@@ -303,7 +303,7 @@ public class MapGraph implements Graph {
 
 	public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate) {
 		if (recalculate) {
-			System.out.println(nextVertex+" "+unvisited.size());
+//			System.out.println(nextVertex+" "+unvisited.size());
 			if (nextVertex-recalculatedRequests.get(recalculatedRequests.size()-1)==0 && unvisited.size()!=1){
 				return false;
 			}
@@ -321,7 +321,8 @@ public class MapGraph implements Graph {
 		return true;
 	}
 
-	public void updateMapGraph() {
+	@Override
+	public void updateGraph() {
 		shortestPaths.putAll(newShortestPaths);
 		int size = allAddresses.size() + 2;
 		double[][] tempCostGraph = new double[size][size];

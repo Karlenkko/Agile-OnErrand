@@ -7,7 +7,7 @@ public abstract class TemplateTSP implements TSP {
 	private double[] bestSolAddressCost;
 	private LinkedList<Long> bestSolIntersection;
 	//protected JgraphtMapGraph g;
-	protected MapGraph g;
+	protected Graph g;
 	private double bestSolCost;
 	private int timeLimit;
 	private long startTime;
@@ -18,7 +18,7 @@ public abstract class TemplateTSP implements TSP {
 		this.recalculate = recalculate;
 	}
 	
-	public Long[] searchSolution(int timeLimit, MapGraph g){
+	public Long[] searchSolution(int timeLimit, Graph g){
 		if (timeLimit <= 0) return null;
 		startTime = System.currentTimeMillis();	
 		this.timeLimit = timeLimit;
@@ -36,14 +36,14 @@ public abstract class TemplateTSP implements TSP {
 		}
 		System.out.println("unvisited");
 		System.out.println("depot");
-		System.out.println(g.getDepotAddress(recalculate));
+		System.out.println(g.getStartAddress(recalculate));
 		System.out.println("depot");
 
-		unvisited.remove(g.getDepotAddress(recalculate));
+		unvisited.remove(g.getStartAddress(recalculate));
 		LinkedList<Long> visited = new LinkedList<>();
-		visited.add(g.getDepotAddress(recalculate)); // The first visited vertex is 0
+		visited.add(g.getStartAddress(recalculate)); // The first visited vertex is 0
 		bestSolCost = Double.MAX_VALUE;
-		branchAndBound(g.getDepotAddress(recalculate), unvisited, visited, 0);
+		branchAndBound(g.getStartAddress(recalculate), unvisited, visited, 0);
 		//fillTour();
 		completeTour();
 
@@ -95,7 +95,7 @@ public abstract class TemplateTSP implements TSP {
 	protected abstract Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, JgraphtMapGraph g);
 	 */
 
-	protected abstract Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, MapGraph g);
+	protected abstract Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, Graph g);
 
 	/**
 	 * Template method of a branch and bound algorithm for solving the TSP in <code>g</code>.
@@ -121,10 +121,10 @@ public abstract class TemplateTSP implements TSP {
 			}
 		}
 	    if (unvisited.size() == 0){
-	    	if (g.isArc(currentVertex,g.getDepotAddress(recalculate))){
-	    		if (currentCost+g.getCost(currentVertex,g.getDepotAddress(recalculate)) < bestSolCost){
+	    	if (g.isArc(currentVertex,g.getStartAddress(recalculate))){
+	    		if (currentCost+g.getCost(currentVertex,g.getStartAddress(recalculate)) < bestSolCost){
 	    			visited.toArray(bestSolAddress);
-	    			bestSolCost = currentCost+g.getCost(currentVertex,g.getDepotAddress(recalculate));
+	    			bestSolCost = currentCost+g.getCost(currentVertex,g.getStartAddress(recalculate));
 	    		}
 	    	}
 	    } else if (currentCost+bound(currentVertex,unvisited) < bestSolCost){

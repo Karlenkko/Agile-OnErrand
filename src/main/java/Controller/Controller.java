@@ -1,5 +1,6 @@
 package Controller;
 
+import Algorithm.Graph;
 import Algorithm.JgraphtMapGraph;
 import Algorithm.MapGraph;
 import Algorithm.TSP;
@@ -10,9 +11,9 @@ import View.Window;
 public class Controller {
     private Map map;
     private Mission mission;
-    private JgraphtMapGraph jgraphtMapGraph;
-    private MapGraph mapGraph;
-//    private Graph graph;
+//    private JgraphtMapGraph jgraphtMapGraph;
+//    private MapGraph mapGraph;
+    private Graph graph;
 
     private TSP tsp;
 
@@ -40,9 +41,9 @@ public class Controller {
     public Controller(Map map, Mission mission, JgraphtMapGraph jgraphtMapGraph, TSP tsp, MapGraph mapGraph) {
         this.map = map;
         this.mission = mission;
-        this.jgraphtMapGraph = jgraphtMapGraph;
+//        this.jgraphtMapGraph = jgraphtMapGraph;
         this.tsp = tsp;
-        this.mapGraph = mapGraph;
+        this.graph = mapGraph;
         window = new Window(this.map, this.mission, tsp, this);
         currentState = initialState;
     }
@@ -68,8 +69,8 @@ public class Controller {
         return tsp;
     }
 
-    public MapGraph getGraph() {
-        return mapGraph;
+    public Graph getGraph() {
+        return graph;
     }
 
     /**

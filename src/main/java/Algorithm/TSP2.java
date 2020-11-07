@@ -23,7 +23,7 @@ public class TSP2 extends TSP1 {
     }
      */
     @Override
-    protected Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, MapGraph g) {
+    protected Iterator<Long> iterator(Long currentVertex, Collection<Long> unvisited, Graph g) {
 //        return new SeqIter(unvisited, currentVertex, g);
         return new MinFirstIter(unvisited, currentVertex, g);
     }

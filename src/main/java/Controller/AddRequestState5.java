@@ -26,7 +26,7 @@ public class AddRequestState5 implements State{
         tsp.setRecalculate(true);
         //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
         Long[] solutions = tsp.searchSolution(30000, controller.getGraph());
-        controller.getGraph().updateMapGraph();
+        controller.getGraph().updateGraph();
         controller.getMission().updateAllRequests();
         controller.getMission().updatePartialTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
         window.getGraphicalView().setPaintTour(true);

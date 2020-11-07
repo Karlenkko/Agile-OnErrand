@@ -4,7 +4,7 @@ import Model.Intersection;
 import Model.Map;
 import Model.Request;
 
-import java.util.List;
+import java.util.*;
 
 public interface Graph {
 	/**
@@ -16,8 +16,17 @@ public interface Graph {
 
 	public abstract void setRequests(List<Request> allRequests, Intersection depot);
 
+	public abstract void setRecalculatedRequests(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest);
+	
 	public abstract void reset();
+	
+	public abstract void dijkstra(boolean recalculate);
 
+//	public abstract ArrayList<Long> getAllAddresses();
+
+	public abstract ArrayList<Long> getAllAddresses(boolean recalculate);
+	
+	public abstract boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate);
 	/**
 	 * @param i 
 	 * @param j 
@@ -32,4 +41,9 @@ public interface Graph {
 	 */
 	public abstract boolean isArc(long i, long j);
 
+	public abstract HashMap<String, ArrayList<Long>> getShortestPaths(boolean recalculate);
+
+	public abstract Long getStartAddress(boolean recalculate);
+
+	public abstract void updateGraph();
 }
