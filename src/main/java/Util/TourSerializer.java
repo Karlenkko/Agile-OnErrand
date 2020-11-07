@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
@@ -38,8 +39,7 @@ public class TourSerializer {
         long next;
         ListIterator i = mission.getTourIntersections().listIterator();
         current = (long) i.next();
-        LocalTime arrivalTime = null;
-        LocalTime departureTime = null;
+        ArrayList<Request> passedPickups = new ArrayList<>();
         while (i.hasNext()) {
             next = (long) i.next();
             if (current == next) {
@@ -50,9 +50,15 @@ public class TourSerializer {
                 segmentNavigation(current, next);
                 for (Request request : mission.getAllRequests()) {
                     if (request.getPickup().getId().equals(next)) {
+                        passedPickups.add(request);
                         addressNavigation(request, "pickup", mission.getArrivalTime(next), mission.getDepartureTime(next));
                     } else if (request.getDelivery().getId().equals(next)){
-                        addressNavigation(request, "delivery", mission.getArrivalTime(next), mission.getDepartureTime(next));
+                        for (Request passedPickup : passedPickups) {
+                            if (passedPickup.getDelivery().getId().equals(next)){
+                                addressNavigation(request, "delivery", mission.getArrivalTime(next), mission.getDepartureTime(next));
+                                break;
+                            }
+                        }
                     }
                 }
                 current = next;
