@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 
 public class PopupWindow extends JFrame {
 
-    JFrame jf = new JFrame("Enter the duration for the new requests‘ duration.");
+    JFrame jf = new JFrame("Enter the duration for the new requests' duration.");
     JButton valid = new JButton("Validate the duration");
     JButton cancel = new JButton("Cancel");
     JLabel pickup = new JLabel("Pickup duration en seconds:");
