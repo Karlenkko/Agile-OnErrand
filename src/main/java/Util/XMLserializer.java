@@ -22,7 +22,14 @@ public class XMLserializer extends Meituan {
             instance = new XMLserializer();
         return instance;
     }
-    
 
+/**
+ * Open an XML file and write an XML description of the plan in it
+ * @param plan the plan to serialise
+ * @throws ParserConfigurationException
+ * @throws TransformerFactoryConfigurationError
+ * @throws TransformerException
+ * @throws ExceptionXML
+ */
 
 }
