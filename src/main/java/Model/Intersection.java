@@ -1,7 +1,5 @@
 package Model;
 
-import Util.XMLserializer;
-
 public class Intersection {
 
     final static double RADIUS_MAJOR = 6378137.0;
@@ -75,6 +73,5 @@ public class Intersection {
 
     public double getLongitude() { return longitude; }
 
-    public void display(XMLserializer xmLserializer) {
-    }
+
 }
