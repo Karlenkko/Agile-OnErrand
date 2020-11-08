@@ -77,12 +77,5 @@ public void save(Map map) throws ParserConfigurationException, TransformerFactor
         attribut.setValue(value);
     }
 
-    @Override
-    public void display(Intersection i){
-        something = document.createElement("Intersection");
-        createAttribute(something,"Id",Integer.toString(Math.toIntExact(i.getId())));
-        createAttribute(something,"Latitude",Integer.toString((int) i.getLatitude()));
-        createAttribute(something,"X",Integer.toString((int) i.getX()));
-        createAttribute(something,"Y",Integer.toString((int) i.getY()));
-    }
+
 }
