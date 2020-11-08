@@ -24,4 +24,5 @@ public class TSP1 extends TemplateTSP {
         return new MinFirstIter(unvisited, currentVertex, g);
 	}
 
+
 }

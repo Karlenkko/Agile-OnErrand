@@ -1,6 +1,8 @@
 package Controller;
 
+import Algorithm.Graph;
 import Algorithm.TSP;
+import Model.Mission;
 import View.Window;
 
 public class AddRequestState5 implements State{
@@ -8,23 +10,29 @@ public class AddRequestState5 implements State{
 
 
     @Override
-    public void validNewRequest(Controller controller, Window window) {
-        // TODO: validate the two duration entered and then create a new Object Request.
-        System.out.println("calculating tour");
-        //JgraphtMapGraph.reset();
-        //controller.getMapGraph().fillGraph(controller.getMap(), controller.getMission());
-        //JgraphtMapGraph.calculateShortestPaths();
-        System.out.println("test...............");
+    public void validNewRequest(Controller controller, Window window, ListOfCommands listOfCommands) {
+
+        Graph g = controller.getGraph();
+        Mission mission = controller.getMission();
+        TSP tsp = controller.getTsp();
+
+        listOfCommands.add(new AddCommand(g, mission, tsp));
+
+
+
+        window.getGraphicalView().setPaintTour(true);
+        window.getGraphicalView().repaint();
+        window.getTextualView().updateRequestTable();
+        controller.setCurrentState(controller.calculatedState);
+
+        /*
         controller.getGraph().setRecalculatedRequests(controller.getMission().getNewAddList(),
                 controller.getMission().getTour(), controller.getMission().getNewRequest());
         controller.getGraph().dijkstra(true);
-//        controller.getCompleteGraph().show();
-        System.out.println("test...............");
 
         // start TSP calculation
         TSP tsp = controller.getTsp();
         tsp.setRecalculate(true);
-        //Long[] solutions = tsp.searchSolution(100000, controller.getMapGraph());
         Long[] solutions = tsp.searchSolution(30000, controller.getGraph());
         controller.getGraph().updateGraph();
         controller.getMission().updateAllRequests();
@@ -33,6 +41,7 @@ public class AddRequestState5 implements State{
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
         controller.setCurrentState(controller.calculatedState);
+         */
     }
 
     public void cancelNewRequest(Controller controller, Window window){

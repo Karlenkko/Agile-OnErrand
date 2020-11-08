@@ -25,7 +25,15 @@ public class MouseListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        controller.leftClick(e.getX() - window.getInsets().left, e.getY() - window.getInsets().top);
+        switch (e.getButton()) {
+            case MouseEvent.BUTTON1:
+                controller.leftClick(e.getX() - window.getInsets().left, e.getY() - window.getInsets().top);
+                break;
+            case MouseEvent.BUTTON3:
+                controller.rightClick();
+                break;
+        }
+
 
     }
 

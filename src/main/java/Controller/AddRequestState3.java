@@ -33,7 +33,8 @@ public class AddRequestState3 implements State{
 
     public void rightClick(Controller controller, Window window) {
         // TODO: Cancel the addition of the new request
-
+        controller.getMission().removeAdd();
+        window.getGraphicalView().repaint();
         controller.setCurrentState(controller.addRequestState2);
     }
 }
