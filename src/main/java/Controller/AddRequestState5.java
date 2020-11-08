@@ -16,7 +16,7 @@ public class AddRequestState5 implements State{
         Mission mission = controller.getMission();
         TSP tsp = controller.getTsp();
 
-        listOfCommands.add(new AddCommand(g, mission, tsp));
+        listOfCommands.add(new AddCommand(g, mission, tsp, mission.getNewRequest(), mission.getNewAddList()));
 
 
 
@@ -25,23 +25,6 @@ public class AddRequestState5 implements State{
         window.getTextualView().updateRequestTable();
         controller.setCurrentState(controller.calculatedState);
 
-        /*
-        controller.getGraph().setRecalculatedRequests(controller.getMission().getNewAddList(),
-                controller.getMission().getTour(), controller.getMission().getNewRequest());
-        controller.getGraph().dijkstra(true);
-
-        // start TSP calculation
-        TSP tsp = controller.getTsp();
-        tsp.setRecalculate(true);
-        Long[] solutions = tsp.searchSolution(30000, controller.getGraph());
-        controller.getGraph().updateGraph();
-        controller.getMission().updateAllRequests();
-        controller.getMission().updatePartialTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
-        window.getGraphicalView().setPaintTour(true);
-        window.getGraphicalView().repaint();
-        window.getTextualView().updateRequestTable();
-        controller.setCurrentState(controller.calculatedState);
-         */
     }
 
     public void cancelNewRequest(Controller controller, Window window){

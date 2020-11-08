@@ -53,7 +53,7 @@ public interface State {
 
     }
 
-    default void deleteRequest(Controller controller, Window window){}
+    default void deleteRequest(Controller controller, Window window, ListOfCommands listOfCommands){}
 
     default void validNewRequest(Controller controller, Window newWindow, ListOfCommands listOfCommands){}
 
@@ -61,7 +61,7 @@ public interface State {
 
     default void generateRoadMap(Controller controller){}
 
-    default void undo(ListOfCommands l){};
+    default void undo(ListOfCommands l, Window window){};
 
-    default void redo(ListOfCommands l){};
+    default void redo(ListOfCommands l, Window window){};
 }

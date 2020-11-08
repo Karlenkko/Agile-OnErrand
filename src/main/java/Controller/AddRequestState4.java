@@ -25,7 +25,6 @@ public class AddRequestState4 implements State{
 
             PopupWindow popupWindow = new PopupWindow(controller);
 
-            System.out.println(controller.getMission().getNewRequest());
 
             // need for further discussion
             controller.setCurrentState(controller.addRequestState5);

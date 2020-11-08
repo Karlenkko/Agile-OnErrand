@@ -1,5 +1,7 @@
 package Controller;
 
+import Algorithm.Graph;
+import Model.Mission;
 import Model.Request;
 import Util.TourSerializer;
 import View.Window;
@@ -29,7 +31,7 @@ public class CalculatedState implements State{
         System.out.println("addRequest");
     }
 
-    public void deleteRequest(Controller controller, Window window){
+    public void deleteRequest(Controller controller, Window window, ListOfCommands listOfCommands){
         JTable table = window.getTextualView().getRequestTable();
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         int rowNumber = table.getSelectedRow();
@@ -64,29 +66,14 @@ public class CalculatedState implements State{
         }
 
         if (num != -1) {
-            Request request = controller.getMission().deleteRequest(num);
+            Mission mission = controller.getMission();
+            Request request = mission.deleteRequest(num);
+            Graph g = controller.getGraph();
 
-            // delete the pickup of the request
-            ArrayList<Long> addressToUpdate = controller.getMission().getBeforeAfterAddress(request.getPickup().getId());
-            Long[] sequence = new Long[2];
-            sequence[0] = addressToUpdate.get(0);
-            sequence[1] = addressToUpdate.get(1);
-            ArrayList<Long> bestSolIntersection = new ArrayList<>();
-            bestSolIntersection.addAll(controller.getGraph().getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
-            double[] interAddressLength = new double[1];
-            interAddressLength[0] = controller.getGraph().getCost(sequence[0], sequence[1]);
-            controller.getMission().updatePartialTour(sequence, bestSolIntersection,interAddressLength);
+            ArrayList<Long> replacedRequestList = mission.getReplacedRequestsList(request);
 
-            // delete the delivery of the request
-            addressToUpdate = controller.getMission().getBeforeAfterAddress(request.getDelivery().getId());
-            sequence = new Long[2];
-            sequence[0] = addressToUpdate.get(0);
-            sequence[1] = addressToUpdate.get(1);
-            bestSolIntersection = new ArrayList<>();
-            bestSolIntersection.addAll(controller.getGraph().getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
-            interAddressLength = new double[1];
-            interAddressLength[0] = controller.getGraph().getCost(sequence[0], sequence[1]);
-            controller.getMission().updatePartialTour(sequence, bestSolIntersection,interAddressLength);
+            AddCommand cmd = new AddCommand(g, mission, controller.getTsp(), request, replacedRequestList);
+            listOfCommands.add(new ReverseCommand(cmd));
 
 
             window.getGraphicalView().setPaintTour(true);
@@ -97,12 +84,18 @@ public class CalculatedState implements State{
     }
 
     @Override
-    public void undo(ListOfCommands listOfCommands){
+    public void undo(ListOfCommands listOfCommands, Window window){
         listOfCommands.undo();
+        window.getGraphicalView().setPaintTour(true);
+        window.getGraphicalView().repaint();
+        window.getTextualView().updateRequestTable();
     }
 
     @Override
-    public void redo(ListOfCommands listOfCommands){
+    public void redo(ListOfCommands listOfCommands, Window window){
         listOfCommands.redo();
+        window.getGraphicalView().setPaintTour(true);
+        window.getGraphicalView().repaint();
+        window.getTextualView().updateRequestTable();
     }
 }

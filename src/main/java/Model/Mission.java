@@ -273,6 +273,7 @@ public class Mission extends Observable {
 
     public void updateAllRequests() {
         allRequests.add(newRequest);
+        incrementIndexTable();
         resetNewAdd();
         setNewRequest(null);
     }
@@ -289,7 +290,6 @@ public class Mission extends Observable {
 
     public void setNewRequest(Request newRequest) {
         Mission.newRequest = newRequest;
-        incrementIndexTable();
     }
 
     public boolean requestValid(Long idBefore, Long idAfter) {
@@ -311,6 +311,15 @@ public class Mission extends Observable {
         return null;
     }
 
+    public void deleteRequest(Request request) {
+        if (allRequests.contains(request)) {
+            int index = allRequests.indexOf(request);
+            indexTable.remove(index);
+        }
+        allRequests.remove(request);
+
+    }
+
     public ArrayList<Long> getBeforeAfterAddress(Long id) {
         ArrayList<Long> addressToUpdate = new ArrayList<>();
         int i = tour.indexOf(id);
@@ -324,5 +333,23 @@ public class Mission extends Observable {
     }
 
 
+    public int getMaxIndex() {
+        return maxIndex;
+    }
 
+    public ArrayList<Long> getReplacedRequestsList(Request request) {
+        ArrayList<Long> replacedRequestsList = new ArrayList<>();
+        for (int i = 0; i < tour.size(); ++i) {
+            if(tour.get(i) - request.getPickup().getId() == 0) {
+                replacedRequestsList.add(tour.get(i-1));
+                replacedRequestsList.add(tour.get(i));
+            }
+            if(tour.get(i) - request.getDelivery().getId() == 0) {
+                replacedRequestsList.add(tour.get(i));
+                replacedRequestsList.add(tour.get(i+1));
+                break;
+            }
+        }
+        return replacedRequestsList;
+    }
 }

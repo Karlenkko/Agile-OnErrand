@@ -101,7 +101,7 @@ public class Controller {
 
     public void addRequest(){ currentState.addRequest(this, window); }
 
-    public void deleteRequest(){ currentState.deleteRequest(this,window); }
+    public void deleteRequest(){ currentState.deleteRequest(this,window, listOfCommands); }
     public void leftClick(int positionX, int positionY){ currentState.leftClick(this , window , positionX, positionY); }
 
     public void rightClick(){ currentState.rightClick(this, window);}
@@ -110,8 +110,8 @@ public class Controller {
 
     public void generateRoadMap(){ currentState.generateRoadMap(this);}
 
-    public void undo(){ currentState.undo(listOfCommands);}
+    public void undo(){ currentState.undo(listOfCommands, window);}
 
-    public void redo(){ currentState.redo(listOfCommands);}
+    public void redo(){ currentState.redo(listOfCommands, window);}
 
 }
