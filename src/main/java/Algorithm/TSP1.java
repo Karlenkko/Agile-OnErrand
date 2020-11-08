@@ -8,8 +8,8 @@ public class TSP1 extends TemplateTSP {
 
 
 	@Override
-	protected int bound(long currentVertex, Collection<Long> unvisited) {
-		return (int) (unvisited.size() * MapGraph.minCost);
+	protected int bound(long currentVertex, Collection<Long> unvisited, Graph g) {
+		return (int) (unvisited.size() * g.getMinCost());
 	}
 
 	/*

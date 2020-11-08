@@ -46,4 +46,8 @@ public interface Graph {
 	public abstract Long getStartAddress(boolean recalculate);
 
 	public abstract void updateGraph();
+
+	public abstract double getMinCost();
+
+	public abstract HashMap<Long, Double> getMinHash();
 }

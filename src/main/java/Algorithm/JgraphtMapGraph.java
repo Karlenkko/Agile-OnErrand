@@ -21,7 +21,8 @@ public class JgraphtMapGraph implements Algorithm.Graph {
     private static DijkstraManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPathAlgo;
     private static ManyToManyShortestPaths<Long, DefaultWeightedEdge> jgraphtShortestPaths;
     protected HashMap<String, ArrayList<Long>> shortestPaths;
-    public static double minCost;
+    protected double minCost;
+    protected HashMap<Long, Double> minHash;
 //    private static long depotAddress;
 
     /**
@@ -36,6 +37,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         recalculatedRequests = new ArrayList<>();
         requestPairs = new HashMap<>();
         minCost = Double.MAX_VALUE;
+        minHash = new HashMap<>();
 //        depotAddress = -1L;
     }
 
@@ -47,6 +49,8 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         recalculatedRequests.clear();
         requestPairs.clear();
         shortestPaths.clear();
+        minCost = Double.MAX_VALUE;
+        minHash.clear();
     }
 
     @Override
@@ -145,13 +149,25 @@ public class JgraphtMapGraph implements Algorithm.Graph {
                 shortestRoute.addAll(graphPath.getVertexList());
                 shortestPaths.put(address + " " + anotherAddress, shortestRoute);
 //                graph[requests.indexOf(address)][requests.indexOf(anotherAddress)] = jgraphtShortestPaths.getWeight(address, anotherAddress);
-                if (minCost > jgraphtShortestPaths.getWeight(address, anotherAddress)) {
-                    minCost = jgraphtShortestPaths.getWeight(address, anotherAddress);
+                if (!address.equals(anotherAddress)) {
+                    if (minCost > jgraphtShortestPaths.getWeight(address, anotherAddress)){
+                        minCost = jgraphtShortestPaths.getWeight(address, anotherAddress);
+                    }
+                    updateMinHash(address, jgraphtShortestPaths.getWeight(address, anotherAddress));
                 }
             }
         }
     }
 
+    private void updateMinHash(Long id, Double length) {
+        if (minHash.containsKey(id)) {
+            if (minHash.get(id) > length) {
+                minHash.put(id, length);
+            }
+        } else {
+            minHash.put(id, length);
+        }
+    }
 
 
     /**
@@ -204,6 +220,16 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         allAddresses.add(recalculatedRequests.get(2));
 
         recalculatedRequests.clear();
+    }
+
+    @Override
+    public double getMinCost() {
+        return minCost;
+    }
+
+    @Override
+    public HashMap<Long, Double> getMinHash() {
+        return minHash;
     }
 
     public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate) {

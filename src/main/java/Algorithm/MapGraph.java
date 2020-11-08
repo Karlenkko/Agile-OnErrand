@@ -20,8 +20,8 @@ public class MapGraph implements Graph {
 	protected ArrayList<Long> black = new ArrayList<>();
 
 	protected HashMap<Long, Long> requestPairs;
-	public static double minCost;
-	public static HashMap<Long, Double> minHash;
+	protected double minCost;
+	protected HashMap<Long, Double> minHash;
 
 	protected ArrayList<Long> recalculatedRequests;
 
@@ -29,6 +29,14 @@ public class MapGraph implements Graph {
 	protected double[][] newCostGraph;
 
 	protected HashMap<String, ArrayList<Long>> newShortestPaths;
+
+	public double getMinCost() {
+		return minCost;
+	}
+
+	public HashMap<Long, Double> getMinHash() {
+		return minHash;
+	}
 
 	public MapGraph(){
 		intersectionToIntersections = new HashMap<>();
@@ -190,17 +198,15 @@ public class MapGraph implements Graph {
 					++i;
 				}
 				if (i == requestsList.size()) {
-					// System.out.println("break");
 					break;
 				}
 			}
 			initial();
 		}
-
 	}
 
 
-	public void updateMinHash(Long id, Double length) {
+	private void updateMinHash(Long id, Double length) {
 		if (minHash.containsKey(id)) {
 			if (minHash.get(id) > length) {
 				minHash.put(id, length);

@@ -8,10 +8,10 @@ public class TSP2 extends TSP1 {
 
 
     @Override
-    protected int bound(long currentVertex, Collection<Long> unvisited) {
+    protected int bound(long currentVertex, Collection<Long> unvisited, Graph g) {
         double somme = 0;
         for (Long l : unvisited) {
-            somme += MapGraph.minHash.get(l);
+            somme += g.getMinHash().get(l);
         }
         return (int)Math.round(somme);
     }
