@@ -10,23 +10,14 @@ public class AddRequestState5 implements State{
 
 
     @Override
-    public void validNewRequest(Controller controller, Window window) {
+    public void validNewRequest(Controller controller, Window window, ListOfCommands listOfCommands) {
 
         Graph g = controller.getGraph();
         Mission mission = controller.getMission();
         TSP tsp = controller.getTsp();
 
+        listOfCommands.add(new AddCommand(g, mission, tsp));
 
-        g.setRecalculatedRequests(mission.getNewAddList(), mission.getTour(), mission.getNewRequest());
-        g.dijkstra(true);
-
-        // start TSP calculation
-
-        tsp.setRecalculate(true);
-        Long[] solutions = tsp.searchSolution(30000, g);
-        g.updateGraph();
-        mission.updateAllRequests();
-        mission.updatePartialTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
 
 
         window.getGraphicalView().setPaintTour(true);
@@ -55,9 +46,7 @@ public class AddRequestState5 implements State{
 
     public void cancelNewRequest(Controller controller, Window window){
         // TODO: cancel the add of a new Request
-        controller.getMission().resetNewAdd();
-        window.getGraphicalView().setPaintAdd(false);
-        window.getGraphicalView().repaint();
-        controller.setCurrentState(controller.calculatedState);
+
+        controller.setCurrentState(controller.addRequestState4);
     }
 }

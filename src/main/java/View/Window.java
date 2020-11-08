@@ -27,9 +27,11 @@ public class Window extends JFrame{
     protected static final String GENERATE_ROADMAP = "Generate roadmap";
     protected static final String ADD_REQUEST = "Add request";
     protected static final String DELETE_REQUEST = "Delete request";
+    protected static final String UNDO = "Undo";
+    protected static final String REDO = "Redo";
 
     private final String[] buttonTexts = new String[] {
-            LOAD_MAP, LOAD_REQUESTS, CALCULATE, ADD_REQUEST, DELETE_REQUEST, GENERATE_ROADMAP
+            LOAD_MAP, LOAD_REQUESTS, CALCULATE, ADD_REQUEST, DELETE_REQUEST, GENERATE_ROADMAP, UNDO, REDO
     };
     // window button indication information
     protected static final String LOAD_MAP_INFO = "load a .xml map and display it";

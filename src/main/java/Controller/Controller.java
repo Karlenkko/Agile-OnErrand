@@ -19,6 +19,7 @@ public class Controller {
 
     private Window window;
     private State currentState;
+    private ListOfCommands listOfCommands;
 
     //state instances
     protected final InitialState initialState = new InitialState();
@@ -46,6 +47,7 @@ public class Controller {
         this.graph = mapGraph;
         window = new Window(this.map, this.mission, tsp, this);
         currentState = initialState;
+        listOfCommands = new ListOfCommands();
     }
 
     /**
@@ -104,8 +106,12 @@ public class Controller {
 
     public void rightClick(){ currentState.rightClick(this, window);}
 
-    public void validNewRequest(){ currentState.validNewRequest(this, window); }
+    public void validNewRequest(){ currentState.validNewRequest(this, window, listOfCommands); }
 
     public void generateRoadMap(){ currentState.generateRoadMap(this);}
+
+    public void undo(){ currentState.undo(listOfCommands);}
+
+    public void redo(){ currentState.redo(listOfCommands);}
 
 }
