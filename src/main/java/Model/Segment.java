@@ -22,6 +22,10 @@ public class Segment {
         this.length = length;
     }
 
+    public Segment() {
+
+    }
+
     public Intersection getOrigin() {
         return origin;
     }
