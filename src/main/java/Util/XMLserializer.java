@@ -72,11 +72,18 @@ public void save(Map map) throws ParserConfigurationException, TransformerFactor
         document.createAttribute("name");
         document.createAttribute("length");
 
-        Iterator<Intersection> it = (Iterator<Intersection>) segment.getOrigin();
-        while (it.hasNext()){
-            it.next().display(this);
+        Iterator<Intersection> itOrigin = (Iterator<Intersection>) segment.getOrigin();
+        while (itOrigin.hasNext()){
+            itOrigin.next().display(this);
             racine.appendChild(something);
         }
+
+        Iterator<Intersection> itDestination = (Iterator<Intersection>) segment.getDestination();
+        while (itDestination.hasNext()){
+            itDestination.next().display(this);
+            racine.appendChild(something);
+        }
+        
         return racine;
     }
 
