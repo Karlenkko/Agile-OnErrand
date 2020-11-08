@@ -21,6 +21,13 @@ public class Request {
         this.deliveryDuration = deliveryDuration;
     }
 
+    public Request(Request request) {
+        this.pickup = request.pickup;
+        this.delivery = request.delivery;
+        this.pickupDuration = request.pickupDuration;
+        this.deliveryDuration = request.deliveryDuration;
+    }
+
     public Intersection getPickup() {
         return pickup;
     }

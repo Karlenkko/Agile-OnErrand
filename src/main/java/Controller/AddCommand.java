@@ -20,8 +20,8 @@ public class AddCommand implements Command{
         this.g = g;
         this.mission = mission;
         this.tsp = tsp;
-        this.request = request;
-        this.replacedRequestList = replacedRequestList;
+        this.request = new Request(request);
+        this.replacedRequestList = new ArrayList<>(replacedRequestList);
         System.out.println("replacedRequests");
         for(Long l : replacedRequestList) {
             System.out.println(l);
