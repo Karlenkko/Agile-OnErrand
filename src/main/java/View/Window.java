@@ -45,10 +45,13 @@ public class Window extends JFrame{
             "\n4.select an existing ending address" +
             "\n5.fill the information";
     protected static final String DELETE_REQUEST_INFO = "delete a selected request";
+    protected static final String UNDO_INFO = "undo an operation";
+    protected static final String REDO_INFO = "redo an operation";
 
     private final String[] buttonInfos = new String[] {
             LOAD_MAP_INFO, LOAD_REQUESTS_INFO, CALCULATE_INFO,
-            ADD_REQUEST_INFO, DELETE_REQUEST_INFO, GENERATE_ROADMAP_INFO
+            ADD_REQUEST_INFO, DELETE_REQUEST_INFO, GENERATE_ROADMAP_INFO,
+            UNDO_INFO, REDO_INFO
     };
 
     private static String lastInfo;
