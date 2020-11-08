@@ -58,7 +58,12 @@ public class TextualView extends JPanel implements Observer {
         this.add(jScrollPane);
     }
 
+    public void setLockInstruction(boolean lockInstruction) {
+        this.lockInstruction = lockInstruction;
+    }
+
     public void setTextAreaText(String s) {
+        if (lockInstruction) return;
         this.textArea.setText(s);
     }
 

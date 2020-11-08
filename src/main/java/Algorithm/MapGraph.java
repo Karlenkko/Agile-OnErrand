@@ -173,7 +173,7 @@ public class MapGraph implements Graph {
 				}
 				black.add(grayAddress);
 				if (requestsList.contains(grayAddress)) {
-					System.out.println(origin + " " +grayAddress);
+					// System.out.println(origin + " " +grayAddress);
 					Long d = grayAddress;
 					ArrayList<Long> route = new ArrayList<>();
 					while (intersectionPrecedents.get(d) != -1L) {
@@ -185,12 +185,12 @@ public class MapGraph implements Graph {
 					if(minCost > toIntersectionCosts.get(grayAddress)) {
 						minCost = toIntersectionCosts.get(grayAddress);
 					}
-					//updateMinHash(grayAddress, toIntersectionCosts.get(grayAddress));
+					updateMinHash(grayAddress, toIntersectionCosts.get(grayAddress));
 					requestGraph[requestsList.indexOf(origin)][requestsList.indexOf(grayAddress)] = toIntersectionCosts.get(grayAddress);
 					++i;
 				}
 				if (i == requestsList.size()) {
-					System.out.println("break");
+					// System.out.println("break");
 					break;
 				}
 			}

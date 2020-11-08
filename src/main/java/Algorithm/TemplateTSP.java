@@ -29,15 +29,15 @@ public abstract class TemplateTSP implements TSP {
 		bestSolAddressCost = new double[g.getNbVertices(recalculate)];
 		LinkedList<Long> unvisited = new LinkedList<>();
 
-		System.out.println("unvisited");
+		//System.out.println("unvisited");
 		for(Long l : g.getAllAddresses(recalculate)) {
-			System.out.println(l);
+			//System.out.println(l);
 			unvisited.add(l);
 		}
-		System.out.println("unvisited");
-		System.out.println("depot");
-		System.out.println(g.getStartAddress(recalculate));
-		System.out.println("depot");
+		//System.out.println("unvisited");
+		//System.out.println("depot");
+		//System.out.println(g.getStartAddress(recalculate));
+		//System.out.println("depot");
 
 		unvisited.remove(g.getStartAddress(recalculate));
 		LinkedList<Long> visited = new LinkedList<>();
@@ -49,8 +49,8 @@ public abstract class TemplateTSP implements TSP {
 
 		for (int i = 0; i < bestSolAddress.length; i ++) {
 			bestSolAddressCost[i] = g.getCost(bestSolAddress[i], bestSolAddress[(i + 1 >= bestSolAddress.length? 0 : i + 1)]);
-			System.out.print(bestSolAddressCost[i]);
-			System.out.print("  ,");
+			//System.out.print(bestSolAddressCost[i]);
+			//System.out.print("  ,");
 		}
 
 
@@ -161,7 +161,7 @@ public abstract class TemplateTSP implements TSP {
 
 		 */
 		for (int i = 1; i < bestSolAddress.length; i++) {
-			System.out.println(bestSolAddress[i-1]+" "+bestSolAddress[i]);
+			//System.out.println(bestSolAddress[i-1]+" "+bestSolAddress[i]);
 			bestSolIntersection.addAll(g.getShortestPaths(recalculate).get(bestSolAddress[i-1]+" "+bestSolAddress[i]));
 			bestSolIntersection.remove(bestSolIntersection.size() - 1);
 		}
