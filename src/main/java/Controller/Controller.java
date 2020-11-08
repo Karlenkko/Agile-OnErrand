@@ -37,14 +37,14 @@ public class Controller {
      * with the empty but instanced cityMap, mission and jgraphtMapGraph
      * @param map the object Map, currently empty
      * @param mission the object Mission, currently empty
-     * @param jgraphtMapGraph the object JgraphtMapGraph, currently empty
+     * @param graph the object JgraphtMapGraph, currently empty
      */
-    public Controller(Map map, Mission mission, JgraphtMapGraph jgraphtMapGraph, TSP tsp, MapGraph mapGraph) {
+    public Controller(Map map, Mission mission, Graph graph, TSP tsp) {
         this.map = map;
         this.mission = mission;
 //        this.jgraphtMapGraph = jgraphtMapGraph;
         this.tsp = tsp;
-        this.graph = mapGraph;
+        this.graph = graph;
         window = new Window(this.map, this.mission, tsp, this);
         currentState = initialState;
         listOfCommands = new ListOfCommands();
