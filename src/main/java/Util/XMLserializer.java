@@ -65,19 +65,24 @@ public void save(Map map) throws ParserConfigurationException, TransformerFactor
     xformer.setOutputProperty(OutputKeys.INDENT, "yes");
     xformer.transform(source, result);
 }
-    
 
-    public void createAttribute(Element root, String name, String value){
+    private Node createSegmentElt(Segment segment) {
+        Element racine = document.createElement("segment");
+        return racine;
+    }
+
+    private void createAttribute(Element root, String name, String value){
         Attr attribut = document.createAttribute(name);
         root.setAttributeNode(attribut);
         attribut.setValue(value);
     }
 
-
-
     @Override
-    public void display(Intersection{
+    public void display(Intersection i){
         something = document.createElement("Intersection");
-
+        createAttribute(something,"Id",Integer.toString(Math.toIntExact(i.getId())));
+        createAttribute(something,"Latitude",Integer.toString((int) i.getLatitude()));
+        createAttribute(something,"X",Integer.toString((int) i.getX()));
+        createAttribute(something,"Y",Integer.toString((int) i.getY()));
     }
 }
