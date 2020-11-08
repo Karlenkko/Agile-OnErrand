@@ -346,7 +346,11 @@ public class Mission extends Observable {
             }
             if(tour.get(i) - request.getDelivery().getId() == 0) {
                 replacedRequestsList.add(tour.get(i));
-                replacedRequestsList.add(tour.get(i+1));
+                if (i == tour.size()-1) {
+                    replacedRequestsList.add(tour.get(0));
+                }else {
+                    replacedRequestsList.add(tour.get(i+1));
+                }
                 break;
             }
         }

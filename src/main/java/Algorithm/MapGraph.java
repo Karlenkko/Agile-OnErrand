@@ -190,10 +190,12 @@ public class MapGraph implements Graph {
 					}
 					route.add(0, d);
 					solutionList.put(origin + " " +grayAddress, route);
-					if(minCost > toIntersectionCosts.get(grayAddress)) {
-						minCost = toIntersectionCosts.get(grayAddress);
+					if (toIntersectionCosts.get(grayAddress) != 0) {
+						if(minCost > toIntersectionCosts.get(grayAddress)) {
+							minCost = toIntersectionCosts.get(grayAddress);
+						}
+						updateMinHash(grayAddress, toIntersectionCosts.get(grayAddress));
 					}
-					updateMinHash(grayAddress, toIntersectionCosts.get(grayAddress));
 					requestGraph[requestsList.indexOf(origin)][requestsList.indexOf(grayAddress)] = toIntersectionCosts.get(grayAddress);
 					++i;
 				}
