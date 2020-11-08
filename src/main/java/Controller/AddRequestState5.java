@@ -55,7 +55,9 @@ public class AddRequestState5 implements State{
 
     public void cancelNewRequest(Controller controller, Window window){
         // TODO: cancel the add of a new Request
-
-        controller.setCurrentState(controller.addRequestState4);
+        controller.getMission().resetNewAdd();
+        window.getGraphicalView().setPaintAdd(false);
+        window.getGraphicalView().repaint();
+        controller.setCurrentState(controller.calculatedState);
     }
 }

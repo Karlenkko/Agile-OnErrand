@@ -23,6 +23,9 @@ public class AddRequestState1 implements State {
 
     public void rightClick(Controller controller, Window window) {
         // TODO: Cancel the addition of the new request
+        controller.getMission().removeAdd();
+        window.getGraphicalView().setPaintAdd(false);
+        window.getGraphicalView().repaint();
         controller.setCurrentState(controller.calculatedState);
     }
 

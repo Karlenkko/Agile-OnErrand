@@ -33,36 +33,39 @@ public class CalculatedState implements State{
         JTable table = window.getTextualView().getRequestTable();
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         int rowNumber = table.getSelectedRow();
-
-        String type = (String)table.getValueAt(rowNumber,1);
         int num = -1;
-        if (type.charAt(0) == 'p'){
-            String[] res = type.split("p");
-            num = Integer.parseInt(res[2]);
+        try {
+            String type = (String) table.getValueAt(rowNumber, 1);
 
-            for (int i = 0; i < table.getRowCount(); i++) {
-                String requestType = (String)table.getValueAt(i,1);
-                if(requestType.contains(res[2])){
-                    tableModel.removeRow(i);
-                    -- i;
-                }
-            }
-        }else if(type.charAt(0) == 'd'){
-            String[] res = type.split("y");
-            num = Integer.parseInt(res[1]);
+            if (type.charAt(0) == 'p') {
+                String[] res = type.split("p");
+                num = Integer.parseInt(res[2]);
 
-            for (int i = 0; i < table.getRowCount(); i++) {
-                String requestType = (String)table.getValueAt(i,1);
-                if(requestType.contains(res[1])){
-                    tableModel.removeRow(i);
-                    -- i;
+                for (int i = 0; i < table.getRowCount(); i++) {
+                    String requestType = (String) table.getValueAt(i, 1);
+                    if (requestType.contains(res[2])) {
+                        tableModel.removeRow(i);
+                        --i;
+                    }
                 }
+            } else if (type.charAt(0) == 'd' && type.charAt(2) == 'l') {
+                String[] res = type.split("y");
+                num = Integer.parseInt(res[1]);
+
+                for (int i = 0; i < table.getRowCount(); i++) {
+                    String requestType = (String) table.getValueAt(i, 1);
+                    if (requestType.contains(res[1])) {
+                        tableModel.removeRow(i);
+                        --i;
+                    }
+                }
+            } else {
+                // TODO: handle exception
+                window.getTextualView().setTextAreaText("You cannot delete the information for depot.");
             }
-        }else{
-            // TODO: handle exception
-            System.out.println("You cannot delete the information for depot.");
+        } catch (Exception e) {
+            window.getTextualView().setTextAreaText("You have not selected any address of a request");
         }
-
         if (num != -1) {
             Request request = controller.getMission().deleteRequest(num);
 
@@ -91,6 +94,7 @@ public class CalculatedState implements State{
 
             window.getGraphicalView().setPaintTour(true);
             window.getGraphicalView().repaint();
+            window.getTextualView().setTextAreaText("You have deleted the request" + num);
             window.getTextualView().updateRequestTable();
         }
 
