@@ -67,23 +67,8 @@ public void save(Map map) throws ParserConfigurationException, TransformerFactor
 
     private Node createSegmentElt(Segment segment) {
         Element racine = document.createElement("segment");
-        document.createAttribute("origin");
-        document.createAttribute("destination");
-        document.createAttribute("name");
-        document.createAttribute("length");
 
-        Iterator<Intersection> itOrigin = (Iterator<Intersection>) segment.getOrigin();
-        while (itOrigin.hasNext()){
-            itOrigin.next().display(this);
-            racine.appendChild(something);
-        }
 
-        Iterator<Intersection> itDestination = (Iterator<Intersection>) segment.getDestination();
-        while (itDestination.hasNext()){
-            itDestination.next().display(this);
-            racine.appendChild(something);
-        }
-        
         return racine;
     }
 
