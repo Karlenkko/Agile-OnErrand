@@ -8,8 +8,6 @@ public class AddRequestState2 implements State{
 
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
-        // TODO: Click on the intersection and make it as the pickup point of the new request
-
         Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY,window.getRate());
         if(!controller.getMission().getNewAddList().contains(intersection.getId())){
             controller.getMission().addNewAdd(intersection.getId());

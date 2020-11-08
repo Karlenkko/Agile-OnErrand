@@ -77,7 +77,7 @@ public class MapGraph implements Graph {
 		boolean add = false;
 
 		for (Long aLong : tour) {
-			if (add) {
+			if (add && (!recalculatedRequests.contains(aLong))) {
 				recalculatedRequests.add(aLong);
 			}
 			if (aLong.equals(before)) {
@@ -88,13 +88,6 @@ public class MapGraph implements Graph {
 			}
 		}
 
-		/*
-		for (int i = 1; i < recalculatedRequests.size()-1; ++i) {
-			this.newAllRequests.put(recalculatedRequests.get(0),recalculatedRequests.get(i));
-			this.newAllRequests.put(recalculatedRequests.get(i),recalculatedRequests.get(recalculatedRequests.size()-1));
-		}
-		this.newAllRequests.put(recalculatedRequests.get(0),recalculatedRequests.get(recalculatedRequests.size()-1));
-		 */
 		newCostGraph = new double[recalculatedRequests.size()][recalculatedRequests.size()];
 		for (double[] doubles : newCostGraph) {
 			Arrays.fill(doubles, -1.0);
@@ -332,7 +325,7 @@ public class MapGraph implements Graph {
 	@Override
 	public void updateGraph() {
 		shortestPaths.putAll(newShortestPaths);
-		int size = allAddresses.size() + 2;
+		int size = costGraph.length + 2;
 		double[][] tempCostGraph = new double[size][size];
 		for(int i = 0; i < costGraph.length; ++i) {
 			for (int j = 0; j < costGraph[i].length; ++j) {
@@ -351,11 +344,11 @@ public class MapGraph implements Graph {
 				}
 
 				int indexDestination = 0;
-				if (i == 1 || i == 2) {
-					indexDestination = i + costGraph.length - 1;
+				if (j == 1 || j == 2) {
+					indexDestination = j + costGraph.length - 1;
 				}
-				if (allAddresses.contains(recalculatedRequests.get(i))) {
-					indexDestination = allAddresses.indexOf(recalculatedRequests.get(i));
+				if (allAddresses.contains(recalculatedRequests.get(j))) {
+					indexDestination = allAddresses.indexOf(recalculatedRequests.get(j));
 				}
 
 				tempCostGraph[indexOrigin][indexDestination] = newCostGraph[i][j];

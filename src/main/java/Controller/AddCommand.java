@@ -15,6 +15,7 @@ public class AddCommand implements Command{
     private TSP tsp;
     private Request request;
     private ArrayList<Long> replacedRequestList;
+    int num = -1;
 
     public AddCommand(Graph g, Mission mission, TSP tsp, Request request, ArrayList<Long> replacedRequestList) {
         this.g = g;
@@ -22,12 +23,6 @@ public class AddCommand implements Command{
         this.tsp = tsp;
         this.request = new Request(request);
         this.replacedRequestList = new ArrayList<>(replacedRequestList);
-        System.out.println("replacedRequests");
-        for(Long l : replacedRequestList) {
-            System.out.println(l);
-        }
-        System.out.println("replacedRequests");
-
     }
 
 
@@ -42,15 +37,32 @@ public class AddCommand implements Command{
         tsp.setRecalculate(true);
         Long[] solutions = tsp.searchSolution(30000, g);
         g.updateGraph();
-        mission.updateAllRequests();
+        mission.updateAllRequests(num);
         mission.updatePartialTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
+
+        System.out.println("doCommand");
+        System.out.println("Tour");
+        for(int i = 0; i < mission.getTour().size(); ++i) {
+            System.out.print(mission.getTour().get(i) +" ");
+        }
+        System.out.println("Tour");
+        System.out.println("TourIntersection");
+        for(int i = 0; i < mission.getTourIntersections().size(); ++i) {
+            System.out.print(mission.getTourIntersections().get(i) +" ");
+        }
+        System.out.println("TourIntersection");
+        System.out.println("all Requests");
+        for(int i = 0; i < mission.getAllRequests().size(); ++i) {
+            System.out.println(mission.getAllRequests().get(i).getPickup().getId());
+        }
+        System.out.println("all Requests");
+        System.out.println("doCommand");
     }
 
     @Override
     public void undoCommand() {
 
-        System.out.println("entering");
-        mission.deleteRequest(request);
+        num = mission.deleteRequest(request);
 
         // delete the pickup of the request
         ArrayList<Long> addressToUpdate = mission.getBeforeAfterAddress(request.getPickup().getId());
@@ -63,6 +75,7 @@ public class AddCommand implements Command{
         interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
         mission.updatePartialTour(sequence, bestSolIntersection,interAddressLength);
 
+
         // delete the delivery of the request
         addressToUpdate = mission.getBeforeAfterAddress(request.getDelivery().getId());
         sequence = new Long[2];
@@ -73,5 +86,18 @@ public class AddCommand implements Command{
         interAddressLength = new double[1];
         interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
         mission.updatePartialTour(sequence, bestSolIntersection,interAddressLength);
+
+        System.out.println("undoCommand");
+        System.out.println("Tour");
+        for(int i = 0; i < mission.getTour().size(); ++i) {
+            System.out.print(mission.getTour().get(i) +" ");
+        }
+        System.out.println("Tour");
+        System.out.println("TourIntersection");
+        for(int i = 0; i < mission.getTourIntersections().size(); ++i) {
+            System.out.print(mission.getTourIntersections().get(i) +" ");
+        }
+        System.out.println("TourIntersection");
+        System.out.println("undoCommand");
     }
 }

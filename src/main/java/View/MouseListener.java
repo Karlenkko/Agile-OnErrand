@@ -13,8 +13,6 @@ public class MouseListener extends MouseAdapter {
     private GraphicalView graphicalView;
     private Window window;
 
-    private double dragStartX;
-    private double dragStartY;
     private Point mousePt;
 
     public MouseListener(Controller controller, GraphicalView graphicalView, Window window) {
@@ -40,15 +38,13 @@ public class MouseListener extends MouseAdapter {
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         super.mouseWheelMoved(e);
-//        System.out.println(e.getWheelRotation());
-        //Zoom in
         if(e.getWheelRotation()<0){
             window.getGraphicalView().setMouseX(e.getX()-window.getInsets().left);
             window.getGraphicalView().setMouseY(e.getY()-window.getInsets().top);
             window.getGraphicalView().setZoomFactor(1.1*window.getGraphicalView().getZoomFactor());
             window.getGraphicalView().repaint();
         }
-        //Zoom out
+
         if(e.getWheelRotation()>0){
             window.getGraphicalView().setMouseX(e.getX()-window.getInsets().left);
             window.getGraphicalView().setMouseY(e.getY()-window.getInsets().top);
@@ -71,9 +67,4 @@ public class MouseListener extends MouseAdapter {
         window.getGraphicalView().repaint();
     }
 
-//    @Override
-//    public void mouseEntered(MouseEvent e) {
-//        super.mouseEntered(e);
-//        System.out.println(e.getButton());
-//    }
 }

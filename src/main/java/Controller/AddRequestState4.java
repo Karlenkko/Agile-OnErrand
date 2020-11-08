@@ -11,7 +11,6 @@ public class AddRequestState4 implements State{
 
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
-        // TODO: Click on the intersection already exist and mark it as the intersection which conbine the old roadMap
         // It will also show a window to enter the new Window which can take the duration for the pickup and delivery
         Intersection intersection = controller.getMission().NearestRequest(positionX,positionY,window.getRate());
 

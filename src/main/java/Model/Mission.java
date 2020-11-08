@@ -70,6 +70,10 @@ public class Mission extends Observable {
         indexTable.add(maxIndex++);
     }
 
+    private void incrementIndexTable(int num) {
+        indexTable.add(num);
+    }
+
     public Intersection getDepot() {
         return depot;
     }
@@ -134,27 +138,41 @@ public class Mission extends Observable {
     public void updatePartialTour(Long[] sequence, List<Long> bestSolIntersection, double[] interAddressLength) {
 
         //updateAllRequests();
+        System.out.println("Tour");
+        for(int i = 0; i < tour.size(); ++i) {
+            System.out.print(tour.get(i) +" ");
+        }
+        System.out.println("Tour");
+        System.out.println("Sequence");
+        for(int i = 0; i < sequence.length; ++i) {
+            System.out.print(sequence[i] +" ");
+        }
+        System.out.println("Sequence");
 
         int start = tour.indexOf(sequence[0]);
         int end = tour.indexOf(sequence[sequence.length-1]);
+        end = end == 0 ? tour.size(): end;
         for (int i = start+1; i<end; ++i) {
-            System.out.println(tour.remove(start+1));
-
+            tour.remove(start+1);
         }
         for (int i = 1; i < sequence.length-1; ++i) {
             tour.add(start+i, sequence[i]);
-
         }
 
 
         start = tourIntersections.indexOf(sequence[0]);
-        for (int i= start; i < tourIntersections.size(); ++ i) {
+
+        /*
+        for (int i= tourIntersections.size()-1; i > start; --i) {
             if (sequence[sequence.length - 1].equals(tourIntersections.get(i))) {
                 end = i;
                 break;
             }
         }
-        end = end == 0 ? tourIntersections.size()-1 : end;
+
+         */
+        end = tourIntersections.indexOf(sequence[sequence.length - 1]);
+        end = end == 0 ? tourIntersections.size(): end;
         for (int i = start+1; i<end; ++i) {
             tourIntersections.remove(start+1);
         }
@@ -271,9 +289,13 @@ public class Mission extends Observable {
         newAddList.clear();
     }
 
-    public void updateAllRequests() {
+    public void updateAllRequests(int num) {
         allRequests.add(newRequest);
-        incrementIndexTable();
+        if (num == -1) {
+            incrementIndexTable();
+        } else {
+            incrementIndexTable(num);
+        }
         resetNewAdd();
         setNewRequest(null);
     }
@@ -303,7 +325,7 @@ public class Mission extends Observable {
 
     public Request deleteRequest(int index) {
         for (int i = 0; i < indexTable.size(); ++i) {
-            if (indexTable.get(i) == index) {
+            if (indexTable.get(i).equals(index)) {
                 indexTable.remove(i);
                 return allRequests.remove(i);
             }
@@ -311,13 +333,15 @@ public class Mission extends Observable {
         return null;
     }
 
-    public void deleteRequest(Request request) {
+    public int deleteRequest(Request request) {
+        int num = 0;
         if (allRequests.contains(request)) {
             int index = allRequests.indexOf(request);
-            indexTable.remove(index);
+            num = indexTable.remove(index);
         }
-        allRequests.remove(request);
-
+        boolean d = allRequests.remove(request);
+        System.out.println("deleted Request : " + d + "  " + request.getPickup().getId());
+        return num;
     }
 
     public ArrayList<Long> getBeforeAfterAddress(Long id) {
@@ -354,6 +378,15 @@ public class Mission extends Observable {
                 break;
             }
         }
+//        System.out.println("replacedRequest Deleted........");
+//        for(Long l : replacedRequestsList) {
+//            System.out.println(l);
+//        }
+//        System.out.println("replacedRequest Deleted........");
         return replacedRequestsList;
+    }
+
+    public ArrayList<Integer> getIndexTable() {
+        return indexTable;
     }
 }

@@ -11,7 +11,6 @@ public class AddRequestState3 implements State{
 
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
-        // TODO: Click on the intersection and make it as the delivery point of the new request
         Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY,window.getRate());
 
         ArrayList<Long> newAddList = controller.getMission().getNewAddList();
