@@ -16,6 +16,8 @@ public class Mission extends Observable {
 
     private static ArrayList<Long> newAddList;
     private static Request newRequest;
+    private static ArrayList<Integer> indexTable;
+    private static int maxIndex;
 
     /**
      * Constructor of the object Mission
@@ -29,6 +31,8 @@ public class Mission extends Observable {
         arrivalTimeSchedule = new HashMap<>();
         departureTimeSchedule = new HashMap<>();
         newAddList = new ArrayList<>();
+        indexTable = new ArrayList<>();
+        maxIndex = 1;
     }
 
     /**
@@ -40,6 +44,7 @@ public class Mission extends Observable {
         depot = null;
         departureTime = null;
         allRequests.clear();
+        indexTable.clear();
     }
 
     /**
@@ -58,6 +63,11 @@ public class Mission extends Observable {
      */
     public void addRequest(Request request) {
         allRequests.add(request);
+        incrementIndexTable();
+    }
+
+    private void incrementIndexTable() {
+        indexTable.add(maxIndex++);
     }
 
     public Intersection getDepot() {
@@ -279,6 +289,7 @@ public class Mission extends Observable {
 
     public void setNewRequest(Request newRequest) {
         Mission.newRequest = newRequest;
+        incrementIndexTable();
     }
 
     public boolean requestValid(Long idBefore, Long idAfter) {
@@ -291,14 +302,20 @@ public class Mission extends Observable {
     }
 
     public Request deleteRequest(int index) {
-        return allRequests.remove(index-1);
+        for (int i = 0; i < indexTable.size(); ++i) {
+            if (indexTable.get(i) == index) {
+                indexTable.remove(i);
+                return allRequests.remove(i);
+            }
+        }
+        return null;
     }
 
     public ArrayList<Long> getBeforeAfterAddress(Long id) {
         ArrayList<Long> addressToUpdate = new ArrayList<>();
         int i = tour.indexOf(id);
         addressToUpdate.add(tour.get(i-1));
-        if (i+1 > tour.size()){
+        if (i+1 > tour.size()-1){
             addressToUpdate.add(tour.get(0));
         } else {
             addressToUpdate.add(tour.get(i+1));
