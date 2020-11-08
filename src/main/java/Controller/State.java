@@ -55,9 +55,13 @@ public interface State {
 
     default void deleteRequest(Controller controller, Window window){}
 
-    default void validNewRequest(Controller controller, Window newWindow){}
+    default void validNewRequest(Controller controller, Window newWindow, ListOfCommands listOfCommands){}
 
     default void cancelNewRequest(Controller controller, Window newWindow){}
 
     default void generateRoadMap(Controller controller){}
+
+    default void undo(ListOfCommands l){};
+
+    default void redo(ListOfCommands l){};
 }

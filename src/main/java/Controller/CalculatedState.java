@@ -95,4 +95,14 @@ public class CalculatedState implements State{
         }
 
     }
+
+    @Override
+    public void undo(ListOfCommands listOfCommands){
+        listOfCommands.undo();
+    }
+
+    @Override
+    public void redo(ListOfCommands listOfCommands){
+        listOfCommands.redo();
+    }
 }

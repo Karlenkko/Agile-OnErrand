@@ -25,6 +25,7 @@ public class TextualView extends JPanel implements Observer {
     private JScrollPane jScrollPane2;
     private BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
     private ArrayList<String> requestTour = new ArrayList<>();
+    private boolean lockInstruction = false;
 
     public TextualView(Mission mission, Window window) {
         mission.addObserver(this);
