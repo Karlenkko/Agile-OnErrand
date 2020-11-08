@@ -6,6 +6,8 @@ import Model.Mission;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
+
 import static Util.XMLparser.parserMap;
 import static Util.XMLparser.parserRequest;
 import static org.junit.Assert.assertTrue;
@@ -70,6 +72,8 @@ public class TSPTest {
 
     @Test
     public void testTSP1IterSel(){
+
+        // Test the correction of the order of all the intersections calculated for TSP1 with the Interator Selq
         tsp3 = new TSP3();
         Long[] solutions = tsp3.searchSolution(3000, graph);
 
@@ -82,6 +86,59 @@ public class TSPTest {
     }
 
 
+    @Test
+    public void testCompareTSP1TSP2(){
+
+        // Count the time for TSP1 calculating for 1000 times
+        tsp1 = new TSP1();
+
+        Date beforeTSP1 = new Date();
+        for (int i = 0; i < 1000; i++) {
+            tsp1.searchSolution(3000, graph);
+        }
+        Date afterTSP1 = new Date();
+
+        System.out.println("The TSP1 runs for "+ (afterTSP1.getTime() - beforeTSP1.getTime()) + " ms");
+
+        // Count the time for TSP2 calculating for 1000 times
+        tsp2 = new TSP2();
+
+        Date beforeTSP2 = new Date();
+        for (int i = 0; i < 1000; i++) {
+            tsp2.searchSolution(3000, graph);
+        }
+        Date afterTSP2 = new Date();
+
+        System.out.println("The TSP2 runs for "+ (afterTSP2.getTime() - beforeTSP2.getTime()) + " ms");
 
 
+    }
+
+    @Test
+    public void testCompareIterator(){
+
+        // Count the time for TSP1 calculating for 1000 times By using iterator MinFirstIter
+        tsp1 = new TSP1();
+
+        Date beforeMinFirstIter = new Date();
+        for (int i = 0; i < 1000; i++) {
+            tsp1.searchSolution(3000, graph);
+        }
+        Date afterMinFirstIter = new Date();
+
+        System.out.println("The TSP1 with iterator MinFirstIter runs for "+ (afterMinFirstIter.getTime() - beforeMinFirstIter.getTime()) + " ms");
+
+        // Count the time for TSP1 calculating for 1000 times By using iterator SelqIter
+        tsp3 = new TSP3();
+
+        Date beforeSelqIter = new Date();
+        for (int i = 0; i < 1000; i++) {
+            tsp3.searchSolution(3000, graph);
+        }
+        Date afterSelqIter = new Date();
+
+        System.out.println("The TSP1 with iterator SelqIter runs for "+ (afterSelqIter.getTime() - beforeSelqIter.getTime()) + " ms");
+
+
+    }
 }
