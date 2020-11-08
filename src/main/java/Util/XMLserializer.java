@@ -22,6 +22,7 @@ import javax.xml.transform.stream.StreamResult;
 import Model.Segment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 
 
@@ -64,12 +65,19 @@ public void save(Map map) throws ParserConfigurationException, TransformerFactor
     xformer.setOutputProperty(OutputKeys.INDENT, "yes");
     xformer.transform(source, result);
 }
+    
 
-    private Node createSegmentElt(Segment segment) {
-        Element racine = document.createElement("segment");
-
-
-        return racine;
+    public void createAttribute(Element root, String name, String value){
+        Attr attribut = document.createAttribute(name);
+        root.setAttributeNode(attribut);
+        attribut.setValue(value);
     }
 
+
+
+    @Override
+    public void display(Intersection{
+        something = document.createElement("Intersection");
+
+    }
 }
