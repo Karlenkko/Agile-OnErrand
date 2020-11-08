@@ -22,6 +22,7 @@ import javax.xml.transform.stream.StreamResult;
 import Model.Segment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 
 
@@ -67,24 +68,21 @@ public void save(Map map) throws ParserConfigurationException, TransformerFactor
 
     private Node createSegmentElt(Segment segment) {
         Element racine = document.createElement("segment");
-        document.createAttribute("origin");
-        document.createAttribute("destination");
-        document.createAttribute("name");
-        document.createAttribute("length");
-
-        Iterator<Intersection> itOrigin = (Iterator<Intersection>) segment.getOrigin();
-        while (itOrigin.hasNext()){
-            itOrigin.next().display(this);
-            racine.appendChild(something);
-        }
-
-        Iterator<Intersection> itDestination = (Iterator<Intersection>) segment.getDestination();
-        while (itDestination.hasNext()){
-            itDestination.next().display(this);
-            racine.appendChild(something);
-        }
-        
         return racine;
     }
 
+    private void createAttribute(Element root, String name, String value){
+        Attr attribut = document.createAttribute(name);
+        root.setAttributeNode(attribut);
+        attribut.setValue(value);
+    }
+
+    @Override
+    public void display(Intersection i){
+        something = document.createElement("Intersection");
+        createAttribute(something,"Id",Integer.toString(Math.toIntExact(i.getId())));
+        createAttribute(something,"Latitude",Integer.toString((int) i.getLatitude()));
+        createAttribute(something,"X",Integer.toString((int) i.getX()));
+        createAttribute(something,"Y",Integer.toString((int) i.getY()));
+    }
 }
