@@ -21,6 +21,10 @@ public class Request {
         this.deliveryDuration = deliveryDuration;
     }
 
+    /**
+     * Constuctor of object Request. Constructing by a given Request
+     * @param request the request which we want to use.
+     */
     public Request(Request request) {
         this.pickup = request.pickup;
         this.delivery = request.delivery;
@@ -28,26 +32,50 @@ public class Request {
         this.deliveryDuration = request.deliveryDuration;
     }
 
+    /**
+     * Obtain the intersection for the pickup point of this request
+     * @return pickup the intersection for the pickup point of this request
+     */
     public Intersection getPickup() {
         return pickup;
     }
 
+    /**
+     * Obtain the intersection for the delivery point of this request
+     * @return pickup the intersection for the delivery point of this request
+     */
     public Intersection getDelivery() {
         return delivery;
     }
 
+    /**
+     * Obtain the duration for the pickup of this request
+     * @return pickupDuration the duration for the pickup of this request
+     */
     public int getPickupDuration() {
         return pickupDuration;
     }
 
+    /**
+     * Obtain the duration for the delivery of this request
+     * @return deliveryDuration the duration for the delivery of this request
+     */
     public int getDeliveryDuration() {
         return deliveryDuration;
     }
 
+    /**
+     * Set the duration for the pickup of this request
+     * @param pickupDuration the duration for the pickup of this request
+     */
     public void setPickupDuration(int pickupDuration) {
         this.pickupDuration = pickupDuration;
     }
 
+    /**
+     * Set the duration for the delivery of this request
+     * @param deliveryDuration the duration for the pickup of this request
+     */
     public void setDeliveryDuration(int deliveryDuration) {
         this.deliveryDuration = deliveryDuration;
     }

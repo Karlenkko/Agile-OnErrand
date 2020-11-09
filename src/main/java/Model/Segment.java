@@ -22,22 +22,41 @@ public class Segment {
         this.length = length;
     }
 
+    /**
+     * Constructor vide for the segment.
+     */
     public Segment() {
 
     }
 
+    /**
+     * Obtain intersection of the origin for the segment.
+     * @return origin intersection of the origin for the segment.
+     */
     public Intersection getOrigin() {
         return origin;
     }
 
+    /**
+     * Obtain intersection of the destination for the segment.
+     * @return destination intersection of the destination for the segment.
+     */
     public Intersection getDestination() {
         return destination;
     }
 
+    /**
+     * Obtain name of the segment.
+     * @return name name of the segment.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Obtain length of the segment.
+     * @return length length of the segment.
+     */
     public double getLength() {
         return length;
     }
