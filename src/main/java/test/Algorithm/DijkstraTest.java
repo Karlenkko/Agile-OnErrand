@@ -21,6 +21,11 @@ public class DijkstraTest {
     Graph graph1;
     Graph graph2;
 
+    /**
+     * initialise the test by loading the map and mission associate.
+     * Create also two instance for graph to calculate dijkstra.
+     * @throws Exception
+     */
     @Before
     public void init() throws Exception{
         map = new Map();
@@ -36,6 +41,9 @@ public class DijkstraTest {
     }
 
 
+    /**
+     * Test the accuracy of the JGraph
+     */
     @Test
     public void testDijkstraJgraph(){
 
@@ -54,6 +62,9 @@ public class DijkstraTest {
 
     }
 
+    /**
+     * Test the accuracy of the MapGraph
+     */
     @Test
     public void testDijkstraMapGraph(){
 
@@ -72,6 +83,9 @@ public class DijkstraTest {
     }
 
 
+    /**
+     * Compare the time we use to calculate the dijkstra by using the two graphs different.
+     */
     @Test
     public void testTwoDijkstraTimeCompare(){
 

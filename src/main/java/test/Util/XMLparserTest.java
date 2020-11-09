@@ -1,22 +1,17 @@
 package test.Util;
 
 import Model.*;
-import Util.XMLparser;
-import org.junit.Test;
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static Util.XMLparser.*;
+import static Util.XMLparser.parserMap;
+import static Util.XMLparser.parserRequest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -31,23 +26,13 @@ public class XMLparserTest {
     /*Global variables*/
     Map map;
     Mission mission;
-    private static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    private static DocumentBuilder builder;
 
-    private static String filePath_largeMap = "./fichiersXML2020/largeMap.xml";
-    private static String filePath_mediumMap = "./fichiersXML2020/mediumMap.xml";
-    private static String filePath_smallMap = "./fichiersXML2020/smallMap.xml";
-    private static String filePath_requestsLarge7 = "./fichiersXML2020/requestsLarge7.xml";
-    private static String filePath_requestsLarge9 = "./fichiersXML2020/requestsLarge9.xml";
-    private static String filePath_requestsMedium3 = "./fichiersXML2020/requestsMedium3.xml";
-    private static String filePath_requestsMedium5 = "./fichiersXML2020/requestsMedium5.xml";
-    private static String filePath_requestsSmall1 = "./fichiersXML2020/requestsSmall1.xml";
-    private static String filePath_requestsSmall2 = "./fichiersXML2020/requestsSmall2.xml";
 
-    private static XMLparser parser = null;
-
+    /**
+     * Initialise the map and mission for testing
+      */
 @Before
-public void init()  throws ParseException {
+public void init()  {
     map = new Map();
     mission = new Mission();
 
@@ -56,13 +41,12 @@ public void init()  throws ParseException {
 @After
 public void clean(){
 }
-/** 
-* 
-* Method: parserMap(Map map) 
-* 
-*/
 
-@Test
+    /**
+     * read the map and test the correction of the map.
+     * @throws Exception
+     */
+    @Test
 public void testParserMap() throws Exception { 
     parserMap(map);
 
@@ -130,12 +114,11 @@ public void testParserMap() throws Exception {
 
 }
 
-/** 
-* 
-* Method: parserRequest(Mission mission) 
-* 
-*/ 
-@Test
+    /**
+     * Read the map and the mission and then test the correction of the request.
+     * @throws Exception
+     */
+    @Test
 public void testParserRequest() throws Exception {
     parserMap(map);
     parserRequest(mission, map);
@@ -190,116 +173,4 @@ public void testParserRequest() throws Exception {
                         && request.getDelivery().getId() != missionDepot.getId());
     }
 }
-
-
-/** 
-* 
-* Method: buildMapFromDOMXML(Document document, Map map) 
-* 
-*/
-@Test
-public void testBuildMapFromDOMXML() throws Exception {
-//
-//    parserMap(map);
-//    HashMap<Long, Intersection> mapIntersections = map.getAllIntersections();
-//    assertEquals(45.775486, mapIntersections.get(Long.parseLong("2684668925")).getLatitude(), 0.000001);
-//    assertEquals(4.888253, mapIntersections.get(Long.parseLong("2684668925")).getLongitude(), 0.000001);
-//
-}
-
-/** 
-* 
-* Method: buildRequestFromDOMXML(Document document, Mission mission) 
-* 
-//*/
-@Test
-public void testCreateIntersection() throws Exception {
-//    try {
-//        Method method = XMLparser.createIntersection().getMethod("createSegment", Intersection.class, Map.class);
-//        method.setAccessible(true);
-//        method.invoke(<Intersection>, <5.06>);
-//    } catch(NoSuchMethodException e) {
-//    } catch(IllegalAccessException e) {
-//    }
-
-}
-
-/** 
-* 
-* Method: createSegment(Element element, Map map) 
-* 
-*/ 
-@Test
-public void testCreateSegment() throws Exception {
-////TODO: Test goes here...
-//try {
-//   Method method = XMLparser.createSegment().getMethod("createSegment", Segment.class, Map.class);
-//   method.setAccessible(true);
-//   method.invoke(<Segment>, <Parameters>);
-//} catch(NoSuchMethodException e) {
-//} catch(IllegalAccessException e) {
-//} catch(InvocationTargetException e) {
-//}
-}
-
-/** 
-* 
-* Method: createDepot(Element element, Mission mission) 
-* 
-*/ 
-@Test
-public void testCreateDepot() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = XMLparser.getClass().getMethod("createDepot", Element.class, Mission.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-} 
-
-/** 
-* 
-* Method: createLocalTime(Element element) 
-* 
-*/ 
-@Test
-public void testCreateLocalTime() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = XMLparser.getClass().getMethod("createLocalTime", Element.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-} 
-
-/** 
-* 
-* Method: createRequest(Element element, Mission mission) 
-* 
-*/ 
-@Test
-public void testCreateRequest() throws Exception { 
-//TODO: Test goes here... 
-/* 
-try { 
-   Method method = XMLparser.getClass().getMethod("createRequest", Element.class, Mission.class); 
-   method.setAccessible(true); 
-   method.invoke(<Object>, <Parameters>); 
-} catch(NoSuchMethodException e) { 
-} catch(IllegalAccessException e) { 
-} catch(InvocationTargetException e) { 
-} 
-*/ 
-}
-
 }

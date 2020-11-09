@@ -21,6 +21,10 @@ public class TSPTest {
     TSP2 tsp2;
     TSP3 tsp3;
 
+    /**
+     * Initialise the test by loading the map and the mission and then calculate the dijkstra by using the MapGraph.
+     * @throws Exception
+     */
     @Before
     public void init() throws Exception{
         map = new Map();
@@ -40,6 +44,9 @@ public class TSPTest {
 
     }
 
+    /**
+     * Test the accuracy of TSP1 by using the iterator MinFirst.
+     */
     @Test
     public void testTSP1(){
 
@@ -55,6 +62,9 @@ public class TSPTest {
 
     }
 
+    /**
+     * Test the accuracy of TSP2 by using the iterator MinFirst.
+     */
     @Test
     public void testTSP2(){
 
@@ -70,6 +80,9 @@ public class TSPTest {
 
     }
 
+    /**
+     * Test the accuracy of TSP1 by using the iterator Sequence.
+     */
     @Test
     public void testTSP1IterSel(){
 
@@ -86,6 +99,9 @@ public class TSPTest {
     }
 
 
+    /**
+     * Comparing the difference between time for calculating the tour by using TSP1 and TSP2 on using the same iterator(MinFirst).
+     */
     @Test
     public void testCompareTSP1TSP2(){
 
@@ -114,6 +130,9 @@ public class TSPTest {
 
     }
 
+    /**
+     * Comparing the difference between time for calculating the tour by using different iterator on using the same bound(TSP1).
+     */
     @Test
     public void testCompareIterator(){
 
