@@ -28,6 +28,11 @@ public class CalculatedState implements State{
         //TODO:Click on the button "add request to add two points of pickup and delivery
         window.allow("addRequestState1");
         controller.setCurrentState(controller.addRequestState1);
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You are now adding a new request, \n" +
+                "please select an existing address on the map as the start address, \n" +
+                "or right click to cancel the addition");
+        window.getTextualView().setLockInstruction(true);
         System.out.println("addRequest");
     }
 

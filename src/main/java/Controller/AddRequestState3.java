@@ -24,6 +24,11 @@ public class AddRequestState3 implements State{
                     ,controller.getMap().getAllIntersections().get(newAddList.get(2)),0,0));
 
             window.allow("addRequestState4");
+            window.getTextualView().setLockInstruction(false);
+            window.getTextualView().setTextAreaText("You are now adding a new request, \n" +
+                    "please select an existing address as the ending address, \n" +
+                    "or right click to cancel the selection of the delivery address");
+            window.getTextualView().setLockInstruction(true);
             controller.setCurrentState(controller.addRequestState4);
 
         }else{
@@ -36,6 +41,11 @@ public class AddRequestState3 implements State{
         controller.getMission().removeAdd();
         window.getGraphicalView().repaint();
         window.allow("addRequestState2");
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You have canceled the selection of the pickup address, \n" +
+                "please select an intersection as the pickup address, \n" +
+                "or right click to cancel the selection of the start address");
+        window.getTextualView().setLockInstruction(true);
         controller.setCurrentState(controller.addRequestState2);
     }
 }

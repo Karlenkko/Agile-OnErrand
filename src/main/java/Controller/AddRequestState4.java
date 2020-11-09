@@ -27,6 +27,12 @@ public class AddRequestState4 implements State{
 
             // need for further discussion
             window.allow("addRequestState5");
+            window.getTextualView().setLockInstruction(false);
+            window.getTextualView().setTextAreaText("You are now adding a new request, \n" +
+                    "please enter the durations in the 2 addresses of the new request, \n" +
+                    "or click cancel to quit the addition");
+            window.getTextualView().setLockInstruction(true);
+
             controller.setCurrentState(controller.addRequestState5);
 
         }else if(controller.getMission().requestValid(newAddList.get(0), intersection.getId())){
@@ -41,6 +47,11 @@ public class AddRequestState4 implements State{
         controller.getMission().removeAdd();
         window.getGraphicalView().repaint();
         window.allow("addRequestState3");
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You have canceled the selection of the delivery address, \n" +
+                "please select an existing intersection as the delivery address, \n" +
+                "or right click to cancel the selection of the pickup address");
+        window.getTextualView().setLockInstruction(true);
         controller.setCurrentState(controller.addRequestState3);
     }
 

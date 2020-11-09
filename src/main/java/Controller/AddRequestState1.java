@@ -15,6 +15,11 @@ public class AddRequestState1 implements State {
         window.getGraphicalView().repaint();
 
         window.allow("addRequestState2");
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You are now adding a new request, \n" +
+                "please select an intersection as the new pickup address, \n" +
+                "or right click to cancel the selection of the start address");
+        window.getTextualView().setLockInstruction(true);
         controller.setCurrentState(controller.addRequestState2);
     }
 
@@ -24,6 +29,9 @@ public class AddRequestState1 implements State {
         window.getGraphicalView().setPaintAdd(false);
         window.getGraphicalView().repaint();
         window.allow("calculatedState");
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You have cancel the addition of a new request");
+        window.getTextualView().setLockInstruction(true);
         controller.setCurrentState(controller.calculatedState);
     }
 

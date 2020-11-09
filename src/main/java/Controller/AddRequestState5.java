@@ -24,6 +24,9 @@ public class AddRequestState5 implements State{
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
         window.allow("calculatedState");
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You have added a new request");
+        window.getTextualView().setLockInstruction(true);
         controller.setCurrentState(controller.calculatedState);
 
     }
@@ -33,6 +36,9 @@ public class AddRequestState5 implements State{
         controller.getMission().resetNewAdd();
         window.getGraphicalView().repaint();
         window.allow("calculatedState");
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You have cancel the addition of a new request");
+        window.getTextualView().setLockInstruction(true);
         controller.setCurrentState(controller.calculatedState);
     }
 }
