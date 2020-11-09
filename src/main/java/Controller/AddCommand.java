@@ -15,6 +15,9 @@ public class AddCommand implements Command{
     private TSP tsp;
     private Request request;
     private ArrayList<Long> replacedRequestList;
+
+    private ArrayList<Long> lastAddressList;
+    private ArrayList<Long> newAddressList;
     int num = -1;
 
     public AddCommand(Graph g, Mission mission, TSP tsp, Request request, ArrayList<Long> replacedRequestList) {
@@ -22,12 +25,16 @@ public class AddCommand implements Command{
         this.mission = mission;
         this.tsp = tsp;
         this.request = new Request(request);
+        this.lastAddressList = new ArrayList<>();
+        this.newAddressList = new ArrayList<>();
         this.replacedRequestList = new ArrayList<>(replacedRequestList);
     }
 
 
     @Override
     public void doCommand() {
+        lastAddressList = mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3));
+
         g.setRecalculatedRequests(replacedRequestList, mission.getTour(), request);
         mission.setNewRequest(request);
         g.dijkstra(true);
@@ -39,6 +46,8 @@ public class AddCommand implements Command{
         g.updateGraph();
         mission.updateAllRequests(num);
         mission.updatePartialTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
+
+        newAddressList = mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3));
 
         System.out.println("doCommand");
         System.out.println("Tour");
@@ -62,10 +71,19 @@ public class AddCommand implements Command{
     @Override
     public void undoCommand() {
 
+
         num = mission.deleteRequest(request);
 
         // delete the pickup of the request
         ArrayList<Long> addressToUpdate = mission.getBeforeAfterAddress(request.getPickup().getId());
+
+        Long delivery = g.getDelivery(request.getPickup().getId());
+
+        Long afterDelivery = mission.getBeforeAfterAddress(delivery).get(1);
+
+        lastAddressList = mission.getPartialTour(addressToUpdate.get(0), afterDelivery);
+
+
         Long[] sequence = new Long[2];
         sequence[0] = addressToUpdate.get(0);
         sequence[1] = addressToUpdate.get(1);
@@ -86,6 +104,8 @@ public class AddCommand implements Command{
         interAddressLength = new double[1];
         interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
         mission.updatePartialTour(sequence, bestSolIntersection,interAddressLength);
+
+//        newAddressList = mission.getPartialTour()
 
         System.out.println("undoCommand");
         System.out.println("Tour");

@@ -24,6 +24,12 @@ public class Intersection {
         this.y = yAxisProjection(latitude);
     }
 
+    /**
+     *
+     * @param id
+     * @param x
+     * @param y
+     */
     public Intersection(long id, int x, int y) {
         this.id = id;
         this.x = x;
