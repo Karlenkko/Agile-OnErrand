@@ -29,6 +29,7 @@ public class Controller {
     protected final AddRequestState3 addRequestState3 = new AddRequestState3();
     protected final AddRequestState4 addRequestState4 = new AddRequestState4();
     protected final AddRequestState5 addRequestState5 = new AddRequestState5();
+    protected final DeleteRequestState deleteRequestState = new DeleteRequestState();
 
     /**
      * Constructor of object Controller, creates an instance of Controller

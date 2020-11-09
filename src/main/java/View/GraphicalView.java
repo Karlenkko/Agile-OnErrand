@@ -268,6 +268,23 @@ public class GraphicalView extends JPanel implements Observer {
                     g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
                 }
             }
+            if(mission.getRequestsToDelete().size() != 0) {
+                for(Request request : mission.getRequestsToDelete()) {
+                    Intersection pickup = request.getPickup();
+                    double x = pickup.getX();
+                    double y = pickup.getY();
+                    g2d.setColor(Color.cyan);
+                    g2d.setStroke(new BasicStroke(8));
+                    g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
+
+                    Intersection delivery = request.getDelivery();
+                    double x2 = delivery.getX();
+                    double y2 = delivery.getY();
+                    g2d.setColor(Color.cyan);
+                    g2d.setStroke(new BasicStroke(8));
+                    g2d.draw(new Line2D.Double(x2/rate,y2/rate,x2/rate,y2/rate));
+                }
+            }
         }
 
         g2d.translate(-transX, -transY);

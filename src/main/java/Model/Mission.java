@@ -18,6 +18,7 @@ public class Mission extends Observable {
     private static Request newRequest;
     private static ArrayList<Integer> indexTable;
     private static int maxIndex;
+    private static ArrayList<Request> requestsToDelete;
 
     /**
      * Constructor of the object Mission
@@ -33,6 +34,7 @@ public class Mission extends Observable {
         newAddList = new ArrayList<>();
         indexTable = new ArrayList<>();
         maxIndex = 1;
+        requestsToDelete = new ArrayList<>();
     }
 
     /**
@@ -202,6 +204,7 @@ public class Mission extends Observable {
         }
 
 
+
         for (int i = start+1; i<end; ++i) {
             boolean exist = false;
             for(Request request : allRequests) {
@@ -215,6 +218,8 @@ public class Mission extends Observable {
             }
             tour.remove(start+1);
         }
+
+
         for (int i = 1; i < sequence.length-1; ++i) {
             tour.add(start+i, sequence[i]);
         }
@@ -482,5 +487,36 @@ public class Mission extends Observable {
             ++i;
         }
         return partialTour;
+    }
+
+    public void setDelete(Intersection intersection) {
+        requestsToDelete.clear();
+        for (Request request : allRequests) {
+            if (request.getPickup().getId().equals(intersection.getId()) || request.getDelivery().getId().equals(intersection.getId())) {
+                requestsToDelete.add(request);
+                System.out.println(request.toString());
+            }
+        }
+        System.out.println("size");
+        System.out.println(requestsToDelete.size());
+    }
+
+    public void resetDelete() {
+        requestsToDelete.clear();
+    }
+
+    public ArrayList<Request> getRequestsToDelete() {
+        return requestsToDelete;
+    }
+
+    public boolean isDeletedRequest(String s) {
+        for (Request request : requestsToDelete) {
+            int index = indexTable.get(allRequests.indexOf(request));
+            if(s.contains(index+"")) {
+                System.out.println("isDeletedRequest");
+                return true;
+            }
+        }
+        return false;
     }
 }
