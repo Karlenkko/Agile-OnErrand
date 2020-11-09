@@ -366,4 +366,8 @@ public class MapGraph implements Graph {
 
 	}
 
+	public Long getDelivery(Long pickup) {
+		return requestPairs.get(pickup);
+	}
+
 }

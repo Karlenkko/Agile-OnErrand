@@ -428,4 +428,24 @@ public class Mission extends Observable {
     public ArrayList<Integer> getIndexTable() {
         return indexTable;
     }
+
+    public ArrayList<Long> getPartialTour(Long startAddress, Long arrivalAddress) {
+        ArrayList<Long> partialTour = new ArrayList<>();
+        boolean add = false;
+        for (Long address : tour) {
+            if (address.equals(startAddress)) {
+                add = true;
+                partialTour.add(address);
+                continue;
+            }
+            if (add) {
+                partialTour.add(address);
+            }
+            if (address.equals(arrivalAddress)){
+                add = false;
+                break;
+            }
+        }
+        return partialTour;
+    }
 }

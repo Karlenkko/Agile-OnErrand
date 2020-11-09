@@ -50,4 +50,6 @@ public interface Graph {
 	public abstract double getMinCost();
 
 	public abstract HashMap<Long, Double> getMinHash();
+
+	public abstract Long getDelivery(Long pickup);
 }
