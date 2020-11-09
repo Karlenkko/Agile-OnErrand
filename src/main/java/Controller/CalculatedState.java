@@ -26,7 +26,7 @@ public class CalculatedState implements State{
     public void addRequest(Controller controller, Window window){
 
         //TODO:Click on the button "add request to add two points of pickup and delivery
-
+        window.allow("addRequestState1");
         controller.setCurrentState(controller.addRequestState1);
         System.out.println("addRequest");
     }

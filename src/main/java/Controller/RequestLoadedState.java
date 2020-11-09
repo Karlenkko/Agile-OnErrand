@@ -29,6 +29,7 @@ public class RequestLoadedState implements State{
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
+        window.allow("calculatedState");
         controller.setCurrentState(controller.calculatedState);
     }
 }

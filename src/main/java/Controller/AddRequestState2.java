@@ -14,7 +14,7 @@ public class AddRequestState2 implements State{
 
             window.getGraphicalView().setPaintAdd(true);
             window.getGraphicalView().repaint();
-
+            window.allow("addRequestState3");
             controller.setCurrentState(controller.addRequestState3);
 
         }else{
@@ -28,6 +28,7 @@ public class AddRequestState2 implements State{
         // TODO: Cancel the addition of the new request
         controller.getMission().removeAdd();
         window.getGraphicalView().repaint();
+        window.allow("addRequestState1");
         controller.setCurrentState(controller.addRequestState1);
     }
 

@@ -14,6 +14,7 @@ public class AddRequestState1 implements State {
         window.getGraphicalView().setPaintAdd(true);
         window.getGraphicalView().repaint();
 
+        window.allow("addRequestState2");
         controller.setCurrentState(controller.addRequestState2);
     }
 
@@ -22,6 +23,7 @@ public class AddRequestState1 implements State {
         controller.getMission().removeAdd();
         window.getGraphicalView().setPaintAdd(false);
         window.getGraphicalView().repaint();
+        window.allow("calculatedState");
         controller.setCurrentState(controller.calculatedState);
     }
 

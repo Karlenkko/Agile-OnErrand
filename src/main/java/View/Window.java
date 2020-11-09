@@ -2,6 +2,7 @@ package View;
 
 import Algorithm.TSP;
 import Controller.Controller;
+import Controller.State;
 import Model.Map;
 import Model.Mission;
 
@@ -142,5 +143,57 @@ public class Window extends JFrame{
 
     public double getRate() {
         return this.getGraphicalView().getRate();
+    }
+
+    public void allow(String state) {
+        switch (state){
+            case "initialState":
+                for (JButton button : buttons) {
+                    button.setEnabled(false);
+                }
+                buttons.get(0).setEnabled(true);
+                break;
+            case "mapLoadedState":
+                for (JButton button : buttons) {
+                    button.setEnabled(false);
+                }
+                buttons.get(0).setEnabled(true);
+                buttons.get(1).setEnabled(true);
+                break;
+            case "requestLoadedState":
+                for (JButton button : buttons) {
+                    button.setEnabled(false);
+                }
+                buttons.get(0).setEnabled(true);
+                buttons.get(1).setEnabled(true);
+                buttons.get(2).setEnabled(true);
+                break;
+            case "calculatedState":
+                for (JButton button : buttons) {
+                    button.setEnabled(false);
+                }
+                buttons.get(0).setEnabled(true);
+                buttons.get(1).setEnabled(true);
+                buttons.get(3).setEnabled(true);
+                buttons.get(4).setEnabled(true);
+                buttons.get(5).setEnabled(true);
+                buttons.get(6).setEnabled(true);
+                buttons.get(7).setEnabled(true);
+                break;
+            case "addRequestState1":
+            case "addRequestState2":
+            case "addRequestState3":
+            case "addRequestState4":
+            case "addRequestState5":
+                for (JButton button : buttons) {
+                    button.setEnabled(false);
+                }
+                break;
+            default:
+                for (JButton button : buttons) {
+                    button.setEnabled(true);
+                }
+        }
+
     }
 }

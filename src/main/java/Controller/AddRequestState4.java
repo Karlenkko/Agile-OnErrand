@@ -26,6 +26,7 @@ public class AddRequestState4 implements State{
 
 
             // need for further discussion
+            window.allow("addRequestState5");
             controller.setCurrentState(controller.addRequestState5);
 
         }else if(controller.getMission().requestValid(newAddList.get(0), intersection.getId())){
@@ -39,6 +40,7 @@ public class AddRequestState4 implements State{
         // TODO: Cancel the addition of the new request
         controller.getMission().removeAdd();
         window.getGraphicalView().repaint();
+        window.allow("addRequestState3");
         controller.setCurrentState(controller.addRequestState3);
     }
 
