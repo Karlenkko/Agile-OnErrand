@@ -1,15 +1,16 @@
 package Util;
 
-import Model.*;
+import Model.Map;
+import Model.Mission;
+import Model.Request;
+import Model.Segment;
 
-import javax.xml.transform.stream.StreamResult;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 public class TourSerializer {
@@ -18,6 +19,11 @@ public class TourSerializer {
     private StringBuffer navMessage;
     private Segment tempSegment;
 
+    /**
+     * Constructor of the class TourSerializer. It initialise the route map which we are
+     * @param mission the instance of the mission where the we want to generate the route map from
+     * @param map the instance of the map where we base the route map.
+     */
     public TourSerializer(Mission mission, Map map) {
         this.mission = mission;
         this.map = map;
@@ -25,6 +31,11 @@ public class TourSerializer {
         tempSegment = null;
     }
 
+    /**
+     * Generate the roadMap and then close it correctly.
+     * @throws ExceptionXML
+     * @throws IOException
+     */
     public void generateRoadMap() throws ExceptionXML, IOException {
         fillRoadMap();
         File txt = FileOpener.getInstance().open(false);
@@ -33,6 +44,9 @@ public class TourSerializer {
         bufferedWriter.close();
     }
 
+    /**
+     * Fill the roadMap by using the given mission.
+     */
     private void fillRoadMap() {
         depotNavigation();
         long current;
@@ -68,6 +82,13 @@ public class TourSerializer {
 //        System.out.println(navMessage.toString());
     }
 
+    /**
+     * For a request, write down how to go from the departure point to the arrival point.
+     * @param request the request which the user want to add to the roadMap.
+     * @param type the type of the request. Can be 'pickup' or 'delivery'
+     * @param arrivalTime the arrival time of the request
+     * @param departureTime the departure time of the request
+     */
     private void addressNavigation(Request request, String type, LocalTime arrivalTime, LocalTime departureTime) {
         navMessage.append("\n");
         navMessage.append("You are expected to arrive at the next ");
@@ -92,6 +113,10 @@ public class TourSerializer {
         navMessage.append("\n");
         navMessage.append("\n");
     }
+
+    /**
+     * Write in the document about the information for the depot.
+     */
     private void depotNavigation() {
         navMessage.append("Good morning Mr./ Ms. Staff, today your mission should start at ");
         navMessage.append(mission.getDepartureTime().toString());
@@ -103,6 +128,11 @@ public class TourSerializer {
         navMessage.append("\n");
     }
 
+    /**
+     * Write in the document the information for the segment.
+     * @param origin the intersection origin for the segment.
+     * @param destination the intersection destination for the segment.
+     */
     private void segmentNavigation(Long origin, Long destination) {
         for (Segment segment : map.getAllSegments()) {
             if (segment.getOrigin().getId().equals(origin) && segment.getDestination().getId().equals(destination)) {
@@ -117,6 +147,9 @@ public class TourSerializer {
         navMessage.append("\n");
     }
 
+    /**
+     * Write in the document after the user finish the tour and try to go back to the depot point.
+     */
     private void returningNavigation() {
         navMessage.append("\n");
         navMessage.append("Now you've finished your daily mission and you are back to the entrepot at ");
