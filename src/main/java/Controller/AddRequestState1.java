@@ -31,7 +31,7 @@ public class AddRequestState1 implements State {
         window.allow("calculatedState");
         window.getTextualView().setLockInstruction(false);
         window.getTextualView().setTextAreaText("You have cancel the addition of a new request");
-        window.getTextualView().setLockInstruction(true);
+//        window.getTextualView().setLockInstruction(true);
         controller.setCurrentState(controller.calculatedState);
     }
 

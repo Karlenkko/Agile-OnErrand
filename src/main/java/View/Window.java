@@ -215,6 +215,12 @@ public class Window extends JFrame{
                     button.setEnabled(false);
                 }
                 break;
+            case "deleteRequestState":
+                for (JButton button : buttons) {
+                    button.setEnabled(false);
+                }
+                buttons.get(4).setEnabled(true);
+                break;
             default:
                 for (JButton button : buttons) {
                     button.setEnabled(true);

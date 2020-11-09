@@ -37,6 +37,14 @@ public class DeleteRequestState implements State {
 
     }
 
+    @Override
+    public void rightClick(Controller controller, Window window) {
+        window.allow("calculatedState");
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You have quited the delete mode");
+        controller.setCurrentState(controller.calculatedState);
+    }
+
     public void deleteRequest(Controller controller, Window window, ListOfCommands listOfCommands){
         JTable table = window.getTextualView().getRequestTable();
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
@@ -101,10 +109,11 @@ public class DeleteRequestState implements State {
             window.getTextualView().updateRequestTable();
             window.getTextualView().setLockInstruction(false);
             window.getTextualView().setTextAreaText("You have deleted the request " + num);
-            window.getTextualView().setLockInstruction(true);
+//            window.getTextualView().setLockInstruction(true);
         }
 
         controller.getMission().resetDelete();
+        window.allow("calculatedState");
         controller.setCurrentState(controller.calculatedState);
     }
 }
