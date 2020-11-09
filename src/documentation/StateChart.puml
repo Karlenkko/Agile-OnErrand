@@ -2,62 +2,55 @@
 hide empty description
 
 [*] -down-> InitialState
-InitialState -down-> LoadState : loadMap()
+InitialState -down-> LoadStates
+'InitialState : entry / requestListChanged = true
 
-InitialState : entry / requestListChanged = true
+state CancelMapSelection
+CancelMapSelection : do / backToPreviousState()
 
-state CancelMap
-CancelMap : do / backToPreviousState()
 
-state LoadState {
-    [*] -down-> MapState1
+state CancelRequestSelection
+CancelRequestSelection : do / backToPreviousState()
+
+state LoadStates {
+    [*] -down-> CancelMapSelection
+    [*] -down-> MapLoadedState : loadMap()/\n resetAll() \n displayMap()
 '    MapState1 : entry / isLoaded = isLoaded()
 
-    MapState1 -right-> MapState2 : select()
-    MapState1 -up-> CancelMap : cancel()
-    MapState2 : entry / map = readMap()
-
-    MapState2 : do / displayMap(map)
-    MapState2 : exit / clearRequest()
-
-    MapState2 -up-> MapState1 : changeMap() / clearMap()
-
-    MapState2 -down-> RequestState1 : loadRequest()
-    RequestState1 -down-> RequestState2 : select()
-    RequestState1 -up-> MapState2 : cancel()
-    RequestState2 -up-> RequestState1 : cancel() / clearRequest()
-
-    RequestState1 -left-> MapState1 : changeMap() / clearMap()
-    RequestState2 -left-> MapState1 : changeMap() /clearMap()
-
-    RequestState2 : entry / requestList = readRequest()
-    RequestState2 : do / displayRequest(requestList)
+    MapLoadedState -down-> RequestLoadedState : loadRequests()/ \n clearPreviousRequests() \n displayRequests()
+    MapLoadedState -up-> CancelRequestSelection : cancel()
 }
 
 'CancelMap -up-> InitialState : [ !isLoaded ]
 'CancelMap -left-> MapState2 : [ isLoaded ]
 
-RequestState2 -down-> OperationalState : calculate()
+RequestLoadedState -down-> OperationalStates : calculateTour() / displayTour()
 
-OperationalState -up-> OperationalState : rightClick() / requestListChanged = false
-OperationalState -up-> LoadState : changeMap() / clearMap()
-state OperationalState {
+OperationalStates -up-> LoadStates : loadMap() / clearMap()
+OperationalStates -up-> MapLoadedState : loadRequests()
+state OperationalStates {
     [*] -down-> CalculateState
-    CalculateState : entry / route = calculateRoute(map, requestList, requestListChanged )
-    CalculateState : do / displayRoute(route)
-    CalculateState : exit / requestListChanged = false
 
+    CalculateState: \n the State to which every operation \n undoable will finally come back \n
     CalculateState -down-> AddRequestState1 : addRequest()
-    AddRequestState1 -down-> AddRequestState2 : leftClick(pickUpPoint)
-    AddRequestState2 -down-> AddRequestState3 : leftClick(deliveryPoint)
-    AddRequestState3 -down-> AddRequestState4 : fillRequestInfo()
-    AddRequestState4 : entry / request = new Request()
-    AddRequestState4 -left-> CalculateState : confirm() / requestListChanged = true, requestList.add(request)
-    AddRequestState4 -left->CalculateState : cancel()
+    AddRequestState1 -down-> AddRequestState2 : leftClick(startPoint)
+    AddRequestState2 -down-> AddRequestState3 : leftClick(pickupPoint)
+    AddRequestState3 -down-> AddRequestState4 : leftClick(deliveryPoint)
+    AddRequestState4 -down-> AddRequestState5 : leftClick(endPoint)
+    AddRequestState5 : entry / popupWindow() \n do / fillRequestInfo()
+    AddRequestState5 -left-> CalculateState : validate() / \n requestList.add(request) \n recalculateTour()
+    AddRequestState1 -up-> CalculateState : rightClick()
+    AddRequestState2 -up-> AddRequestState1 : rightClick()
+    AddRequestState3 -up-> AddRequestState2 : rightClick()
+    AddRequestState4 -up-> AddRequestState3 : rightClick()
+    AddRequestState5 -left-> CalculateState : cancel()
 
-    CalculateState -down-> deleteState1 : selectRequest() / \n selectedRequest = requestList.get(id)
-    deleteState1 -up-> CalculateState : deleteRequest() / \n requestList.remove(selectedRequest), \n requestListChanged = true
+    CalculateState -down-> DeleteState1 : deleteRequest()
+    DeleteState1 : do / selectRequest()
+    DeleteState1 -up-> CalculateState : deleteSelectedRequest() / \n requestList.remove(selectedRequest)
 
-    CalculateState -up-> CalculateState : generateNavigationRoute()
+    CalculateState -left-> CalculateState : generateRoadMap()
+    CalculateState -right-> CalculateState : undo() / \n undoLastCommand()
+    CalculateState -right-> CalculateState : redo() / \n redoLastCommand()
 }
 @enduml
