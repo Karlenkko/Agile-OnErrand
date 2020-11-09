@@ -16,6 +16,7 @@ public interface State {
             window.getGraphicalView().setPaintTour(false);
             window.getGraphicalView().repaint();
             window.getTextualView().updateRequestTable();
+            window.allow("mapLoadedState");
             controller.setCurrentState(controller.mapLoadedState);
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,6 +31,7 @@ public interface State {
            window.getGraphicalView().setPaintRequest(true);
            window.getGraphicalView().repaint();
            window.getTextualView().initiateRequestTable();
+           window.allow("requestLoadedState");
            controller.setCurrentState(controller.requestLoadedState);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +57,7 @@ public interface State {
 
     default void deleteRequest(Controller controller, Window window, ListOfCommands listOfCommands){}
 
-    default void validNewRequest(Controller controller, Window newWindow, ListOfCommands listOfCommands){}
+    default void validateNewRequest(Controller controller, Window newWindow, ListOfCommands listOfCommands){}
 
     default void cancelNewRequest(Controller controller, Window newWindow){}
 

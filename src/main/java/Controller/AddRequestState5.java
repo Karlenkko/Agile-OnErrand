@@ -10,7 +10,7 @@ public class AddRequestState5 implements State{
 
 
     @Override
-    public void validNewRequest(Controller controller, Window window, ListOfCommands listOfCommands) {
+    public void validateNewRequest(Controller controller, Window window, ListOfCommands listOfCommands) {
 
         Graph g = controller.getGraph();
         Mission mission = controller.getMission();
@@ -23,13 +23,16 @@ public class AddRequestState5 implements State{
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
+        window.allow("calculatedState");
         controller.setCurrentState(controller.calculatedState);
 
     }
 
     public void cancelNewRequest(Controller controller, Window window){
         // TODO: cancel the add of a new Request
-
-        controller.setCurrentState(controller.addRequestState4);
+        controller.getMission().resetNewAdd();
+        window.getGraphicalView().repaint();
+        window.allow("calculatedState");
+        controller.setCurrentState(controller.calculatedState);
     }
 }

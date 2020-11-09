@@ -1,8 +1,6 @@
 package Controller;
 
 import Algorithm.Graph;
-import Algorithm.JgraphtMapGraph;
-import Algorithm.MapGraph;
 import Algorithm.TSP;
 import Model.Map;
 import Model.Mission;
@@ -46,6 +44,7 @@ public class Controller {
         this.tsp = tsp;
         this.graph = graph;
         window = new Window(this.map, this.mission, tsp, this);
+        window.allow("initialState");
         currentState = initialState;
         listOfCommands = new ListOfCommands();
     }
@@ -106,7 +105,9 @@ public class Controller {
 
     public void rightClick(){ currentState.rightClick(this, window);}
 
-    public void validNewRequest(){ currentState.validNewRequest(this, window, listOfCommands); }
+    public void validateNewRequest(){ currentState.validateNewRequest(this, window, listOfCommands); }
+
+    public void cancelNewRequest(){currentState.cancelNewRequest(this, window);}
 
     public void generateRoadMap(){ currentState.generateRoadMap(this);}
 
@@ -114,4 +115,7 @@ public class Controller {
 
     public void redo(){ currentState.redo(listOfCommands, window);}
 
+    public State getCurrentState() {
+        return currentState;
+    }
 }
