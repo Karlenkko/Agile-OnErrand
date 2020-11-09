@@ -21,7 +21,7 @@ public class DeleteRequestState implements State {
         JTable table = window.getTextualView().getRequestTable();
         /*
         ListSelectionModel listSelectionModel = new DefaultListSelectionModel();
-        listSelectionModel.setSelectionInterval(0, table.getRowCount()-1)；
+        listSelectionModel.setSelectionInterval(0, table.getRowCount()-1);
         table.setSelectionModel(listSelectionModel);
 
          */
