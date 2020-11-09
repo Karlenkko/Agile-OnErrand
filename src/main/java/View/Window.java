@@ -2,14 +2,11 @@ package View;
 
 import Algorithm.TSP;
 import Controller.Controller;
-import Controller.State;
 import Model.Map;
 import Model.Mission;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
@@ -69,6 +66,16 @@ public class Window extends JFrame{
     private MouseListener mouseListener;
 
 
+    /**
+     * Constructor for window, create the main window and add the components.
+     * Associate also the map, the mission which are going to show on the application.
+     * Associate an instance tsp which is used to calculate the tour.
+     * Associate an instance controller which is used to controlle the system later.
+     * @param map the map which is going to show on the application.
+     * @param mission the mission which is going to show on the application.
+     * @param tsp an instance tsp which is used to calculate the tour.
+     * @param controller an instance controller which is used to controlle the system later.
+     */
     public Window(Map map, Mission mission, TSP tsp, Controller controller){
         setSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT);
         createButtons(controller);
@@ -122,6 +129,9 @@ public class Window extends JFrame{
         }
     }
 
+    /**
+     * Set the window to a preferred size which is coherent with the graphicalView and the textualView.
+     */
     private void setWindowSize() {
         int graphicalViewSize = this.getHeight() - buttonArea.getHeight()-20;
         graphicalView.setSize(graphicalViewSize, graphicalViewSize);
@@ -133,18 +143,34 @@ public class Window extends JFrame{
         graphicalView.setMapSize();
     }
 
+    /**
+     * Obtain the graphcalView which is used to draw or modify on the application
+     * @return graphicalView is used to draw or modifyon the application
+     */
     public GraphicalView getGraphicalView() {
         return graphicalView;
     }
 
+    /**
+     * Obtain the textualView which is used to add or modify or delete the table or the texual description
+     * @return textualView which is used to add or modify or delete the table or the texual description
+     */
     public TextualView getTextualView() {
         return textualView;
     }
 
+    /**
+     * Obtain the rate which we used to zoom in or zoom out the map
+     * @return the rate which we used to zoom in or zoom out the map
+     */
     public double getRate() {
         return this.getGraphicalView().getRate();
     }
 
+    /**
+     * Make sure that the buttons are enable or disable on different situation(state) given by state.
+     * @param state the String which contains the situation(state) of the application
+     */
     public void allow(String state) {
         switch (state){
             case "initialState":

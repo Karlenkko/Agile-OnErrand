@@ -8,11 +8,19 @@ import java.awt.event.ActionListener;
 public class ButtonListener implements ActionListener {
     private Controller controller;
 
+    /**
+     * Constructor for the ButtonListener.
+     * Associate with controller which operates on these buttons
+     * @param controller the instance which we can control these buttons.
+     */
     public ButtonListener(Controller controller) {
         this.controller = controller;
     }
 
     @Override
+    /**
+     * Identify different behaviors for different buttons.
+     */
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case Window.LOAD_MAP: controller.loadMap(); break;

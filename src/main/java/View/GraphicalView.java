@@ -79,10 +79,17 @@ public class GraphicalView extends JPanel implements Observer {
         delta = new double[2];
     }
 
+    /**
+     * Set the attribute first false when it is not the first time we draw the map on the table.
+     * @param first the attribute which marks whether it is the first time we draw the map on the table.
+     */
     public void setFirst(boolean first) {
         this.first = first;
     }
 
+    /**
+     * Resize the map when modifying the map.
+     */
     public void setMapSize() {
         //TODO refactoring later
         if (map.getAllIntersections().size() != 0 && first == false) {
@@ -98,6 +105,10 @@ public class GraphicalView extends JPanel implements Observer {
         setPaintMap(true);
     }
 
+    /**
+     * Mark the map as need to be painted(true) or not(false) for the not doing the paint each time we want to change a little things in the mission.
+     * @param paintMap mark the map as need to be painted(true) or not(false)
+     */
     public void setPaintMap(boolean paintMap) {
         if (map.getAllSegments().size() == 0) {
             GraphicalView.paintMap = false;
@@ -106,6 +117,10 @@ public class GraphicalView extends JPanel implements Observer {
         GraphicalView.paintMap = paintMap;
     }
 
+    /**
+     * Mark the request as need to be painted(true) or not(false) for not painting the request even it is not loaded.
+     * @param paintRequest mark the request as need to be painted(true) or not(false)
+     */
     public void setPaintRequest(boolean paintRequest) {
         if (mission.getAllRequests().size() == 0) {
             GraphicalView.paintRequest = false;
@@ -114,6 +129,10 @@ public class GraphicalView extends JPanel implements Observer {
         GraphicalView.paintRequest = paintRequest;
     }
 
+    /**
+     * Set the zoomFactor for zooming in or zooming out the map.
+     * @param zoomFactor the factor for zoom in or zoom out.
+     */
     public void setZoomFactor(double zoomFactor) {
         if(zoomFactor < this.zoomFactor){
             this.zoomFactor=this.zoomFactor/1.1 > 1 ? this.zoomFactor/1.1 : 1;
@@ -125,10 +144,18 @@ public class GraphicalView extends JPanel implements Observer {
         this.zoomer=true;
     }
 
+    /**
+     * Obtain the zoomFactor for zooming.
+     * @return the zoomFactor for zooming.
+     */
     public double getZoomFactor() {
         return zoomFactor;
     }
 
+    /**
+     * Paint the map or the request or the tour if needed.
+     * @param g the instance of Graphics which paints.
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -248,6 +275,14 @@ public class GraphicalView extends JPanel implements Observer {
 
     }
 
+    /**
+     * Draw the arrows of the route calculated.
+     * @param g1 the instance of Graphics which paints
+     * @param x1 the start horizontal position in the drawn area.
+     * @param y1 the start vertical position in the drawn area.
+     * @param x2 the end horizontal position in the drawn area.
+     * @param y2 the end vertical position in the drawn area.
+     */
     public void drawArrow(Graphics g1, double x1, double y1, double x2, double y2) {
         Graphics2D g = (Graphics2D) g1.create();
 
@@ -265,16 +300,28 @@ public class GraphicalView extends JPanel implements Observer {
                 new int[] {0, -ARR_SIZE, ARR_SIZE}, 3);
     }
 
+    /**
+     * Mark the tour as need to be painted(true) or not(false) for not painting the tour even it is not calculated.
+     * @param paintTour mark the tour as need to be painted(true) or not(false)
+     */
     public void setPaintTour(boolean paintTour) {
         GraphicalView.paintTour = paintTour;
     }
 
+    /**
+     * Mark the newRequest as need to be painted(true) or not(false) for not painting the newRequest even it is not added.
+     * @param paintAdd mark the newRequest as need to be painted(true) or not(false)
+     */
     public void setPaintAdd(boolean paintAdd) {
         GraphicalView.paintAdd = paintAdd;
     }
 
 
-
+    /**
+     * When the information in the model changed. The graphicalView changed also.
+     * @param observed an instance of Observable which is used to observe the information change in the model.
+     * @param arg the object which has the changed information
+     */
     @Override
     public void update(Observable observed, Object arg) {
         if (arg != null) {
@@ -282,10 +329,18 @@ public class GraphicalView extends JPanel implements Observer {
         }
     }
 
+    /**
+     * Obtain the horizontal position of the mouse.
+     * @return the value of the attribute mouseX.
+     */
     public double getMouseX() {
         return mouseX;
     }
 
+    /**
+     * Set the horizontal position of the mouse.
+     * @param mouseX the new value for the attribute mouseX
+     */
     public void setMouseX(double mouseX) {
         locationX = mouseX;
         this.mouseX = (mouseX - transX) / zoomFactor;
@@ -294,10 +349,18 @@ public class GraphicalView extends JPanel implements Observer {
 
     }
 
+    /**
+     * Obtain the vertical position of the mouse.
+     * @return the value of the attribute mouseY.
+     */
     public double getMouseY() {
         return mouseY;
     }
 
+    /**
+     * Set the vertical position of the mouse.
+     * @param mouseY the new value for the attribute mouseX
+     */
     public void setMouseY(double mouseY) {
         locationY = mouseY;
         this.mouseY = (mouseY - transY) / zoomFactor;
@@ -307,26 +370,50 @@ public class GraphicalView extends JPanel implements Observer {
 
     }
 
+    /**
+     * Obtain the translation on the direction X horizontal.
+     * @return the translation on the direction X horizontal
+     */
     public double getTransX() {
         return transX;
     }
 
+    /**
+     * Add a translation on the direction X horizontal.
+     * @param transX the translation we want to added.
+     */
     public void addTransX(double transX) {
         this.transX += (transX/10);
     }
 
+    /**
+     * Obtain the translation on the direction Y vertical.
+     * @return the translation on the direction Y vertical.
+     */
     public double getTransY() {
         return transY;
     }
 
+    /**
+     * Add a translation on the direction Y vertical.
+     * @param transY the translation we want to added.
+     */
     public void addTransY(double transY) {
         this.transY += (transY/10);
     }
 
+    /**
+     * Mark the map can be dragged(true) or not(false)
+     * @param dragger a boolean which marks the map can be dragged(true) or not(false)
+     */
     public void setDragger(boolean dragger) {
         this.dragger = dragger;
     }
 
+    /**
+     * Obtain the rate for the map which we want to zoom in or out.
+     * @return the rate we want to zoom in or out
+     */
     public double getRate() {
         return rate;
     }

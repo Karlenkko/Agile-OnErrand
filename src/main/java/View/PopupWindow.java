@@ -23,9 +23,16 @@ public class PopupWindow extends JFrame {
     Controller controller;
 
 
+    /**
+     * Constructor for the window popup for adding a new request.
+     * It can read the value that the user entered for the deliveryTime and pickupTime
+     * Associate with an instance controller to control the actions of the user.
+     * @param controller
+     */
     public PopupWindow(Controller controller) {
         this.controller = controller;
         JPanel pick = new JPanel();
+        // Make sure that there is only numbers in the field.
         pickupField.addKeyListener(new KeyAdapter(){
             public void keyTyped(KeyEvent e) {
                 int keyChar = e.getKeyChar();
@@ -35,7 +42,7 @@ public class PopupWindow extends JFrame {
                 }
             }
         });
-
+        // Make sure that there is only numbers in the field.
         deliveryField.addKeyListener(new KeyAdapter(){
             public void keyTyped(KeyEvent e) {
                 int keyChar = e.getKeyChar();
@@ -67,14 +74,25 @@ public class PopupWindow extends JFrame {
         jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Obtain the pickup time added for the new request.
+     * @return the pickup time added for the new request.
+     */
     public int getPickUpTime(){
         return Integer.parseInt((pickupField.getText()));
     }
 
+    /**
+     * Obtain the delivery time added for the new request.
+     * @return the delivery time added for the new request.
+     */
     public int getDeliveryTime(){
         return Integer.parseInt((deliveryField.getText()));
     }
 
+    /**
+     * A class to listen to the button valid.
+     */
     class validButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -90,6 +108,9 @@ public class PopupWindow extends JFrame {
         }
     }
 
+    /**
+     * A class to listen to the button return.
+     */
     class returnActionListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {

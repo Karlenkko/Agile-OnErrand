@@ -2,7 +2,6 @@ package View;
 
 import Controller.Controller;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,12 +14,25 @@ public class MouseListener extends MouseAdapter {
 
     private Point mousePt;
 
+    /**
+     * Constructor for mouseListener
+     * Associate with controller which operates on these buttons
+     * Associate with graphicalView which the user clicks on.
+     * Associate with window which contains the graphicalView.
+     * @param controller the instance which we can control the users' mouse actions.
+     * @param graphicalView the instance which the user clicks on.
+     * @param window the instance which which contains the graphicalView.
+     */
     public MouseListener(Controller controller, GraphicalView graphicalView, Window window) {
         this.controller = controller;
         this.graphicalView = graphicalView;
         this.window = window;
     }
 
+    /**
+     * The event which the user click on one place on map.
+     * @param e the instance mouseevent.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         switch (e.getButton()) {
@@ -35,6 +47,10 @@ public class MouseListener extends MouseAdapter {
 
     }
 
+    /**
+     * The event which the user move the wheel of the mouse on one place on map.
+     * @param e the instance mouseevent.
+     */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         super.mouseWheelMoved(e);
@@ -53,11 +69,19 @@ public class MouseListener extends MouseAdapter {
         }
     }
 
+    /**
+     * The event which the user press on the mouse on one place on map.
+     * @param e the instance mouseevent.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         mousePt = e.getPoint();
     }
 
+    /**
+     * The event which the user drag the mouse on one place on map.
+     * @param e the instance mouseevent.
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         super.mouseDragged(e);

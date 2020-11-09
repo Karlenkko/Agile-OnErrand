@@ -1,6 +1,5 @@
 package View;
 
-import Model.Intersection;
 import Model.Mission;
 import Model.Observable;
 import Model.Request;
@@ -10,10 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class TextualView extends JPanel implements Observer {
@@ -27,6 +23,12 @@ public class TextualView extends JPanel implements Observer {
     private ArrayList<String> requestTour = new ArrayList<>();
     private boolean lockInstruction = false;
 
+    /**
+     * Constructor of the TextualView which contains the information of the mission.
+     * Associate with the window for adding himself to the window.
+     * @param mission the mission we want to add to the table.
+     * @param window the instance window which contains the textualView
+     */
     public TextualView(Mission mission, Window window) {
         mission.addObserver(this);
         setLayout(boxLayout);
@@ -36,6 +38,9 @@ public class TextualView extends JPanel implements Observer {
         window.getContentPane().add(this);
     }
 
+    /**
+     * initalise the table area. Filling it with 'Nothing'.
+     */
     public void initialise() {
         textArea = new JTextArea(4,30);
         textArea.setText("Helpful Informations");
@@ -58,19 +63,35 @@ public class TextualView extends JPanel implements Observer {
         this.add(jScrollPane);
     }
 
+    /**
+     * Change the value for lockInstructions.
+     * For some actions, we want to make the ancient instructions conserved so need to set the lockInstruction true.
+     * @param lockInstruction the boolean value which marks if we need to conserve the ancient instruction or not.
+     */
     public void setLockInstruction(boolean lockInstruction) {
         this.lockInstruction = lockInstruction;
     }
 
+    /**
+     * Put a description in the textarea of the application.
+     * @param s the description we want to add.
+     */
     public void setTextAreaText(String s) {
         if (lockInstruction) return;
         this.textArea.setText(s);
     }
 
+    /**
+     * Obtain the description on the textarea.
+     * @return the description on the textarea.
+     */
     public String getTextAreaText() {
         return this.textArea.getText();
     }
 
+    /**
+     * Modify the size of the table according to the content of the table.
+     */
     public void setTableSize() {
         int number = requestTable.getColumnModel().getColumnCount();
         int size = this.getWidth()/number;
@@ -82,7 +103,11 @@ public class TextualView extends JPanel implements Observer {
         }
     }
 
-
+    /**
+     * Initialise the table with the mission loaded.
+     * ID,type,duration added for each pickup and delivery point.
+     * ID,type,departureTime added for depot point.
+     */
     public void initiateRequestTable() {
         if(mission.getDepartureTime() == null) {
             return;
@@ -138,6 +163,11 @@ public class TextualView extends JPanel implements Observer {
  */
     }
 
+    /**
+     * Update the requestTable after calculating the tour.
+     * Change the order by the order of passing each point.
+     * DepartureTime and arrivalTime calculated for every point.
+     */
     public void updateRequestTable() {
         if(mission.getDepartureTime() == null) {
             return;
@@ -194,6 +224,11 @@ public class TextualView extends JPanel implements Observer {
         tableModel.fireTableDataChanged();
     }
 
+    /**
+     * Obtain a random color
+     * @param number a number which helps to generate a color
+     * @return the arraylist of the color generated.
+     */
     public ArrayList<Color> getColors(int number) {
         ArrayList<Color> colors = new ArrayList<>();
         int dx = 255 / number;
@@ -217,6 +252,11 @@ public class TextualView extends JPanel implements Observer {
         return colors;
     }
 
+    /**
+     * Set the color the table by using a list of the colors.
+     * @param table the table which we want to change the color.
+     * @param color the list of the color we want to change.
+     */
     public static void setColor(JTable table,ArrayList<Color> color) {
         try {
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
@@ -242,15 +282,28 @@ public class TextualView extends JPanel implements Observer {
         }
     }
 
+    /**
+     * Obtain the requestTable in the window
+     * @return the requestTable in the window
+     */
     public JTable getRequestTable() {
         return requestTable;
     }
 
+    /**
+     * When the information in the model changed. The textualView changed also.
+     * @param observed an instance of Observable which is used to observe the information change in the model.
+     * @param arg the object which has the changed information
+     */
     @Override
     public void update(Observable observed, Object arg) {
 
     }
 
+    /**
+     * Obtain the textArea in the window.
+     * @return the textarea in the window.
+     */
     public JTextArea getTextArea() {
         return textArea;
     }
