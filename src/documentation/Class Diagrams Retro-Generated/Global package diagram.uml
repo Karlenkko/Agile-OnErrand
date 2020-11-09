@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="150.0">Model</node>
+    <node x="181.0" y="150.0">Util</node>
+    <node x="173.0" y="225.0">BasicTest</node>
+    <node x="0.0" y="0.0">Controller</node>
+    <node x="0.0" y="225.0">View</node>
+    <node x="0.0" y="75.0">Algorithm</node>
+    <node x="0.0" y="300.0">IHM</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.7241379310344828" x="568.0" y="393.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
