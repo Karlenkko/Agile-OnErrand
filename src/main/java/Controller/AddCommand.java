@@ -20,6 +20,8 @@ public class AddCommand implements Command{
     private ArrayList<Long> newAddressList;
     int num = -1;
 
+    private boolean newOperation;
+
     public AddCommand(Graph g, Mission mission, TSP tsp, Request request, ArrayList<Long> replacedRequestList) {
         this.g = g;
         this.mission = mission;
@@ -28,11 +30,13 @@ public class AddCommand implements Command{
         this.lastAddressList = new ArrayList<>();
         this.newAddressList = new ArrayList<>();
         this.replacedRequestList = new ArrayList<>(replacedRequestList);
+        newOperation = false;
     }
 
 
     @Override
     public void doCommand() {
+
         lastAddressList = mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3));
 
         g.setRecalculatedRequests(replacedRequestList, mission.getTour(), request);
@@ -105,7 +109,7 @@ public class AddCommand implements Command{
         interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
         mission.updatePartialTour(sequence, bestSolIntersection,interAddressLength);
 
-//        newAddressList = mission.getPartialTour()
+        newAddressList = mission.getPartialTour(lastAddressList.get(0), addressToUpdate.get(1));
 
         System.out.println("undoCommand");
         System.out.println("Tour");
