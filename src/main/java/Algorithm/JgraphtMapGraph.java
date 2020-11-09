@@ -153,7 +153,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
                     if (minCost > jgraphtShortestPaths.getWeight(address, anotherAddress)){
                         minCost = jgraphtShortestPaths.getWeight(address, anotherAddress);
                     }
-                    updateMinHash(address, jgraphtShortestPaths.getWeight(address, anotherAddress));
+                    updateMinHash(anotherAddress, jgraphtShortestPaths.getWeight(address, anotherAddress));
                 }
             }
         }
