@@ -56,4 +56,6 @@ public interface Graph {
 	public abstract List<Long> getRoute(Long[] bestSolAddress);
 
 	public abstract double[] getSolutionCost(Long[] bestSolAddress);
+
+	public abstract void showPaths();
 }

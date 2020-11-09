@@ -191,7 +191,28 @@ public class Mission extends Observable {
         int start = tour.indexOf(sequence[0]);
         int end = tour.indexOf(sequence[sequence.length-1]);
         end = end == 0 ? tour.size(): end;
+
+        if(sequence.length == 2) {
+            Long i = tour.get(start+1);
+            for(Request request : allRequests) {
+                if (request.getPickup().getId().equals(i) || request.getDelivery().getId().equals(i)) {
+                    return;
+                }
+            }
+        }
+
+
         for (int i = start+1; i<end; ++i) {
+            boolean exist = false;
+            for(Request request : allRequests) {
+                if (request.getPickup().getId().equals(i) || request.getDelivery().getId().equals(i)) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (exist) {
+                continue;
+            }
             tour.remove(start+1);
         }
         for (int i = 1; i < sequence.length-1; ++i) {
@@ -434,8 +455,17 @@ public class Mission extends Observable {
         System.out.println(startAddress);
         System.out.println(arrivalAddress);
 
+        int lastOccurrence = 0;
+        for (int i = tour.size()-1; i > 0; --i) {
+            if (tour.get(i).equals(arrivalAddress)) {
+                lastOccurrence = i;
+                break;
+            }
+        }
+
         ArrayList<Long> partialTour = new ArrayList<>();
         boolean add = false;
+        int i = 0;
         for (Long address : tour) {
             System.out.println(" addr " + address);
             if (address.equals(startAddress)) {
@@ -446,9 +476,10 @@ public class Mission extends Observable {
             if (add) {
                 partialTour.add(address);
             }
-            if (address.equals(arrivalAddress)){
+            if (i == lastOccurrence && i != 0){
                 add = false;
             }
+            ++i;
         }
         return partialTour;
     }

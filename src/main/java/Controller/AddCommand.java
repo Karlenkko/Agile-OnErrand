@@ -113,6 +113,10 @@ public class AddCommand implements Command{
             sequence[0] = addressToUpdate.get(0);
             sequence[1] = addressToUpdate.get(1);
             ArrayList<Long> bestSolIntersection = new ArrayList<>();
+
+            g.showPaths();
+            System.out.println(sequence[0]+" "+sequence[1]);
+
             bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
             double[] interAddressLength = new double[1];
             interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
@@ -125,6 +129,10 @@ public class AddCommand implements Command{
             sequence[0] = addressToUpdate.get(0);
             sequence[1] = addressToUpdate.get(1);
             bestSolIntersection = new ArrayList<>();
+
+            g.showPaths();
+            System.out.println(sequence[0]+" "+sequence[1]);
+
             bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
             interAddressLength = new double[1];
             interAddressLength[0] = g.getCost(sequence[0], sequence[1]);

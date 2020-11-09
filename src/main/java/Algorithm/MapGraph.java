@@ -87,6 +87,9 @@ public class MapGraph implements Graph {
 				add = false;
 			}
 		}
+		if (addRequestAddressList.get(3) == tour.get(0)) {
+			recalculatedRequests.add(addRequestAddressList.get(3));
+		}
 
 		newCostGraph = new double[recalculatedRequests.size()][recalculatedRequests.size()];
 		for (double[] doubles : newCostGraph) {
@@ -137,6 +140,14 @@ public class MapGraph implements Graph {
 			requestsList = recalculatedRequests;
 			requestGraph = newCostGraph;
 			solutionList = newShortestPaths;
+
+			System.out.println("Request recalculate");
+			for(Long l : recalculatedRequests) {
+				System.out.println(l);
+			}
+			System.out.println("Request recalculate");
+
+
 		} else {
 			requestsList = allAddresses;
 			requestGraph = costGraph;
@@ -324,6 +335,11 @@ public class MapGraph implements Graph {
 
 	@Override
 	public void updateGraph() {
+		System.out.println("newShortes ..............");
+		for (String s : newShortestPaths.keySet()) {
+			System.out.println(s+" : "+newShortestPaths.get(s).toString());
+		}
+		System.out.println("newShortes ..............");
 		shortestPaths.putAll(newShortestPaths);
 		int size = costGraph.length + 2;
 		double[][] tempCostGraph = new double[size][size];
@@ -354,6 +370,23 @@ public class MapGraph implements Graph {
 				tempCostGraph[indexOrigin][indexDestination] = newCostGraph[i][j];
 
 			}
+		}
+
+		for (int i = 0; i < costGraph.length; ++i) {
+
+			if (tempCostGraph[i][costGraph.length] == 0.0){
+				tempCostGraph[i][costGraph.length] = dijkstra(allAddresses.get(i), recalculatedRequests.get(1));
+			}
+			if (tempCostGraph[costGraph.length][i] == 0.0){
+				tempCostGraph[costGraph.length][i] = dijkstra(recalculatedRequests.get(1), allAddresses.get(i));
+			}
+			System.out.println("new.................");
+			System.out.println(tempCostGraph[i][costGraph.length]);
+			System.out.println(tempCostGraph[costGraph.length][i]);
+			System.out.println(allAddresses.get(i)+" "+recalculatedRequests.get(1));
+			System.out.println("new.................");
+
+
 		}
 
 		costGraph = tempCostGraph;
@@ -387,6 +420,68 @@ public class MapGraph implements Graph {
 			bestSolAddressCost[i] = getCost(bestSolAddress[i], bestSolAddress[(i + 1 >= bestSolAddress.length? 0 : i + 1)]);
 		}
 		return bestSolAddressCost;
+	}
+
+	public void showPaths() {
+		for (String s : shortestPaths.keySet()) {
+			System.out.println(s+" : "+shortestPaths.get(s).toString());
+		}
+
+	}
+
+	public double dijkstra(Long origin, Long destination) {
+		minCost = Double.MAX_VALUE;
+		initial();
+		int i = 0;
+		gray.add(origin);
+		toIntersectionCosts.put(origin, 0.0);
+		intersectionPrecedents.put(origin, -1L);
+		while (gray.size() != 0) {
+			Long grayAddress = getMinGray();
+			gray.remove(grayAddress);
+			if (!intersectionToIntersections.containsKey(grayAddress)) {
+				black.add(grayAddress);
+				continue;
+			}
+			for (Long d : intersectionToIntersections.get(grayAddress)) {
+				double newLength =
+						toIntersectionCosts.get(grayAddress) +
+								intersectionToIntersectionDistances.
+										get(grayAddress).
+										get(intersectionToIntersections.
+												get(grayAddress).indexOf(d));
+				if (toIntersectionCosts.containsKey(d)) {
+					if (newLength < toIntersectionCosts.get(d)) {
+						toIntersectionCosts.put(d, newLength);
+						intersectionPrecedents.put(d, grayAddress);
+					}
+				} else {
+					toIntersectionCosts.put(d, newLength);
+					intersectionPrecedents.put(d, grayAddress);
+					gray.add(d);
+				}
+			}
+			black.add(grayAddress);
+			if (destination.equals(grayAddress)) {
+				Long d = grayAddress;
+				ArrayList<Long> route = new ArrayList<>();
+				while (intersectionPrecedents.get(d) != -1L) {
+					route.add(0, d);
+					d = intersectionPrecedents.get(d);
+				}
+				route.add(0, d);
+				shortestPaths.put(origin + " " + grayAddress, route);
+				if (toIntersectionCosts.get(grayAddress) != 0) {
+					if (minCost > toIntersectionCosts.get(grayAddress)) {
+						minCost = toIntersectionCosts.get(grayAddress);
+					}
+					updateMinHash(grayAddress, toIntersectionCosts.get(grayAddress));
+				}
+				return toIntersectionCosts.get(grayAddress);
+			}
+
+		}
+		return  0;
 	}
 
 }
