@@ -47,6 +47,12 @@ public class Mission extends Observable {
         departureTime = null;
         allRequests.clear();
         indexTable.clear();
+        tour.clear();
+        tourIntersections.clear();
+        arrivalTimeSchedule.clear();
+        departureTimeSchedule.clear();
+        newAddList.clear();
+        maxIndex = 1;
     }
 
     /**
@@ -472,7 +478,6 @@ public class Mission extends Observable {
         boolean add = false;
         int i = 0;
         for (Long address : tour) {
-            System.out.println(" addr " + address);
             if (address.equals(startAddress)) {
                 add = true;
                 partialTour.add(address);
@@ -486,6 +491,10 @@ public class Mission extends Observable {
             }
             ++i;
         }
+
+        if (lastOccurrence == 0) {
+            partialTour.add(arrivalAddress);
+        }
         return partialTour;
     }
 
@@ -497,8 +506,11 @@ public class Mission extends Observable {
                 System.out.println(request.toString());
             }
         }
-        System.out.println("size");
-        System.out.println(requestsToDelete.size());
+    }
+
+    public void setDelete(int num) {
+        requestsToDelete.clear();
+        requestsToDelete.add(allRequests.get(indexTable.indexOf(num)));
     }
 
     public void resetDelete() {

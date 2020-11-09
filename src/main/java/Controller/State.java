@@ -25,6 +25,7 @@ public interface State {
 
     default void loadRequests(Controller controller, Window window) {
         try {
+
            XMLparser.parserRequest(controller.getMission(), controller.getMap());
            controller.getMission().initialTour();
            window.getGraphicalView().setPaintTour(false);

@@ -65,6 +65,7 @@ public class MapGraph implements Graph {
 		requestPairs.clear();
 		minCost = Double.MAX_VALUE;
 		minHash.clear();
+		initial();
 	}
 
 	public void setRecalculatedRequests(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest) {
@@ -140,13 +141,6 @@ public class MapGraph implements Graph {
 			requestsList = recalculatedRequests;
 			requestGraph = newCostGraph;
 			solutionList = newShortestPaths;
-
-			System.out.println("Request recalculate");
-			for(Long l : recalculatedRequests) {
-				System.out.println(l);
-			}
-			System.out.println("Request recalculate");
-
 
 		} else {
 			requestsList = allAddresses;
@@ -335,11 +329,6 @@ public class MapGraph implements Graph {
 
 	@Override
 	public void updateGraph() {
-		System.out.println("newShortes ..............");
-		for (String s : newShortestPaths.keySet()) {
-			System.out.println(s+" : "+newShortestPaths.get(s).toString());
-		}
-		System.out.println("newShortes ..............");
 		shortestPaths.putAll(newShortestPaths);
 		int size = costGraph.length + 2;
 		double[][] tempCostGraph = new double[size][size];
@@ -380,13 +369,6 @@ public class MapGraph implements Graph {
 			if (tempCostGraph[costGraph.length][i] == 0.0){
 				tempCostGraph[costGraph.length][i] = dijkstra(recalculatedRequests.get(1), allAddresses.get(i));
 			}
-			System.out.println("new.................");
-			System.out.println(tempCostGraph[i][costGraph.length]);
-			System.out.println(tempCostGraph[costGraph.length][i]);
-			System.out.println(allAddresses.get(i)+" "+recalculatedRequests.get(1));
-			System.out.println("new.................");
-
-
 		}
 
 		costGraph = tempCostGraph;

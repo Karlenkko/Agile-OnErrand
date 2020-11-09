@@ -31,6 +31,7 @@ public class AddCommand implements Command{
         this.newAddressList = new ArrayList<>();
         this.replacedRequestList = new ArrayList<>(replacedRequestList);
         newOperation = true;
+
     }
 
 
@@ -114,7 +115,6 @@ public class AddCommand implements Command{
             sequence[1] = addressToUpdate.get(1);
             ArrayList<Long> bestSolIntersection = new ArrayList<>();
 
-            g.showPaths();
             System.out.println(sequence[0]+" "+sequence[1]);
 
             bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
@@ -130,7 +130,6 @@ public class AddCommand implements Command{
             sequence[1] = addressToUpdate.get(1);
             bestSolIntersection = new ArrayList<>();
 
-            g.showPaths();
             System.out.println(sequence[0]+" "+sequence[1]);
 
             bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));

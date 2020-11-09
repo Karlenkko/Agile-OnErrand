@@ -5,10 +5,14 @@ import Model.Observable;
 import Model.Request;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -22,6 +26,7 @@ public class TextualView extends JPanel implements Observer {
     private BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
     private ArrayList<String> requestTour = new ArrayList<>();
     private boolean lockInstruction = false;
+    private Window window;
 
     /**
      * Constructor of the TextualView which contains the information of the mission.
@@ -35,6 +40,7 @@ public class TextualView extends JPanel implements Observer {
         this.mission = mission;
         setBackground(Color.white);
         initialise();
+        this.window = window;
         window.getContentPane().add(this);
     }
 
@@ -61,6 +67,37 @@ public class TextualView extends JPanel implements Observer {
         this.add(jScrollPane2);
         this.add(Box.createVerticalStrut(20));
         this.add(jScrollPane);
+
+        requestTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("hhhhhh");
+                int[] selectedRow = requestTable.getSelectedRows();
+                String type = (String) requestTable.getValueAt(selectedRow[0], 1);
+                int num = 0;
+                if (type.charAt(0) == 'p') {
+                    String[] res = type.split("p");
+                    num = Integer.parseInt(res[2]);
+                } else if (type.charAt(0) == 'd' && type.charAt(2) == 'l') {
+                    String[] res = type.split("y");
+                    num = Integer.parseInt(res[1]);
+                } else {
+                    // TODO: handle exception
+                }
+                mission.setDelete(num);
+                requestTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+                for (int i = 0; i < requestTable.getRowCount(); i++) {
+                    String requestType = (String) requestTable.getValueAt(i, 1);
+                    if (mission.isDeletedRequest(requestType)) {
+                        requestTable.changeSelection(i, 1, true, false);
+                    }
+                }
+                window.getGraphicalView().setPaintAdd(true);
+                window.getGraphicalView().repaint();
+            }
+        });
+
     }
 
     /**
