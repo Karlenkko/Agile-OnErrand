@@ -430,9 +430,14 @@ public class Mission extends Observable {
     }
 
     public ArrayList<Long> getPartialTour(Long startAddress, Long arrivalAddress) {
+        System.out.println("getPartialTour");
+        System.out.println(startAddress);
+        System.out.println(arrivalAddress);
+
         ArrayList<Long> partialTour = new ArrayList<>();
         boolean add = false;
         for (Long address : tour) {
+            System.out.println(" addr " + address);
             if (address.equals(startAddress)) {
                 add = true;
                 partialTour.add(address);
@@ -443,7 +448,6 @@ public class Mission extends Observable {
             }
             if (address.equals(arrivalAddress)){
                 add = false;
-                break;
             }
         }
         return partialTour;

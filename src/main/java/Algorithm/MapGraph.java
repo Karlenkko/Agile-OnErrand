@@ -370,4 +370,23 @@ public class MapGraph implements Graph {
 		return requestPairs.get(pickup);
 	}
 
+	public List<Long> getRoute(Long[] bestSolAddress) {
+		LinkedList<Long> bestSolIntersection = new LinkedList<>();
+		for (int i = 1; i < bestSolAddress.length; i++) {
+			System.out.println(bestSolAddress[i-1]+" "+bestSolAddress[i]);
+			bestSolIntersection.addAll(getShortestPaths(false).get(bestSolAddress[i-1]+" "+bestSolAddress[i]));
+			bestSolIntersection.remove(bestSolIntersection.size() - 1);
+		}
+		bestSolIntersection.add(bestSolAddress[bestSolAddress.length-1]);
+		return  bestSolIntersection;
+	}
+
+	public double[] getSolutionCost(Long[] bestSolAddress) {
+		double[] bestSolAddressCost = new double[bestSolAddress.length];
+		for (int i = 0; i < bestSolAddress.length; i ++) {
+			bestSolAddressCost[i] = getCost(bestSolAddress[i], bestSolAddress[(i + 1 >= bestSolAddress.length? 0 : i + 1)]);
+		}
+		return bestSolAddressCost;
+	}
+
 }

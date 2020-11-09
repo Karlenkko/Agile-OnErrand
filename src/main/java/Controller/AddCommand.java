@@ -20,6 +20,8 @@ public class AddCommand implements Command{
     private ArrayList<Long> newAddressList;
     int num = -1;
 
+    private boolean newOperation;
+
     public AddCommand(Graph g, Mission mission, TSP tsp, Request request, ArrayList<Long> replacedRequestList) {
         this.g = g;
         this.mission = mission;
@@ -28,26 +30,53 @@ public class AddCommand implements Command{
         this.lastAddressList = new ArrayList<>();
         this.newAddressList = new ArrayList<>();
         this.replacedRequestList = new ArrayList<>(replacedRequestList);
+        newOperation = true;
     }
 
 
     @Override
     public void doCommand() {
-        lastAddressList = mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3));
 
-        g.setRecalculatedRequests(replacedRequestList, mission.getTour(), request);
-        mission.setNewRequest(request);
-        g.dijkstra(true);
+        if(newOperation) {
+            lastAddressList = new ArrayList<>(mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3)));
+            System.out.println("lastAdressList");
+            System.out.println(lastAddressList.toString());
+            System.out.println("lastAdressList");
 
-        // start TSP calculation
+        }
 
-        tsp.setRecalculate(true);
-        Long[] solutions = tsp.searchSolution(30000, g);
-        g.updateGraph();
-        mission.updateAllRequests(num);
-        mission.updatePartialTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
+        if (newOperation) {
+            g.setRecalculatedRequests(replacedRequestList, mission.getTour(), request);
+            mission.setNewRequest(request);
+            g.dijkstra(true);
 
-        newAddressList = mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3));
+            // start TSP calculation
+
+            tsp.setRecalculate(true);
+            Long[] solutions = tsp.searchSolution(30000, g);
+            g.updateGraph();
+            mission.updateAllRequests(num);
+            mission.updatePartialTour(solutions, tsp.getBestSolIntersection(), tsp.getBestSolAddressCost());
+        } else {
+            mission.setNewRequest(request);
+            mission.updateAllRequests(num);
+            Long[] solutions = new Long[newAddressList.size()];
+            for(int i = 0; i < solutions.length; ++i) {
+                solutions[i] = newAddressList.get(i);
+            }
+            mission.updatePartialTour(solutions, g.getRoute(solutions), g.getSolutionCost(solutions));
+        }
+
+
+
+        if(newOperation) {
+            newAddressList = new ArrayList<>(mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3)));
+            System.out.println("newAddressList");
+            System.out.println(newAddressList.toString());
+            System.out.println("newAddressList");
+            newOperation = false;
+        }
+
 
         System.out.println("doCommand");
         System.out.println("Tour");
@@ -71,41 +100,52 @@ public class AddCommand implements Command{
     @Override
     public void undoCommand() {
 
+        if(newOperation) {
+            newAddressList = new ArrayList<>(mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3)));
+        }
 
         num = mission.deleteRequest(request);
 
-        // delete the pickup of the request
-        ArrayList<Long> addressToUpdate = mission.getBeforeAfterAddress(request.getPickup().getId());
-
-        Long delivery = g.getDelivery(request.getPickup().getId());
-
-        Long afterDelivery = mission.getBeforeAfterAddress(delivery).get(1);
-
-        lastAddressList = mission.getPartialTour(addressToUpdate.get(0), afterDelivery);
-
-
-        Long[] sequence = new Long[2];
-        sequence[0] = addressToUpdate.get(0);
-        sequence[1] = addressToUpdate.get(1);
-        ArrayList<Long> bestSolIntersection = new ArrayList<>();
-        bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
-        double[] interAddressLength = new double[1];
-        interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
-        mission.updatePartialTour(sequence, bestSolIntersection,interAddressLength);
+        if (newOperation) {
+            // delete the pickup of the request
+            ArrayList<Long> addressToUpdate = mission.getBeforeAfterAddress(request.getPickup().getId());
+            Long[] sequence = new Long[2];
+            sequence[0] = addressToUpdate.get(0);
+            sequence[1] = addressToUpdate.get(1);
+            ArrayList<Long> bestSolIntersection = new ArrayList<>();
+            bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
+            double[] interAddressLength = new double[1];
+            interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
+            mission.updatePartialTour(sequence, bestSolIntersection,interAddressLength);
 
 
-        // delete the delivery of the request
-        addressToUpdate = mission.getBeforeAfterAddress(request.getDelivery().getId());
-        sequence = new Long[2];
-        sequence[0] = addressToUpdate.get(0);
-        sequence[1] = addressToUpdate.get(1);
-        bestSolIntersection = new ArrayList<>();
-        bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
-        interAddressLength = new double[1];
-        interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
-        mission.updatePartialTour(sequence, bestSolIntersection,interAddressLength);
+            // delete the delivery of the request
+            addressToUpdate = mission.getBeforeAfterAddress(request.getDelivery().getId());
+            sequence = new Long[2];
+            sequence[0] = addressToUpdate.get(0);
+            sequence[1] = addressToUpdate.get(1);
+            bestSolIntersection = new ArrayList<>();
+            bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
+            interAddressLength = new double[1];
+            interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
+            mission.updatePartialTour(sequence, bestSolIntersection,interAddressLength);
 
-//        newAddressList = mission.getPartialTour()
+        } else {
+            System.out.println("lastAddressList undo");
+            System.out.println(lastAddressList.toString());
+            System.out.println("lastAddressList undo");
+            Long[] solutions = new Long[lastAddressList.size()];
+            for(int i = 0; i < solutions.length; ++i) {
+                solutions[i] = lastAddressList.get(i);
+            }
+            mission.updatePartialTour(solutions, g.getRoute(solutions), g.getSolutionCost(solutions));
+        }
+
+
+        if(newOperation) {
+            lastAddressList = new ArrayList<>(mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3)));
+            newOperation = false;
+        }
 
         System.out.println("undoCommand");
         System.out.println("Tour");

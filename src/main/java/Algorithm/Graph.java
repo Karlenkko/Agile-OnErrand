@@ -52,4 +52,8 @@ public interface Graph {
 	public abstract HashMap<Long, Double> getMinHash();
 
 	public abstract Long getDelivery(Long pickup);
+
+	public abstract List<Long> getRoute(Long[] bestSolAddress);
+
+	public abstract double[] getSolutionCost(Long[] bestSolAddress);
 }
