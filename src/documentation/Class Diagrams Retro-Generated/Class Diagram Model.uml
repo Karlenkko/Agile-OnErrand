@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>Model</OriginalElement>
+  <nodes>
+    <node x="0.0" y="1082.0">Model.Request</node>
+    <node x="70.0" y="0.0">Model.Observable</node>
+    <node x="778.0" y="0.0">Model.Intersection</node>
+    <node x="0.0" y="152.0">Model.Mission</node>
+    <node x="1075.0" y="0.0">Model.Segment</node>
+    <node x="403.0" y="0.0">Model.Map</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Model.Mission" target="Model.Observable">
+      <point x="0.0" y="-442.5" />
+      <point x="0.0" y="51.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="445.1666666666665" y="645.9999999999993" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

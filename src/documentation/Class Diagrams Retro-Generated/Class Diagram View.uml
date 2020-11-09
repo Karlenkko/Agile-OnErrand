@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>View</OriginalElement>
+  <nodes>
+    <node x="414.0" y="185.5">View.TextualView</node>
+    <node x="255.5" y="0.0">View.Observer</node>
+    <node x="0.0" y="861.0">View.ButtonListener</node>
+    <node x="0.0" y="621.0">View.Window</node>
+    <node x="719.0" y="621.0">View.PopupWindow</node>
+    <node x="325.0" y="621.0">View.MouseListener</node>
+    <node x="0.0" y="105.0">View.GraphicalView</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="View.TextualView" target="View.Observer">
+      <point x="0.0" y="-155.0" />
+      <point x="554.0" y="80.0" />
+      <point x="435.5" y="80.0" />
+      <point x="60.0" y="27.5" />
+    </edge>
+    <edge source="View.GraphicalView" target="View.Observer">
+      <point x="0.0" y="-235.5" />
+      <point x="197.0" y="80.0" />
+      <point x="315.5" y="80.0" />
+      <point x="-60.0" y="27.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="166.5" y="459.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
