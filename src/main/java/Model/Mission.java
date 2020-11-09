@@ -66,38 +66,77 @@ public class Mission extends Observable {
         incrementIndexTable();
     }
 
+    /**
+     * Make the index table add one.
+     */
     private void incrementIndexTable() {
         indexTable.add(maxIndex++);
     }
 
+    /**
+     * Make the index table add a certain number.
+     * @param num the number which we want to add.
+     */
     private void incrementIndexTable(int num) {
         indexTable.add(num);
     }
 
+    /**
+     * Obtain the intersection where the mission begins and ends.
+     * @return depot the intersection where the mission begins and ends.
+     */
     public Intersection getDepot() {
         return depot;
     }
 
+    /**
+     * Obtain the localTime which the mission starts.
+     * @return departureTime the localTime which the mission starts.
+     */
     public LocalTime getDepartureTime() {
         return departureTime;
     }
 
+    /**
+     * Obtain all the requests of this mission
+     * @return allRequests all the requests of this mission
+     */
     public ArrayList<Request> getAllRequests() {
         return allRequests;
     }
 
+    /**
+     * Obtain the sequence of the intersections the user should pass to complete the tour.
+     * @return tour a linkedList which contains all the id of the intersections the user should pass.
+     */
     public LinkedList<Long> getTour() {
         return tour;
     }
 
+    /**
+     * Obtain a hashmap which contains all the arrival's localTime for each intersection the user should pass.
+     * The key is the id for the intersection and the value is the localTime.
+     * @return arrivalTimeSchedule a hashmap which contains all the arrival's localTime for each intersection the user should pass.
+     */
     public HashMap<Long, LocalTime> getArrivalTimeSchedule() {
         return arrivalTimeSchedule;
     }
 
+    /**
+     * Obtain a hashmap which contains all the departure's localTime for each intersection the user should pass.
+     * The key is the id for the intersection and the value is the localTime.
+     * @return departureTimeSchedule a hashmap which contains all the departure's localTime for each intersection the user should pass.
+     */
     public HashMap<Long, LocalTime> getDepartureTimeSchedule() {
         return departureTimeSchedule;
     }
 
+    /**
+     * When the user chooses to add a request or delete a request in the mission, the system will update the tour calculated.
+     * @param sequence
+     * @param bestSolIntersection
+     * @param interAddressLength
+     */
     public void updateTour(Long[] sequence, List<Long> bestSolIntersection, double[] interAddressLength) {
         tour = new LinkedList<>(Arrays.asList(sequence));
         tourIntersections = new LinkedList<>(bestSolIntersection);

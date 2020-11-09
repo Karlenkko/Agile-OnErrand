@@ -1,9 +1,5 @@
 package Model;
 
-import IHM.Meituan;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -63,30 +59,63 @@ public class Map {
         maxY = -Double.MAX_VALUE;
     }
 
+    /**
+     * Obtain a hashmap which contains all the intersections in the map.
+     * The key is the id of the intersection and the value is the intersection.
+     * @return allIntersections a hashmap which contains all the intersections in the map.
+     */
     public HashMap<Long, Intersection> getAllIntersections() {
         return allIntersections;
     }
 
+    /**
+     * Obtain a linkedList which contains all the segments in the map.
+     * @return allSegments a linkedList which contains all the segments in the map.
+     */
     public LinkedList<Segment> getAllSegments() {
         return allSegments;
     }
 
+    /**
+     * Obtain the minimal value for x, the horizontal position that an intersection is actually drawn on the application,
+     * for all the intersections in the map
+     * @return the minimal value for x
+     */
     public double getMinX() {
         return minX;
     }
 
+    /**
+     * Obtain the minimal value for y, the vertical position that an intersection is actually drawn on the application,
+     * for all the intersections in the map
+     * @return the minimal value for y
+     */
     public double getMinY() {
         return minY;
     }
 
+    /**
+     * Obtain the maximum value for x, the horizontal position that an intersection is actually drawn on the application,
+     * for all the intersections in the map
+     * @return the maximum value for x
+     */
     public double getMaxX() {
         return maxX;
     }
 
+    /**
+     * Obtain the maximum value for y, the vertical position that an intersection is actually drawn on the application,
+     * for all the intersections in the map
+     * @return the maximum value for y
+     */
     public double getMaxY() {
         return maxY;
     }
 
+    /**
+     * Prepare and resize all the intersections in the map for drawing them
+     * @return delta the difference between the intersections on the extremity of the map
+     */
     public double[] resizeIntersection() {
         double deltaX = (maxX - minX);
         double deltaY = (maxY - minY);
@@ -102,6 +131,13 @@ public class Map {
         return delta;
     }
 
+    /**
+     * Obtain the nearest Intersection to a point given by the parameter
+     * @param x the horizontal position in the drawn area
+     * @param y the vertical position in the drawn area
+     * @param rate the rate which we zoom in or zoom out the map to show on the application
+     * @return nearest the nearest Intersection to a point given by the parameter
+     */
     public Intersection NearestIntersection(int x, int y, double rate) {
         Intersection nearest = null;
         double gapX = 0;
