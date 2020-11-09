@@ -232,6 +232,21 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         return minHash;
     }
 
+    @Override
+    public Long getDelivery(Long pickup) {
+        return null;
+    }
+
+    @Override
+    public List<Long> getRoute(Long[] bestSolAddress) {
+        return null;
+    }
+
+    @Override
+    public double[] getSolutionCost(Long[] bestSolAddress) {
+        return new double[0];
+    }
+
     public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate) {
         if (recalculate) {
             if (nextVertex.equals(recalculatedRequests.get(recalculatedRequests.size()-1)) && unvisited.size()!=1){
