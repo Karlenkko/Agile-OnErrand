@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>Algorithm</OriginalElement>
+  <nodes>
+    <node x="0.0" y="1836.0">Algorithm.TSP2</node>
+    <node x="400.0" y="1847.5">Algorithm.TSP3</node>
+    <node x="1157.0" y="1174.0">Algorithm.MinFirstIter</node>
+    <node x="258.5" y="0.0">Algorithm.Graph</node>
+    <node x="0.0" y="520.0">Algorithm.MapGraph</node>
+    <node x="517.0" y="554.5">Algorithm.JgraphtMapGraph</node>
+    <node x="825.0" y="1174.0">Algorithm.SeqIter</node>
+    <node x="269.0" y="1174.0">Algorithm.TSP</node>
+    <node x="146.0" y="1395.0">Algorithm.TemplateTSP</node>
+    <node x="200.0" y="1708.0">Algorithm.TSP1</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Algorithm.TSP1" target="Algorithm.TemplateTSP">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="131.5" />
+    </edge>
+    <edge source="Algorithm.TemplateTSP" target="Algorithm.TSP">
+      <point x="0.0" y="-131.5" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="Algorithm.JgraphtMapGraph" target="Algorithm.Graph">
+      <point x="0.0" y="-270.0" />
+      <point x="765.5" y="495.0" />
+      <point x="631.25" y="495.0" />
+      <point x="124.25" y="235.0" />
+    </edge>
+    <edge source="Algorithm.MapGraph" target="Algorithm.Graph">
+      <point x="0.0" y="-304.5" />
+      <point x="248.5" y="495.0" />
+      <point x="382.75" y="495.0" />
+      <point x="-124.25" y="235.0" />
+    </edge>
+    <edge source="Algorithm.TSP2" target="Algorithm.TSP1">
+      <point x="0.0" y="-39.0" />
+      <point x="190.0" y="1811.0" />
+      <point x="295.0" y="1811.0" />
+      <point x="-95.0" y="39.0" />
+    </edge>
+    <edge source="Algorithm.TSP3" target="Algorithm.TSP1">
+      <point x="0.0" y="-27.5" />
+      <point x="590.0" y="1811.0" />
+      <point x="485.0" y="1811.0" />
+      <point x="95.0" y="39.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.34643226473629785" x="734.5" y="957.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
