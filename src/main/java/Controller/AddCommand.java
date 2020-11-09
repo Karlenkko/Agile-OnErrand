@@ -117,6 +117,11 @@ public class AddCommand implements Command{
 
             System.out.println(sequence[0]+" "+sequence[1]);
 
+            if(!g.getShortestPaths(false).containsKey(sequence[0]+" "+sequence[1])) {
+                Long origin = sequence[0];
+                Long destination = sequence[1];
+                g.dijkstra(origin, destination);
+            }
             bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
             double[] interAddressLength = new double[1];
             interAddressLength[0] = g.getCost(sequence[0], sequence[1]);
@@ -132,6 +137,11 @@ public class AddCommand implements Command{
 
             System.out.println(sequence[0]+" "+sequence[1]);
 
+            if(!g.getShortestPaths(false).containsKey(sequence[0]+" "+sequence[1])) {
+                Long origin = sequence[0];
+                Long destination = sequence[1];
+                g.dijkstra(origin, destination);
+            }
             bestSolIntersection.addAll(g.getShortestPaths(false).get(sequence[0]+" "+sequence[1]));
             interAddressLength = new double[1];
             interAddressLength[0] = g.getCost(sequence[0], sequence[1]);

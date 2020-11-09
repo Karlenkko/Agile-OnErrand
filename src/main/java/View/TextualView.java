@@ -239,7 +239,7 @@ public class TextualView extends JPanel implements Observer {
                                 mission.getDepartureTimeSchedule().get(tour.get(i)).toString()
                         };
                         tableModel.addRow(row1);
-                        break;
+                        //break;
                     }
                     if ((long)tour.get(i) == request.getDelivery().getId()) {
                         if (!requestTour.contains(idRequest)) {
@@ -253,7 +253,7 @@ public class TextualView extends JPanel implements Observer {
                                 mission.getDepartureTimeSchedule().get(tour.get(i)).toString()
                         };
                         tableModel.addRow(row1);
-                        break;
+                        //break;
                     }
                 }
             }

@@ -26,7 +26,6 @@ public class DeleteRequestState implements State {
 
          */
         table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
         for (int i = 0; i < table.getRowCount(); i++) {
             String requestType = (String) table.getValueAt(i, 1);
             if (controller.getMission().isDeletedRequest(requestType)) {
@@ -35,11 +34,18 @@ public class DeleteRequestState implements State {
         }
         window.getGraphicalView().setPaintAdd(true);
         window.getGraphicalView().repaint();
+
     }
 
     public void deleteRequest(Controller controller, Window window, ListOfCommands listOfCommands){
         JTable table = window.getTextualView().getRequestTable();
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+        if (table.getSelectedRowCount() > 2) {
+            JOptionPane.showMessageDialog(null, "choose one request to be deleted on the request table", "alert", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         int rowNumber = table.getSelectedRow();
 
 

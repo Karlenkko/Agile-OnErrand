@@ -159,6 +159,11 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         }
     }
 
+    @Override
+    public double dijkstra(Long origin, Long destination) {
+        return 0;
+    }
+
     private void updateMinHash(Long id, Double length) {
         if (minHash.containsKey(id)) {
             if (minHash.get(id) > length) {

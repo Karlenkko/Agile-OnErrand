@@ -247,6 +247,12 @@ public class MapGraph implements Graph {
 	}
 
 	public HashMap<String, ArrayList<Long>> getShortestPaths(boolean recalculate) {
+		for(long l : recalculatedRequests) {
+			System.out.println("recalculatedR " + l);
+		}
+		for(String s : newShortestPaths.keySet()) {
+			System.out.println(s + " " + newShortestPaths.get(s).toString());
+		}
 		if (recalculate)
 			return newShortestPaths;
 		return shortestPaths;
@@ -453,12 +459,25 @@ public class MapGraph implements Graph {
 				}
 				route.add(0, d);
 				shortestPaths.put(origin + " " + grayAddress, route);
+				newShortestPaths.put(origin + " " + grayAddress, route);
 				if (toIntersectionCosts.get(grayAddress) != 0) {
 					if (minCost > toIntersectionCosts.get(grayAddress)) {
 						minCost = toIntersectionCosts.get(grayAddress);
 					}
 					updateMinHash(grayAddress, toIntersectionCosts.get(grayAddress));
 				}
+				if (recalculatedRequests.indexOf(origin) == -1 || recalculatedRequests.indexOf(grayAddress) == -1) {
+
+				} else {
+					newCostGraph[recalculatedRequests.indexOf(origin)][recalculatedRequests.indexOf(grayAddress)] = toIntersectionCosts.get(grayAddress);
+				}
+
+				if (allAddresses.indexOf(origin) == -1 || allAddresses.indexOf(destination) == -1) {
+
+				} else {
+					costGraph[allAddresses.indexOf(origin)][allAddresses.indexOf(destination)] = toIntersectionCosts.get(grayAddress);
+				}
+
 				return toIntersectionCosts.get(grayAddress);
 			}
 

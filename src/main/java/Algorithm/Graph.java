@@ -22,6 +22,8 @@ public interface Graph {
 	
 	public abstract void dijkstra(boolean recalculate);
 
+	public abstract double dijkstra(Long origin, Long destination);
+
 //	public abstract ArrayList<Long> getAllAddresses();
 
 	public abstract ArrayList<Long> getAllAddresses(boolean recalculate);
