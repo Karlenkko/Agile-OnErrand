@@ -197,6 +197,10 @@ public class Mission extends Observable {
         System.out.println("Sequence");
 
         int start = tour.indexOf(sequence[0]);
+        for (int i = tour.size()-1; i > tour.indexOf(sequence[0]); --i) {
+            if (tour.get(i).equals(sequence[0]))
+                start = i;
+        }
         int end = tour.indexOf(sequence[sequence.length-1]);
         end = end == 0 ? tour.size(): end;
 
@@ -232,7 +236,10 @@ public class Mission extends Observable {
 
 
         start = tourIntersections.indexOf(sequence[0]);
-
+        for (int i = tourIntersections.size()-1; i > tourIntersections.indexOf(sequence[0]); --i) {
+            if (tourIntersections.get(i).equals(sequence[0]))
+                start = i;
+        }
         /*
         for (int i= tourIntersections.size()-1; i > start; --i) {
             if (sequence[sequence.length - 1].equals(tourIntersections.get(i))) {
