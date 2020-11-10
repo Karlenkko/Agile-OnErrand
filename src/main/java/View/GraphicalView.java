@@ -245,6 +245,7 @@ public class GraphicalView extends JPanel implements Observer {
             HashMap<Long, Intersection> allIntersections = map.getAllIntersections();
             List<Long> solution = mission.getTourIntersections();
             for(int i = 1; i < solution.size(); ++i) {
+                System.out.println(solution.get(i));
                 g2d.setColor(Color.GREEN);
                 g2d.setStroke(new BasicStroke(2));
                 Intersection intersection1 = allIntersections.get(solution.get(i));
@@ -255,6 +256,7 @@ public class GraphicalView extends JPanel implements Observer {
                 double y2 = intersection2.getY();
                 drawArrow(g,x2/rate,y2/rate,x1/rate,y1/rate);
             }
+
         }
 
         if (paintAdd) {
