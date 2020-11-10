@@ -1,5 +1,6 @@
 package Algorithm;
 
+import javax.swing.*;
 import java.util.*;
 
 public abstract class TemplateTSP implements TSP {
@@ -92,13 +93,13 @@ public abstract class TemplateTSP implements TSP {
 			Collection<Long> visited, double currentCost){
 		if (System.currentTimeMillis() - startTime > timeLimit) {
 			if (until){
-				System.out.println("continue ?");
-				int go = new Scanner(System.in).nextInt();
-				if (go == 1) {
-					timeLimit += 30000;
-				} else {
+				String time = (String) JOptionPane.showInputDialog(null,"continue to calculate for (seconds)：","Input",JOptionPane.YES_NO_OPTION,null,null,30);
+				if (time == null || time.equals("null")) {
 					until = false;
 					return;
+				} else {
+					int continueTime = Integer.parseInt(time) * 1000;
+					timeLimit += continueTime;
 				}
 			} else {
 				return;

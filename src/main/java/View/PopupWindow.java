@@ -30,6 +30,9 @@ public class PopupWindow extends JFrame {
      * @param controller the Controller
      */
     public PopupWindow(Controller controller) {
+        pickupField.setText("180");
+        deliveryField.setText("180");
+
         this.controller = controller;
         JPanel pick = new JPanel();
         // Make sure that there is only numbers in the field.
