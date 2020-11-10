@@ -228,4 +228,18 @@ public class Window extends JFrame{
         }
 
     }
+
+    /**
+     * allows the Controller to enable or disable the undo/ redo buttons
+     * depending on whether there is any available command to undo/ redo
+     * @param type type of button, undo or redo
+     * @param state the desired state of the button, enable(true) or disable(false)
+     */
+    public void allowUndoRedo(String type, boolean state) {
+        if (type.equals("undo")){
+            buttons.get(6).setEnabled(state);
+        } else if (type.equals("redo")) {
+            buttons.get(7).setEnabled(state);
+        }
+    }
 }
