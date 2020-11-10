@@ -82,7 +82,7 @@ public class Mission extends Observable {
     }
 
     /**
-     * Make the index table add a certain number.
+     * Make the index table added a certain number.
      * @param num the number which we want to add.
      */
     private void incrementIndexTable(int num) {

@@ -5,8 +5,6 @@ import Model.Observable;
 import Model.Request;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -30,7 +28,7 @@ public class TextualView extends JPanel implements Observer {
 
     /**
      * Constructor of the TextualView which contains the information of the mission.
-     * Associate with the window for adding himself to the window.
+     * Associate with the window for adding itself to the window.
      * @param mission the mission we want to add to the table.
      * @param window the instance window which contains the textualView
      */
@@ -45,7 +43,7 @@ public class TextualView extends JPanel implements Observer {
     }
 
     /**
-     * initalise the table area. Filling it with 'Nothing'.
+     * initalize the table area. Filling it with 'Nothing'.
      */
     public void initialise() {
         textArea = new JTextArea(4,30);
@@ -53,7 +51,7 @@ public class TextualView extends JPanel implements Observer {
         textArea.setEditable(false);
         jScrollPane2 = new JScrollPane(textArea);
         String[] columNames = {"ID","Type","Duration","Arrival","Depart"};
-        Object defaultData[][] = {
+        Object[][] defaultData = {
                 {"Nothing","Nothing","Nothing","Nothing","Nothing"}
         };
         requestTable = new JTable(new DefaultTableModel(defaultData, columNames){

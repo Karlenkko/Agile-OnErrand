@@ -17,10 +17,11 @@ public class ButtonListener implements ActionListener {
         this.controller = controller;
     }
 
-    @Override
+
     /**
      * Identify different behaviors for different buttons.
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case Window.LOAD_MAP: controller.loadMap(); break;

@@ -13,7 +13,7 @@ public class Map {
     private static double maxY;
 
     /**
-     * Constructor of object Map that initialize the intersection list and the segment list
+     * Constructor of object Map that initializes the intersection list and the segment list
      */
     public Map() {
         allIntersections = new HashMap<>();

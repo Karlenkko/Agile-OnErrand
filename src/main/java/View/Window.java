@@ -168,7 +168,7 @@ public class Window extends JFrame{
     }
 
     /**
-     * Make sure that the buttons are enable or disable on different situation(state) given by state.
+     * Make sure that the buttons are enabled or disabled on different situation(state) given by state.
      * @param state the String which contains the situation(state) of the application
      */
     public void allow(String state) {

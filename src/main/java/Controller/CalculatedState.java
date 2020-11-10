@@ -12,7 +12,11 @@ import java.util.ArrayList;
 
 public class CalculatedState implements State{
 
-
+    /**
+     * detailed implementation of the generateRoadMap method
+     * @param controller the Controller
+     */
+    @Override
     public void generateRoadMap(Controller controller)  {
         try {
             TourSerializer tourSerializer = new TourSerializer(controller.getMission(), controller.getMap());
@@ -23,9 +27,14 @@ public class CalculatedState implements State{
 
     }
 
+    /**
+     * the implementation of the addRequest method that passes into
+     * the next step, AddRequestState1 for further operation
+     * @param controller the Controller
+     * @param window the main Window of the application
+     */
+    @Override
     public void addRequest(Controller controller, Window window){
-
-        //TODO:Click on the button "add request to add two points of pickup and delivery
         window.allow("addRequestState1");
         window.getTextualView().setLockInstruction(false);
         window.getTextualView().setTextAreaText("You are now adding a new request, \n" +
@@ -37,6 +46,14 @@ public class CalculatedState implements State{
         System.out.println("addRequest");
     }
 
+    /**
+     * the implementation of the deleteRequest method that passes into
+     * the next step, DeleteRequestState for further operation
+     * @param controller the Controller
+     * @param window the main Window of the application
+     * @param listOfCommands the list of commands
+     */
+    @Override
     public void deleteRequest(Controller controller, Window window, ListOfCommands listOfCommands){
         window.allow("deleteRequestState");
         controller.setCurrentState(controller.deleteRequestState);

@@ -39,6 +39,7 @@ public class DeleteRequestState implements State {
 
     @Override
     public void rightClick(Controller controller, Window window) {
+
         window.allow("calculatedState");
         window.getTextualView().setLockInstruction(false);
         window.getTextualView().setTextAreaText("You have quited the delete mode");
@@ -46,9 +47,19 @@ public class DeleteRequestState implements State {
         controller.setCurrentState(controller.calculatedState);
     }
 
+    /**
+     * the implementation of the method deleteRequest that actually execute the inner calculations
+     * for the previously selected request
+     * @param controller the Controller
+     * @param window the main Window of the application
+     * @param listOfCommands the list of commands
+     */
+    @Override
     public void deleteRequest(Controller controller, Window window, ListOfCommands listOfCommands){
         JTable table = window.getTextualView().getRequestTable();
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+        //TODO: set the last request to be undeletable
 
         if (table.getSelectedRowCount() > 2) {
             JOptionPane.showMessageDialog(null, "choose one request to be deleted on the request table", "alert", JOptionPane.ERROR_MESSAGE);
@@ -56,7 +67,6 @@ public class DeleteRequestState implements State {
         }
 
         int rowNumber = table.getSelectedRow();
-
 
         int num = -1;
         try {

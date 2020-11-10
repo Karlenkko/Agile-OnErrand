@@ -8,7 +8,6 @@ import View.Window;
 public class AddRequestState5 implements State{
     // Now you have already 4 intersections and another frame to enter the duration
 
-
     @Override
     public void validateNewRequest(Controller controller, Window window, ListOfCommands listOfCommands) {
 
@@ -17,9 +16,6 @@ public class AddRequestState5 implements State{
         TSP tsp = controller.getTsp();
 
         listOfCommands.add(new AddCommand(g, mission, tsp, mission.getNewRequest(), mission.getNewAddList()));
-
-
-
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
@@ -31,6 +27,7 @@ public class AddRequestState5 implements State{
 
     }
 
+    @Override
     public void cancelNewRequest(Controller controller, Window window){
         // TODO: cancel the add of a new Request
         controller.getMission().resetNewAdd();

@@ -23,6 +23,7 @@ public class AddRequestState1 implements State {
         controller.setCurrentState(controller.addRequestState2);
     }
 
+    @Override
     public void rightClick(Controller controller, Window window) {
         // TODO: Cancel the addition of the new request
         controller.getMission().removeAdd();

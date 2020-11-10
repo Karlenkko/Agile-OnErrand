@@ -27,7 +27,7 @@ public class PopupWindow extends JFrame {
      * Constructor for the window popup for adding a new request.
      * It can read the value that the user entered for the deliveryTime and pickupTime
      * Associate with an instance controller to control the actions of the user.
-     * @param controller
+     * @param controller the Controller
      */
     public PopupWindow(Controller controller) {
         this.controller = controller;
