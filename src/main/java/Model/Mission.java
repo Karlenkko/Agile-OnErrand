@@ -418,8 +418,6 @@ public class Mission extends Observable {
             int index = allRequests.indexOf(request);
             num = indexTable.remove(index);
         }
-        boolean d = allRequests.remove(request);
-        System.out.println("deleted Request : " + d + "  " + request.getPickup().getId());
         return num;
     }
 
@@ -457,11 +455,6 @@ public class Mission extends Observable {
                 break;
             }
         }
-//        System.out.println("replacedRequest Deleted........");
-//        for(Long l : replacedRequestsList) {
-//            System.out.println(l);
-//        }
-//        System.out.println("replacedRequest Deleted........");
         return replacedRequestsList;
     }
 
@@ -470,9 +463,6 @@ public class Mission extends Observable {
     }
 
     public ArrayList<Long> getPartialTour(Long startAddress, Long arrivalAddress) {
-        System.out.println("getPartialTour");
-        System.out.println(startAddress);
-        System.out.println(arrivalAddress);
 
         int lastOccurrence = 0;
         for (int i = tour.size()-1; i > 0; --i) {
@@ -518,6 +508,8 @@ public class Mission extends Observable {
 
     public void setDelete(int num) {
         requestsToDelete.clear();
+        if(num == -1)
+            return;
         requestsToDelete.add(allRequests.get(indexTable.indexOf(num)));
     }
 

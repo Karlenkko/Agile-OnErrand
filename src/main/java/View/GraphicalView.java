@@ -265,14 +265,14 @@ public class GraphicalView extends JPanel implements Observer {
                     double x = pickup.getX();
                     double y = pickup.getY();
                     g2d.setColor(Color.cyan);
-                    g2d.setStroke(new BasicStroke(8));
+                    g2d.setStroke(new BasicStroke(12));
                     g2d.draw(new Line2D.Double(x/rate,y/rate,x/rate,y/rate));
 
                     Intersection delivery = request.getDelivery();
                     double x2 = delivery.getX();
                     double y2 = delivery.getY();
                     g2d.setColor(Color.cyan);
-                    g2d.setStroke(new BasicStroke(8));
+                    g2d.setStroke(new BasicStroke(12));
                     g2d.draw(new Line2D.Double(x2/rate,y2/rate,x2/rate,y2/rate));
                 }
             }

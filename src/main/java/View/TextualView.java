@@ -72,15 +72,13 @@ public class TextualView extends JPanel implements Observer {
                 System.out.println("hhhhhh");
                 int[] selectedRow = requestTable.getSelectedRows();
                 String type = (String) requestTable.getValueAt(selectedRow[0], 1);
-                int num = 0;
+                int num = -1;
                 if (type.charAt(0) == 'p') {
                     String[] res = type.split("p");
                     num = Integer.parseInt(res[2]);
                 } else if (type.charAt(0) == 'd' && type.charAt(2) == 'l') {
                     String[] res = type.split("y");
                     num = Integer.parseInt(res[1]);
-                } else {
-                    // TODO: handle exception
                 }
                 mission.setDelete(num);
                 requestTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
