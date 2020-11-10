@@ -5,6 +5,14 @@ import java.util.*;
 public class MinFirstIter implements Iterator<Long> {
     private LinkedHashMap<Long, Double> unvisitedCosts;
 
+    /**
+     * constructor of the Min First Iterator which parses the unvisited vertexes in the ascending order
+     * of their costs, it gives a better result when the calculation of the TSP is not finished,
+     * since it is greedy
+     * @param unvisited a collection of the ids of the unvisited vertexes
+     * @param currentVertex the id of the current vertex
+     * @param g the Graph
+     */
     public MinFirstIter(Collection<Long> unvisited, Long currentVertex, Graph g) {
         unvisitedCosts = new LinkedHashMap<>();
         double cost;
@@ -29,8 +37,7 @@ public class MinFirstIter implements Iterator<Long> {
     }
 
     /**
-     * Returns the next element in the iteration.
-     *
+     * Returns the next element in the iteration which has a next smallest cost
      * @return the next element in the iteration
      * @throws NoSuchElementException if the iteration has no more elements
      */

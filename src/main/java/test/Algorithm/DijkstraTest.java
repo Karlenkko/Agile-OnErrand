@@ -51,7 +51,7 @@ public class DijkstraTest {
 
         graph1.reset();
         graph1.fillGraph(map);
-        graph1.setRequests(mission.getAllRequests(), mission.getDepot());
+        graph1.fillMission(mission.getAllRequests(), mission.getDepot());
         graph1.dijkstra(false);
 
         assertTrue("The route which we found on Google Map is not the same as the one calculated.",
@@ -72,7 +72,7 @@ public class DijkstraTest {
 
         graph2.reset();
         graph2.fillGraph(map);
-        graph2.setRequests(mission.getAllRequests(), mission.getDepot());
+        graph2.fillMission(mission.getAllRequests(), mission.getDepot());
         graph2.dijkstra(false);
 
         assertTrue("The route which we found on Google Map is not the same as the one calculated.",
@@ -93,7 +93,7 @@ public class DijkstraTest {
 
         graph1.reset();
         graph1.fillGraph(map);
-        graph1.setRequests(mission.getAllRequests(), mission.getDepot());
+        graph1.fillMission(mission.getAllRequests(), mission.getDepot());
         Date beforeJgraph = new Date();
         for (int i = 0; i < 1000; i++) {
             graph1.dijkstra(false);
@@ -104,7 +104,7 @@ public class DijkstraTest {
 
         graph2.reset();
         graph2.fillGraph(map);
-        graph2.setRequests(mission.getAllRequests(), mission.getDepot());
+        graph2.fillMission(mission.getAllRequests(), mission.getDepot());
         Date beforeMapgraph = new Date();
         for (int i = 0; i < 1000; i++) {
             graph2.dijkstra(false);

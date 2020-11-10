@@ -12,18 +12,18 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.*;
 
+// This class is now deprecated since v1.5.1, as it lacks updates of implementations
+// for the latest methods of the Graph Interface
 
 public class JgraphtMapGraph implements Algorithm.Graph {
     private static Graph<Long, DefaultWeightedEdge> g;
     private static HashMap<Long, Long> requestPairs;
     private static ArrayList<Long> allAddresses;
     private static ArrayList<Long> recalculatedRequests;
-    private static DijkstraManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPathAlgo;
     private static ManyToManyShortestPaths<Long, DefaultWeightedEdge> jgraphtShortestPaths;
     protected HashMap<String, ArrayList<Long>> shortestPaths;
     protected double minCost;
     protected HashMap<Long, Double> minHash;
-//    private static long depotAddress;
 
     /**
      * Constructor of JgraphtMapGraph, creates an empty directed weighted map using the jgrapht library
@@ -43,7 +43,6 @@ public class JgraphtMapGraph implements Algorithm.Graph {
 
     @Override
     public void reset(){
-//        super.reset();
         g = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
         allAddresses.clear();
         recalculatedRequests.clear();
@@ -97,12 +96,12 @@ public class JgraphtMapGraph implements Algorithm.Graph {
     }
 
     @Override
-    public void setRequests(List<Request> allRequests, Intersection depot) {
+    public void fillMission(List<Request> allRequests, Intersection depot) {
         allAddresses.add(depot.getId());
         for (Request request : allRequests) {
             allAddresses.add(request.getDelivery().getId());
             allAddresses.add(request.getPickup().getId());
-            this.requestPairs.put(request.getPickup().getId(),request.getDelivery().getId());
+            requestPairs.put(request.getPickup().getId(),request.getDelivery().getId());
         }
     }
 
@@ -110,7 +109,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
     public void setRecalculatedRequests(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest) {
         Long before = addRequestAddressList.get(0);
         Long after = addRequestAddressList.get(3);
-        this.requestPairs.put(newRequest.getPickup().getId(),newRequest.getDelivery().getId());
+        requestPairs.put(newRequest.getPickup().getId(),newRequest.getDelivery().getId());
         recalculatedRequests.add(addRequestAddressList.get(0));
         recalculatedRequests.add(addRequestAddressList.get(1));
         recalculatedRequests.add(addRequestAddressList.get(2));
@@ -133,7 +132,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
      * Calculate the shortest paths among all pickup and delivery
      */
     public void dijkstra(boolean recalculate) {
-        shortestPathAlgo = new DijkstraManyToManyShortestPaths<>(g);
+        DijkstraManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPathAlgo = new DijkstraManyToManyShortestPaths<>(g);
         HashSet<Long> addressSet = new HashSet<>(allAddresses);
         if (recalculate) {
             addressSet.addAll(recalculatedRequests);
@@ -144,9 +143,8 @@ public class JgraphtMapGraph implements Algorithm.Graph {
 //                if (address.equals(anotherAddress)) {
 //                    continue;
 //                }
-                ArrayList<Long> shortestRoute = new ArrayList<>();
                 GraphPath<Long, DefaultWeightedEdge> graphPath = jgraphtShortestPaths.getPath(address, anotherAddress);
-                shortestRoute.addAll(graphPath.getVertexList());
+                ArrayList<Long> shortestRoute = new ArrayList<>(graphPath.getVertexList());
                 shortestPaths.put(address + " " + anotherAddress, shortestRoute);
 //                graph[requests.indexOf(address)][requests.indexOf(anotherAddress)] = jgraphtShortestPaths.getWeight(address, anotherAddress);
                 if (!address.equals(anotherAddress)) {
@@ -263,12 +261,6 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         return bestSolAddressCost;
     }
 
-    @Override
-    public void showPaths() {
-        for (String s : shortestPaths.keySet()) {
-            System.out.println(s+" : "+shortestPaths.get(s).toString());
-        }
-    }
 
     public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate) {
         if (recalculate) {

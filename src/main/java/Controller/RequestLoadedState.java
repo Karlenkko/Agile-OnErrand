@@ -14,7 +14,7 @@ public class RequestLoadedState implements State{
         System.out.println("test...............");
         controller.getGraph().reset();
         controller.getGraph().fillGraph(controller.getMap());
-        controller.getGraph().setRequests(controller.getMission().getAllRequests(), controller.getMission().getDepot());
+        controller.getGraph().fillMission(controller.getMission().getAllRequests(), controller.getMission().getDepot());
         controller.getGraph().dijkstra(false);
 //        controller.getCompleteGraph().show();
         System.out.println("test...............");

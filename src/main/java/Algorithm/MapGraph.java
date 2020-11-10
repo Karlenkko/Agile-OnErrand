@@ -53,6 +53,10 @@ public class MapGraph implements Graph {
 
 	}
 
+	/**
+	 *
+	 */
+	@Override
 	public void reset() {
 		intersectionToIntersections.clear();
 		intersectionToIntersectionDistances.clear();
@@ -88,7 +92,7 @@ public class MapGraph implements Graph {
 				add = false;
 			}
 		}
-		if (addRequestAddressList.get(3) == tour.get(0)) {
+		if (addRequestAddressList.get(3).equals(tour.get(0))) {
 			recalculatedRequests.add(addRequestAddressList.get(3));
 		}
 
@@ -99,7 +103,8 @@ public class MapGraph implements Graph {
 
 	}
 
-	public void setRequests(List<Request> allRequests, Intersection depot) {
+	@Override
+	public void fillMission(List<Request> allRequests, Intersection depot) {
 		allAddresses.add(depot.getId());
 		for (Request r : allRequests) {
 			allAddresses.add(r.getPickup().getId());
@@ -132,6 +137,7 @@ public class MapGraph implements Graph {
 //		return costGraph;
 //	}
 
+	@Override
 	public void dijkstra(boolean recalculate) {
 		minCost = Double.MAX_VALUE;
 		ArrayList<Long> requestsList;
@@ -217,16 +223,6 @@ public class MapGraph implements Graph {
 	}
 
 
-	public void show() {
-		for (String id : shortestPaths.keySet()) {
-			System.out.print(id+" ");
-			for (Long l : shortestPaths.get(id)) {
-				System.out.print(l+" ");
-			}
-			System.out.println();
-		}
-	}
-
 	private Long getMinGray() {
 		Double min = toIntersectionCosts.get(gray.get(0));
 		Long id = gray.get(0);
@@ -276,7 +272,7 @@ public class MapGraph implements Graph {
 				return -1;
 			return newCostGraph[i][j];
 		}
-		if (i<0 || i>=getNbVertices(false) || j<0 || j>=getNbVertices(false))
+		if (i >= getNbVertices(false) || j >= getNbVertices(false))
 			return -1;
 
 		return costGraph[i][j];
@@ -294,7 +290,7 @@ public class MapGraph implements Graph {
 				return false;
 			return i != j;
 		}
-		if (i<0 || i>=getNbVertices(false) || j<0 || j>=getNbVertices(false))
+		if (i >= getNbVertices(false) || j >= getNbVertices(false))
 			return false;
 		return i != j;
 	}
@@ -315,7 +311,6 @@ public class MapGraph implements Graph {
 
 	public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate) {
 		if (recalculate) {
-//			System.out.println(nextVertex+" "+unvisited.size());
 			if (nextVertex-recalculatedRequests.get(recalculatedRequests.size()-1)==0 && unvisited.size()!=1){
 				return false;
 			}
@@ -339,9 +334,7 @@ public class MapGraph implements Graph {
 		int size = costGraph.length + 2;
 		double[][] tempCostGraph = new double[size][size];
 		for(int i = 0; i < costGraph.length; ++i) {
-			for (int j = 0; j < costGraph[i].length; ++j) {
-				tempCostGraph[i][j] = costGraph[i][j];
-			}
+			System.arraycopy(costGraph[i], 0, tempCostGraph[i], 0, costGraph[i].length);
 		}
 
 		for(int i = 0; i < newCostGraph.length; ++i) {
@@ -420,7 +413,6 @@ public class MapGraph implements Graph {
 	public double dijkstra(Long origin, Long destination) {
 		minCost = Double.MAX_VALUE;
 		initial();
-		int i = 0;
 		gray.add(origin);
 		toIntersectionCosts.put(origin, 0.0);
 		intersectionPrecedents.put(origin, -1L);
@@ -466,13 +458,13 @@ public class MapGraph implements Graph {
 					}
 					updateMinHash(grayAddress, toIntersectionCosts.get(grayAddress));
 				}
-				if (recalculatedRequests.indexOf(origin) == -1 || recalculatedRequests.indexOf(grayAddress) == -1) {
+				if (!recalculatedRequests.contains(origin) || !recalculatedRequests.contains(grayAddress)) {
 
 				} else {
 					newCostGraph[recalculatedRequests.indexOf(origin)][recalculatedRequests.indexOf(grayAddress)] = toIntersectionCosts.get(grayAddress);
 				}
 
-				if (allAddresses.indexOf(origin) == -1 || allAddresses.indexOf(destination) == -1) {
+				if (!allAddresses.contains(origin) || !allAddresses.contains(destination)) {
 
 				} else {
 					costGraph[allAddresses.indexOf(origin)][allAddresses.indexOf(destination)] = toIntersectionCosts.get(grayAddress);

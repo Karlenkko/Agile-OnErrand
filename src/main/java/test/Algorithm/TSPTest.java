@@ -39,7 +39,7 @@ public class TSPTest {
         graph = new MapGraph();
         graph.reset();
         graph.fillGraph(map);
-        graph.setRequests(mission.getAllRequests(), mission.getDepot());
+        graph.fillMission(mission.getAllRequests(), mission.getDepot());
         graph.dijkstra(false);
 
     }
