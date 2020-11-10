@@ -132,4 +132,6 @@ public interface Graph {
 
 	double[] getSolutionCost(Long[] bestSolAddress);
 
+	boolean isReachable(Long id);
+
 }

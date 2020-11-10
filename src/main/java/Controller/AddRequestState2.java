@@ -3,6 +3,8 @@ package Controller;
 import Model.Intersection;
 import View.Window;
 
+import javax.swing.*;
+
 public class AddRequestState2 implements State{
     // Now you've chosen 1 intersection.
 
@@ -17,6 +19,10 @@ public class AddRequestState2 implements State{
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY,window.getRate());
+        while(!controller.getGraph().isReachable(intersection.getId())) {
+            JOptionPane.showMessageDialog(null, "the intersection is unreachable, please select the correct intersection", "alert", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if(!controller.getMission().getNewAddList().contains(intersection.getId())){
             controller.getMission().addNewAdd(intersection.getId());
 

@@ -4,6 +4,7 @@ import Model.Intersection;
 import Model.Request;
 import View.Window;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class AddRequestState3 implements State{
@@ -20,6 +21,11 @@ public class AddRequestState3 implements State{
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY,window.getRate());
+
+        while(!controller.getGraph().isReachable(intersection.getId())) {
+            JOptionPane.showMessageDialog(null, "the intersection is unreachable, please select the correct intersection", "alert", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         ArrayList<Long> newAddList = controller.getMission().getNewAddList();
         if(!newAddList.contains(intersection.getId())){

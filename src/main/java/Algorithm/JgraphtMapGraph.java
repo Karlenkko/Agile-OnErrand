@@ -261,6 +261,11 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         return bestSolAddressCost;
     }
 
+    @Override
+    public boolean isReachable(Long id) {
+        return false;
+    }
+
 
     public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate) {
         if (recalculate) {

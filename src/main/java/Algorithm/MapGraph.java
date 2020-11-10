@@ -129,13 +129,14 @@ public class MapGraph implements Graph {
 		}
 	}
 
-//	public ArrayList<Long> getAllAddresses() {
-//		return allAddresses;
-//	}
-
-//	public double[][] getCostGraph() {
-//		return costGraph;
-//	}
+	public boolean isReachable(Long id) {
+		if (!intersectionToIntersections.containsKey(id))
+			return false;
+		if (intersectionToIntersections.get(id).size() == 0)
+			return false;
+		else
+			return true;
+	}
 
 	@Override
 	public void dijkstra(boolean recalculate) {
