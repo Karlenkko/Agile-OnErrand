@@ -387,6 +387,7 @@ public class Mission extends Observable {
 
     public boolean requestValid(Long idBefore, Long idAfter) {
         for (Request request : allRequests) {
+            System.out.println("checking" + request.getPickup().getId());
             if (idAfter.equals(request.getPickup().getId()) && idBefore.equals(request.getDelivery().getId())) {
                 return false;
             }

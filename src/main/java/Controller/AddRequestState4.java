@@ -4,6 +4,7 @@ import Model.Intersection;
 import View.PopupWindow;
 import View.Window;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class AddRequestState4 implements State{
@@ -24,7 +25,13 @@ public class AddRequestState4 implements State{
 
         ArrayList<Long> newAddList = controller.getMission().getNewAddList();
 
-        if(!newAddList.contains(intersection.getId())){
+        if(!controller.getMission().requestValid(newAddList.get(0), intersection.getId())){
+            JOptionPane.showMessageDialog(null,
+                    "The first point chosen can't be the delivery point of the last point chosen.",
+                    "alert",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if(!newAddList.contains(intersection.getId())){
             controller.getMission().addNewAdd(intersection.getId());
 
             window.getGraphicalView().setPaintAdd(true);
@@ -43,9 +50,7 @@ public class AddRequestState4 implements State{
 
             controller.setCurrentState(controller.addRequestState5);
 
-        }else if(controller.getMission().requestValid(newAddList.get(0), intersection.getId())){
-            System.out.println("The first point chosen can't be the delivery point of the last point chosen.");
-        }else{
+        } else {
             System.out.println("You have selected the same point. Please choose another point.");
         }
     }
