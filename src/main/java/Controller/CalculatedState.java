@@ -57,6 +57,9 @@ public class CalculatedState implements State{
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You have undone an operation");
+        window.getTextualView().setLockInstruction(true);
     }
 
     @Override
@@ -65,5 +68,8 @@ public class CalculatedState implements State{
         window.getGraphicalView().setPaintTour(true);
         window.getGraphicalView().repaint();
         window.getTextualView().updateRequestTable();
+        window.getTextualView().setLockInstruction(false);
+        window.getTextualView().setTextAreaText("You have redone an operation");
+        window.getTextualView().setLockInstruction(true);
     }
 }

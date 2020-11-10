@@ -42,6 +42,7 @@ public class DeleteRequestState implements State {
         window.allow("calculatedState");
         window.getTextualView().setLockInstruction(false);
         window.getTextualView().setTextAreaText("You have quited the delete mode");
+        window.getTextualView().setLockInstruction(true);
         controller.setCurrentState(controller.calculatedState);
     }
 
@@ -109,7 +110,7 @@ public class DeleteRequestState implements State {
             window.getTextualView().updateRequestTable();
             window.getTextualView().setLockInstruction(false);
             window.getTextualView().setTextAreaText("You have deleted the request " + num);
-//            window.getTextualView().setLockInstruction(true);
+            window.getTextualView().setLockInstruction(true);
         }
 
         controller.getMission().resetDelete();
