@@ -9,6 +9,14 @@ import java.util.ArrayList;
 public class AddRequestState3 implements State{
     // Now you've chosen 2 intersection.
 
+    /**
+     * the detailed implementation of the method leftClick for the AddRequestState3
+     * that selects the delivery address for the new request
+     * @param controller the Controller
+     * @param window the main window of the application
+     * @param positionX the x position of the mouse on the window
+     * @param positionY the y position of the mouse on the window
+     */
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         Intersection intersection = controller.getMap().NearestIntersection(positionX,positionY,window.getRate());
@@ -36,6 +44,12 @@ public class AddRequestState3 implements State{
         }
     }
 
+    /**
+     * the detailed implementation of the method rightClick for the AddRequestState3
+     * that cancels the selection of the pickup address
+     * @param controller the Controller
+     * @param window the main window of the application
+     */
     @Override
     public void rightClick(Controller controller, Window window) {
         // TODO: Cancel the addition of the new request

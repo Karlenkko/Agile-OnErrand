@@ -22,6 +22,15 @@ public class AddCommand implements Command{
 
     private boolean newOperation;
 
+    /**
+     * Constructor of the AddCommand class, that is the basic concrete element in the list of commands,
+     * while the ReverseCommand simply interchange the doCommand and the undoCommand of the AddCommand
+     * @param g the Graph
+     * @param mission the Mission
+     * @param tsp the TSP algorithm
+     * @param request the concerned Request in one command (to be deleted or to be added)
+     * @param replacedRequestList
+     */
     public AddCommand(Graph g, Mission mission, TSP tsp, Request request, ArrayList<Long> replacedRequestList) {
         this.g = g;
         this.mission = mission;
@@ -34,10 +43,11 @@ public class AddCommand implements Command{
 
     }
 
-
+    /**
+     * the executive method that adds a new Request
+     */
     @Override
     public void doCommand() {
-
         if(newOperation) {
             lastAddressList = new ArrayList<>(mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3)));
             System.out.println("lastAdressList");
@@ -98,6 +108,9 @@ public class AddCommand implements Command{
         System.out.println("doCommand");
     }
 
+    /**
+     * the executive method that deletes a selected Request
+     */
     @Override
     public void undoCommand() {
 

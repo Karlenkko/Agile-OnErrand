@@ -9,6 +9,14 @@ import java.util.ArrayList;
 public class AddRequestState4 implements State{
     // Now you've chosen 3 points and waiting for entering the last point.
 
+    /**
+     * the detailed implementation of the method leftClick for the AddRequestState4
+     * that selects the ending address for the new request
+     * @param controller the Controller
+     * @param window the main window of the application
+     * @param positionX the x position of the mouse on the window
+     * @param positionY the y position of the mouse on the window
+     */
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         // It will also show a window to enter the new Window which can take the duration for the pickup and delivery
@@ -42,6 +50,12 @@ public class AddRequestState4 implements State{
         }
     }
 
+    /**
+     * the detailed implementation of the method rightClick for the AddRequestState4
+     * that cancels the selection of the delivery address
+     * @param controller the Controller
+     * @param window the main window of the application
+     */
     @Override
     public void rightClick(Controller controller, Window window) {
         // TODO: Cancel the addition of the new request

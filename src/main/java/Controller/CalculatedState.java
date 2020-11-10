@@ -66,8 +66,12 @@ public class CalculatedState implements State{
         System.out.println("addRequest");
     }
 
-
-
+    /**
+     * the detailed implementation of the method undo that invokes the actual executive method in the
+     * AddCommand class
+     * @param listOfCommands
+     * @param window the main window of the application
+     */
     @Override
     public void undo(ListOfCommands listOfCommands, Window window){
         listOfCommands.undo();
@@ -79,6 +83,12 @@ public class CalculatedState implements State{
         window.getTextualView().setLockInstruction(true);
     }
 
+    /**
+     * the detailed implementation of the method redo that invokes the actual executive method in the
+     * AddCommand class
+     * @param listOfCommands the list of commands
+     * @param window the main window of the application
+     */
     @Override
     public void redo(ListOfCommands listOfCommands, Window window){
         listOfCommands.redo();
