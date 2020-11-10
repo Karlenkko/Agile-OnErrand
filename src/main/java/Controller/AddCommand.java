@@ -119,6 +119,9 @@ public class AddCommand implements Command{
         }
 
         num = mission.deleteRequest(request);
+        if (num == -1){
+            return;
+        }
 
         if (newOperation) {
             // delete the pickup of the request

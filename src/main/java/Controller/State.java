@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Mission;
 import Util.XMLparser;
 import View.Window;
 
@@ -18,6 +19,9 @@ public interface State {
             XMLparser.parserMap(controller.getMap());
 
             // update view and controller
+            controller.getListOfCommands().reset();
+            controller.getMission().resetDelete();
+            Mission.reset();
             window.getGraphicalView().setFirst(false);
             window.getGraphicalView().setMapSize();
             window.getGraphicalView().setPaintRequest(false);
@@ -41,8 +45,10 @@ public interface State {
     default void loadRequests(Controller controller, Window window) {
         try {
            XMLparser.parserRequest(controller.getMission(), controller.getMap());
-           controller.getMission().initialTour();
+           controller.getListOfCommands().reset();
 
+           controller.getMission().initialTour();
+           controller.getMission().resetDelete();
            // update view and controller
            window.getGraphicalView().setPaintTour(false);
            window.getGraphicalView().setPaintRequest(true);

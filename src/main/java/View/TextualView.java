@@ -203,6 +203,10 @@ public class TextualView extends JPanel implements Observer {
      */
     public void updateRequestTable() {
         if(mission.getDepartureTime() == null) {
+            DefaultTableModel tableModel = (DefaultTableModel) requestTable.getModel();
+            tableModel.getDataVector().removeAllElements();
+            tableModel.fireTableDataChanged();
+
             return;
         }
         DefaultTableModel tableModel = (DefaultTableModel) requestTable.getModel();

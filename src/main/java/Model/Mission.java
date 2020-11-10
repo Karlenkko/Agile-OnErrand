@@ -413,11 +413,12 @@ public class Mission extends Observable {
     }
 
     public int deleteRequest(Request request) {
-        int num = 0;
+        int num = -1;
         if (allRequests.contains(request)) {
             int index = allRequests.indexOf(request);
             num = indexTable.remove(index);
         }
+        allRequests.remove(request);
         return num;
     }
 

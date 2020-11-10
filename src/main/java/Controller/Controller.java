@@ -179,4 +179,8 @@ public class Controller {
      * the concrete implementation is in the CalculatedState
      */
     public void redo(){ currentState.redo(listOfCommands, window);}
+
+    public ListOfCommands getListOfCommands() {
+        return listOfCommands;
+    }
 }
