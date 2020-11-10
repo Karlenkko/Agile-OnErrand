@@ -30,6 +30,7 @@ public class AddRequestState5 implements State{
         window.getTextualView().setLockInstruction(false);
         window.getTextualView().setTextAreaText("You have added a new request");
         window.getTextualView().setLockInstruction(true);
+        controller.calculatedState.entryCalculatedState(listOfCommands, window);
         controller.setCurrentState(controller.calculatedState);
 
     }

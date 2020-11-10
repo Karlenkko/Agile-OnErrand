@@ -110,7 +110,7 @@ public class Controller {
      * the concrete implementation is in the RequestLoadedState
      */
     public void calculateTour() {
-        currentState.calculateTour(this, window);
+        currentState.calculateTour(this, window, listOfCommands);
     }
 
     /**

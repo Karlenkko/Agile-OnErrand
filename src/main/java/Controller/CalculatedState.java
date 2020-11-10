@@ -81,6 +81,7 @@ public class CalculatedState implements State{
         window.getTextualView().setLockInstruction(false);
         window.getTextualView().setTextAreaText("You have undone an operation");
         window.getTextualView().setLockInstruction(true);
+        entryCalculatedState(listOfCommands, window);
     }
 
     /**
@@ -98,5 +99,11 @@ public class CalculatedState implements State{
         window.getTextualView().setLockInstruction(false);
         window.getTextualView().setTextAreaText("You have redone an operation");
         window.getTextualView().setLockInstruction(true);
+        entryCalculatedState(listOfCommands, window);
+    }
+
+    public void entryCalculatedState(ListOfCommands l, Window window){
+        window.allowUndoRedo("undo", l.ableUndo());
+        window.allowUndoRedo("redo", l.ableRedo());
     }
 }

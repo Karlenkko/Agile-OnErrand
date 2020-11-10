@@ -125,6 +125,7 @@ public class DeleteRequestState implements State {
 
         controller.getMission().resetDelete();
         window.allow("calculatedState");
+        controller.calculatedState.entryCalculatedState(listOfCommands, window);
         controller.setCurrentState(controller.calculatedState);
     }
 }

@@ -66,4 +66,21 @@ public class ListOfCommands {
         currentIndex = -1;
         list.clear();
     }
+
+    public boolean ableUndo() {
+        if (currentIndex == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean ableRedo() {
+        if (currentIndex < list.size()-1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

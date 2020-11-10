@@ -12,7 +12,7 @@ public class RequestLoadedState implements State{
      * @param window the main Window of the application
      */
     @Override
-    public void calculateTour(Controller controller, Window window) {
+    public void calculateTour(Controller controller, Window window, ListOfCommands l) {
         System.out.println("calculating tour");
         controller.getGraph().reset();
         controller.getGraph().fillGraph(controller.getMap());
@@ -34,6 +34,8 @@ public class RequestLoadedState implements State{
         window.getTextualView().setLockInstruction(false);
         window.getTextualView().setTextAreaText("The tour is generated. Then you can add or delete requests, " +
                 "or export the RoadMap");
+        controller.calculatedState.entryCalculatedState(l, window);
         controller.setCurrentState(controller.calculatedState);
+
     }
 }

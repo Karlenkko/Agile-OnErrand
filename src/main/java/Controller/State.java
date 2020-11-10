@@ -62,7 +62,7 @@ public interface State {
      * @param controller the Controller
      * @param window the main Window of the application
      */
-    default void calculateTour(Controller controller, Window window) {
+    default void calculateTour(Controller controller, Window window, ListOfCommands l) {
 
     }
 
@@ -145,4 +145,12 @@ public interface State {
      * @param window the main window of the application
      */
     default void redo(ListOfCommands l, Window window){};
+
+    /**
+     * the detailed entryCalculatedState method should be implemented in the
+     * CalculatedState according to the stateChart diagram
+     * @param l the list of commands
+     * @param window the main window of the application
+     */
+    default void entryCalculatedState(ListOfCommands l, Window window){};
 }
