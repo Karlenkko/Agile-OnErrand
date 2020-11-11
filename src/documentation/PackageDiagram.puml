@@ -10,6 +10,9 @@ Package Controller{
     class CalculateState
     class MapLoadedState
     class RequestLoadedState
+    class listOfCommand
+    class ReverseCommmande
+    class AddCommande
 
     interface State
     Controller --> State
@@ -22,6 +25,10 @@ Package Controller{
     AddRequestState3..|> State
     AddRequestState4..|> State
     AddRequestState5..|> State
+
+    listOfCommand ..|> Command
+    ReverseCommmande ..|> Command
+    AddCommande ..|> Command
 }
 Package Util{
     class XMLParser
@@ -36,6 +43,7 @@ Package Util{
 Package Algorithm{
     interface TSP
     class TSP1
+    class TSP2
     class TemplateTSP
     interface Graph
     class CompleteGraph
@@ -43,12 +51,13 @@ Package Algorithm{
     class Seqlter
 
 
-
+    TSP2 -> TSP1
     TemplateTSP -> MapGraph
     Controller -up-> TSP
     TSP1 --|> TemplateTSP
     TemplateTSP ..|> TSP
     CompleteGraph..|> Graph
+    MapGraph..|> Graph
 
 }
 Package Model{
@@ -81,7 +90,9 @@ Package Model{
 Package Test{
     class MapGraphTest
     class XMLparserTest
+    class TSP3
 
+    TSP3 --> TSP1
     XMLparserTest --> XMLParser
 }
 Package View{
@@ -91,10 +102,11 @@ Package View{
     class ButtonListener
     class MouseListener
     interface Observer
+    class PopupWindow
 
     TextualView ..|> Observer
     GraphicalView ..|> Observer
-
+    State --> PopupWindow
     Controller --> Window
     Window --> TextualView
     Window --> GraphicalView
