@@ -20,14 +20,6 @@ public interface TSP {
 	void setRecalculate(boolean recalculate);
 
 	/**
-	 * get the address id of the given index on the solution
-	 * @param i index
-	 * @return the ith visited vertex in the solution computed by <code>searchSolution</code> 
-	 * (-1 if <code>search Solution</code> has not been called yet, or if i < 0 or i >= g.getNbSommets())
-	 */
-	Long getSolution(int i);
-	
-	/**
 	 * get the total cost of a calculated solution
 	 * @return the total cost of the solution computed by <code>searchSolution</code> 
 	 * (-1 if <code>searcheSolution</code> has not been called yet).

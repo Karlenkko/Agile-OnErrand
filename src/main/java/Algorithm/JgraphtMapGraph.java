@@ -14,12 +14,11 @@ import java.util.*;
 
 // This class is now deprecated since v1.5.1, as it lacks updates of implementations
 // for the latest methods of the Graph Interface
-
 public class JgraphtMapGraph implements Algorithm.Graph {
     private static Graph<Long, DefaultWeightedEdge> g;
     private static HashMap<Long, Long> requestPairs;
     private static ArrayList<Long> allAddresses;
-    private static ArrayList<Long> recalculatedRequests;
+    private static ArrayList<Long> recalculatedAddresses;
     private static ManyToManyShortestPaths<Long, DefaultWeightedEdge> jgraphtShortestPaths;
     protected HashMap<String, ArrayList<Long>> shortestPaths;
     protected double minCost;
@@ -29,23 +28,20 @@ public class JgraphtMapGraph implements Algorithm.Graph {
      * Constructor of JgraphtMapGraph, creates an empty directed weighted map using the jgrapht library
      */
     public JgraphtMapGraph() {
-//        super();
         g = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
-//        addressPriorities = new HashMap<>();
         shortestPaths = new HashMap<>();
         allAddresses = new ArrayList<>();
-        recalculatedRequests = new ArrayList<>();
+        recalculatedAddresses = new ArrayList<>();
         requestPairs = new HashMap<>();
         minCost = Double.MAX_VALUE;
         minHash = new HashMap<>();
-//        depotAddress = -1L;
     }
 
     @Override
     public void reset(){
         g = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
         allAddresses.clear();
-        recalculatedRequests.clear();
+        recalculatedAddresses.clear();
         requestPairs.clear();
         shortestPaths.clear();
         minCost = Double.MAX_VALUE;
@@ -55,16 +51,10 @@ public class JgraphtMapGraph implements Algorithm.Graph {
     @Override
     public ArrayList<Long> getAllAddresses(boolean recalculate) {
         if (recalculate) {
-            return recalculatedRequests;
+            return recalculatedAddresses;
         }
         return allAddresses;
     }
-
-//    @Override
-//    public ArrayList<Long> getAllAddresses() {
-//        return new ArrayList<>(allAddresses);
-//    }
-
 
     /**
      * @param recalculate
@@ -106,18 +96,18 @@ public class JgraphtMapGraph implements Algorithm.Graph {
     }
 
     @Override
-    public void setRecalculatedRequests(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest) {
+    public void setRecalculatedAddresses(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest) {
         Long before = addRequestAddressList.get(0);
         Long after = addRequestAddressList.get(3);
         requestPairs.put(newRequest.getPickup().getId(),newRequest.getDelivery().getId());
-        recalculatedRequests.add(addRequestAddressList.get(0));
-        recalculatedRequests.add(addRequestAddressList.get(1));
-        recalculatedRequests.add(addRequestAddressList.get(2));
+        recalculatedAddresses.add(addRequestAddressList.get(0));
+        recalculatedAddresses.add(addRequestAddressList.get(1));
+        recalculatedAddresses.add(addRequestAddressList.get(2));
         boolean add = false;
 
         for (Long aLong : tour) {
             if (add) {
-                recalculatedRequests.add(aLong);
+                recalculatedAddresses.add(aLong);
             }
             if (aLong.equals(before)) {
                 add = true;
@@ -135,7 +125,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         DijkstraManyToManyShortestPaths<Long, DefaultWeightedEdge> shortestPathAlgo = new DijkstraManyToManyShortestPaths<>(g);
         HashSet<Long> addressSet = new HashSet<>(allAddresses);
         if (recalculate) {
-            addressSet.addAll(recalculatedRequests);
+            addressSet.addAll(recalculatedAddresses);
         }
         jgraphtShortestPaths = shortestPathAlgo.getManyToManyPaths(addressSet, addressSet);
         for (Long address : addressSet) {
@@ -193,9 +183,9 @@ public class JgraphtMapGraph implements Algorithm.Graph {
         int i = allAddresses.indexOf(origin);
         int j = allAddresses.indexOf(destination);
         if (i == -1 || j == -1) {
-            i = recalculatedRequests.indexOf(origin);
-            j = recalculatedRequests.indexOf(destination);
-            if (i<0 || i>=recalculatedRequests.size() || j<0 || j>=recalculatedRequests.size())
+            i = recalculatedAddresses.indexOf(origin);
+            j = recalculatedAddresses.indexOf(destination);
+            if (i<0 || i>= recalculatedAddresses.size() || j<0 || j>= recalculatedAddresses.size())
                 return false;
             return i != j;
         }
@@ -212,17 +202,17 @@ public class JgraphtMapGraph implements Algorithm.Graph {
     @Override
     public Long getStartAddress(boolean recalculate) {
         if (recalculate) {
-            return recalculatedRequests.get(0);
+            return recalculatedAddresses.get(0);
         }
         return allAddresses.get(0);
     }
 
     @Override
     public void updateGraph() {
-        allAddresses.add(recalculatedRequests.get(1));
-        allAddresses.add(recalculatedRequests.get(2));
+        allAddresses.add(recalculatedAddresses.get(1));
+        allAddresses.add(recalculatedAddresses.get(2));
 
-        recalculatedRequests.clear();
+        recalculatedAddresses.clear();
     }
 
     @Override
@@ -231,7 +221,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
     }
 
     @Override
-    public HashMap<Long, Double> getMinHash() {
+    public HashMap<Long, Double> getMinArrivalCosts() {
         return minHash;
     }
 
@@ -269,7 +259,7 @@ public class JgraphtMapGraph implements Algorithm.Graph {
 
     public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate) {
         if (recalculate) {
-            if (nextVertex.equals(recalculatedRequests.get(recalculatedRequests.size()-1)) && unvisited.size()!=1){
+            if (nextVertex.equals(recalculatedAddresses.get(recalculatedAddresses.size()-1)) && unvisited.size()!=1){
                 return false;
             }
         }

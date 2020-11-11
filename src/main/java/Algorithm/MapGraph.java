@@ -21,21 +21,23 @@ public class MapGraph implements Graph {
 
 	protected HashMap<Long, Long> requestPairs;
 	protected double minCost;
-	protected HashMap<Long, Double> minHash;
+	protected HashMap<Long, Double> minArrivalCosts;
 
-	protected ArrayList<Long> recalculatedRequests;
+	protected ArrayList<Long> recalculatedAddresses;
 
 	protected double[][] costGraph;
 	protected double[][] newCostGraph;
 
 	protected HashMap<String, ArrayList<Long>> newShortestPaths;
 
+	@Override
 	public double getMinCost() {
 		return minCost;
 	}
 
-	public HashMap<Long, Double> getMinHash() {
-		return minHash;
+	@Override
+	public HashMap<Long, Double> getMinArrivalCosts() {
+		return minArrivalCosts;
 	}
 
 	public MapGraph(){
@@ -47,9 +49,9 @@ public class MapGraph implements Graph {
 		toIntersectionCosts = new HashMap<>();
 		intersectionPrecedents = new HashMap<>();
 		requestPairs = new HashMap<>();
-		recalculatedRequests = new ArrayList<>();
+		recalculatedAddresses = new ArrayList<>();
 		minCost = Double.MAX_VALUE;
-		minHash = new HashMap<>();
+		minArrivalCosts = new HashMap<>();
 
 	}
 
@@ -65,25 +67,26 @@ public class MapGraph implements Graph {
 		shortestPaths.clear();
 		newShortestPaths.clear();
 		allAddresses.clear();
-		recalculatedRequests.clear();
+		recalculatedAddresses.clear();
 		requestPairs.clear();
 		minCost = Double.MAX_VALUE;
-		minHash.clear();
+		minArrivalCosts.clear();
 		initial();
 	}
 
-	public void setRecalculatedRequests(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest) {
+	@Override
+	public void setRecalculatedAddresses(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest) {
 		Long before = addRequestAddressList.get(0);
 		Long after = addRequestAddressList.get(3);
 		this.requestPairs.put(newRequest.getPickup().getId(),newRequest.getDelivery().getId());
-		recalculatedRequests.add(addRequestAddressList.get(0));
-		recalculatedRequests.add(addRequestAddressList.get(1));
-		recalculatedRequests.add(addRequestAddressList.get(2));
+		recalculatedAddresses.add(addRequestAddressList.get(0));
+		recalculatedAddresses.add(addRequestAddressList.get(1));
+		recalculatedAddresses.add(addRequestAddressList.get(2));
 		boolean add = false;
 
 		for (Long aLong : tour) {
-			if (add && (!recalculatedRequests.contains(aLong))) {
-				recalculatedRequests.add(aLong);
+			if (add && (!recalculatedAddresses.contains(aLong))) {
+				recalculatedAddresses.add(aLong);
 			}
 			if (aLong.equals(before)) {
 				add = true;
@@ -93,10 +96,10 @@ public class MapGraph implements Graph {
 			}
 		}
 		if (addRequestAddressList.get(3).equals(tour.get(0))) {
-			recalculatedRequests.add(addRequestAddressList.get(3));
+			recalculatedAddresses.add(addRequestAddressList.get(3));
 		}
 
-		newCostGraph = new double[recalculatedRequests.size()][recalculatedRequests.size()];
+		newCostGraph = new double[recalculatedAddresses.size()][recalculatedAddresses.size()];
 		for (double[] doubles : newCostGraph) {
 			Arrays.fill(doubles, -1.0);
 		}
@@ -118,6 +121,7 @@ public class MapGraph implements Graph {
 		}
 	}
 
+	@Override
 	public void fillGraph(Map map){
 		for (Segment segment : map.getAllSegments()) {
 			if (!intersectionToIntersections.containsKey(segment.getOrigin().getId())) {
@@ -129,6 +133,7 @@ public class MapGraph implements Graph {
 		}
 	}
 
+	@Override
 	public boolean isReachable(Long id) {
 		if (!intersectionToIntersections.containsKey(id))
 			return false;
@@ -145,7 +150,7 @@ public class MapGraph implements Graph {
 		double[][] requestGraph;
 		HashMap<String, ArrayList<Long>> solutionList;
 		if (recalculate) {
-			requestsList = recalculatedRequests;
+			requestsList = recalculatedAddresses;
 			requestGraph = newCostGraph;
 			solutionList = newShortestPaths;
 
@@ -186,7 +191,6 @@ public class MapGraph implements Graph {
 				}
 				black.add(grayAddress);
 				if (requestsList.contains(grayAddress)) {
-					// System.out.println(origin + " " +grayAddress);
 					Long d = grayAddress;
 					ArrayList<Long> route = new ArrayList<>();
 					while (intersectionPrecedents.get(d) != -1L) {
@@ -214,12 +218,12 @@ public class MapGraph implements Graph {
 
 
 	private void updateMinHash(Long id, Double length) {
-		if (minHash.containsKey(id)) {
-			if (minHash.get(id) > length) {
-				minHash.put(id, length);
+		if (minArrivalCosts.containsKey(id)) {
+			if (minArrivalCosts.get(id) > length) {
+				minArrivalCosts.put(id, length);
 			}
 		} else {
-			minHash.put(id, length);
+			minArrivalCosts.put(id, length);
 		}
 	}
 
@@ -243,8 +247,9 @@ public class MapGraph implements Graph {
 		intersectionPrecedents.clear();
 	}
 
+	@Override
 	public HashMap<String, ArrayList<Long>> getShortestPaths(boolean recalculate) {
-		for(long l : recalculatedRequests) {
+		for(long l : recalculatedAddresses) {
 			System.out.println("recalculatedR " + l);
 		}
 		for(String s : newShortestPaths.keySet()) {
@@ -258,7 +263,7 @@ public class MapGraph implements Graph {
 	@Override
 	public int getNbVertices(boolean recalculate) {
 		if (recalculate)
-			return recalculatedRequests.size();
+			return recalculatedAddresses.size();
 		return allAddresses.size();
 	}
 
@@ -267,9 +272,9 @@ public class MapGraph implements Graph {
 		int i = allAddresses.indexOf(origin);
 		int j = allAddresses.indexOf(destination);
 		if (i == -1 || j == -1) {
-			i = recalculatedRequests.indexOf(origin);
-			j = recalculatedRequests.indexOf(destination);
-			if (i<0 || i>=recalculatedRequests.size() || j<0 || j>=recalculatedRequests.size())
+			i = recalculatedAddresses.indexOf(origin);
+			j = recalculatedAddresses.indexOf(destination);
+			if (i<0 || i>= recalculatedAddresses.size() || j<0 || j>= recalculatedAddresses.size())
 				return -1;
 			return newCostGraph[i][j];
 		}
@@ -281,13 +286,12 @@ public class MapGraph implements Graph {
 
 	@Override
 	public boolean isArc(long origin, long destination) {
-//		System.out.println(origin+" "+destination);
 		int i = allAddresses.indexOf(origin);
 		int j = allAddresses.indexOf(destination);
 		if (i == -1 || j == -1) {
-			i = recalculatedRequests.indexOf(origin);
-			j = recalculatedRequests.indexOf(destination);
-			if (i<0 || i>=recalculatedRequests.size() || j<0 || j>=recalculatedRequests.size())
+			i = recalculatedAddresses.indexOf(origin);
+			j = recalculatedAddresses.indexOf(destination);
+			if (i<0 || i>= recalculatedAddresses.size() || j<0 || j>= recalculatedAddresses.size())
 				return false;
 			return i != j;
 		}
@@ -296,23 +300,26 @@ public class MapGraph implements Graph {
 		return i != j;
 	}
 
+	@Override
 	public ArrayList<Long> getAllAddresses(boolean recalculate){
 		if (recalculate) {
-			return recalculatedRequests;
+			return recalculatedAddresses;
 		}
 		return allAddresses;
 	}
 
+	@Override
 	public Long getStartAddress(boolean recalculate) {
 		if (recalculate) {
-			return recalculatedRequests.get(0);
+			return recalculatedAddresses.get(0);
 		}
 		return allAddresses.get(0);
 	}
 
+	@Override
 	public boolean filter(Long nextVertex, Collection<Long> unvisited, boolean recalculate) {
 		if (recalculate) {
-			if (nextVertex-recalculatedRequests.get(recalculatedRequests.size()-1)==0 && unvisited.size()!=1){
+			if (nextVertex- recalculatedAddresses.get(recalculatedAddresses.size()-1)==0 && unvisited.size()!=1){
 				return false;
 			}
 		}
@@ -344,16 +351,16 @@ public class MapGraph implements Graph {
 				if (i == 1 || i == 2) {
 					indexOrigin = i + costGraph.length - 1;
 				}
-				if (allAddresses.contains(recalculatedRequests.get(i))) {
-					indexOrigin = allAddresses.indexOf(recalculatedRequests.get(i));
+				if (allAddresses.contains(recalculatedAddresses.get(i))) {
+					indexOrigin = allAddresses.indexOf(recalculatedAddresses.get(i));
 				}
 
 				int indexDestination = 0;
 				if (j == 1 || j == 2) {
 					indexDestination = j + costGraph.length - 1;
 				}
-				if (allAddresses.contains(recalculatedRequests.get(j))) {
-					indexDestination = allAddresses.indexOf(recalculatedRequests.get(j));
+				if (allAddresses.contains(recalculatedAddresses.get(j))) {
+					indexDestination = allAddresses.indexOf(recalculatedAddresses.get(j));
 				}
 
 				tempCostGraph[indexOrigin][indexDestination] = newCostGraph[i][j];
@@ -364,27 +371,29 @@ public class MapGraph implements Graph {
 		for (int i = 0; i < costGraph.length; ++i) {
 
 			if (tempCostGraph[i][costGraph.length] == 0.0){
-				tempCostGraph[i][costGraph.length] = dijkstra(allAddresses.get(i), recalculatedRequests.get(1));
+				tempCostGraph[i][costGraph.length] = dijkstra(allAddresses.get(i), recalculatedAddresses.get(1));
 			}
 			if (tempCostGraph[costGraph.length][i] == 0.0){
-				tempCostGraph[costGraph.length][i] = dijkstra(recalculatedRequests.get(1), allAddresses.get(i));
+				tempCostGraph[costGraph.length][i] = dijkstra(recalculatedAddresses.get(1), allAddresses.get(i));
 			}
 		}
 
 		costGraph = tempCostGraph;
 
-		allAddresses.add(recalculatedRequests.get(1));
-		allAddresses.add(recalculatedRequests.get(2));
+		allAddresses.add(recalculatedAddresses.get(1));
+		allAddresses.add(recalculatedAddresses.get(2));
 
-		recalculatedRequests.clear();
+		recalculatedAddresses.clear();
 		newShortestPaths.clear();
 
 	}
 
+	@Override
 	public Long getDelivery(Long pickup) {
 		return requestPairs.get(pickup);
 	}
 
+	@Override
 	public List<Long> getRoute(Long[] bestSolAddress) {
 		LinkedList<Long> bestSolIntersection = new LinkedList<>();
 		for (int i = 1; i < bestSolAddress.length; i++) {
@@ -396,6 +405,7 @@ public class MapGraph implements Graph {
 		return  bestSolIntersection;
 	}
 
+	@Override
 	public double[] getSolutionCost(Long[] bestSolAddress) {
 		double[] bestSolAddressCost = new double[bestSolAddress.length];
 		for (int i = 0; i < bestSolAddress.length; i ++) {
@@ -411,6 +421,7 @@ public class MapGraph implements Graph {
 
 	}
 
+	@Override
 	public double dijkstra(Long origin, Long destination) {
 		minCost = Double.MAX_VALUE;
 		initial();
@@ -459,10 +470,10 @@ public class MapGraph implements Graph {
 					}
 					updateMinHash(grayAddress, toIntersectionCosts.get(grayAddress));
 				}
-				if (!recalculatedRequests.contains(origin) || !recalculatedRequests.contains(grayAddress)) {
+				if (!recalculatedAddresses.contains(origin) || !recalculatedAddresses.contains(grayAddress)) {
 
 				} else {
-					newCostGraph[recalculatedRequests.indexOf(origin)][recalculatedRequests.indexOf(grayAddress)] = toIntersectionCosts.get(grayAddress);
+					newCostGraph[recalculatedAddresses.indexOf(origin)][recalculatedAddresses.indexOf(grayAddress)] = toIntersectionCosts.get(grayAddress);
 				}
 
 				if (!allAddresses.contains(origin) || !allAddresses.contains(destination)) {

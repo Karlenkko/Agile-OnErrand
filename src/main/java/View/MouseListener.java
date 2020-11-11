@@ -9,7 +9,6 @@ import java.awt.event.MouseWheelEvent;
 
 public class MouseListener extends MouseAdapter {
     private Controller controller;
-    private GraphicalView graphicalView;
     private Window window;
 
     private Point mousePt;
@@ -25,7 +24,6 @@ public class MouseListener extends MouseAdapter {
      */
     public MouseListener(Controller controller, GraphicalView graphicalView, Window window) {
         this.controller = controller;
-        this.graphicalView = graphicalView;
         this.window = window;
     }
 

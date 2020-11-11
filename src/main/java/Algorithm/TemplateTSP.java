@@ -46,13 +46,7 @@ public abstract class TemplateTSP implements TSP {
 		}
 		return bestSolAddress;
 	}
-	
-	public Long getSolution(int i){
-		if (g != null && i>=0 && i<g.getNbVertices(recalculate))
-			return bestSolAddress[i];
-		return -1L;
-	}
-	
+
 	public double getSolutionCost(){
 		if (g != null)
 			return bestSolCost;
@@ -93,7 +87,7 @@ public abstract class TemplateTSP implements TSP {
 			Collection<Long> visited, double currentCost){
 		if (System.currentTimeMillis() - startTime > timeLimit) {
 			if (until){
-				String time = (String) JOptionPane.showInputDialog(null,"continue to calculate for (seconds)：","Input",JOptionPane.YES_NO_OPTION,null,null,30);
+				String time = (String) JOptionPane.showInputDialog(null,"continue to calculate for (seconds)：","Input", JOptionPane.ERROR_MESSAGE,null,null,30);
 				if (time == null || time.equals("null")) {
 					until = false;
 					return;

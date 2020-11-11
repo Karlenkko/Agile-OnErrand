@@ -5,8 +5,6 @@ import Algorithm.TSP;
 import Model.Mission;
 import Model.Request;
 
-import javax.management.remote.rmi.RMIConnectionImpl;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class AddCommand implements Command{
@@ -14,7 +12,7 @@ public class AddCommand implements Command{
     private Mission mission;
     private TSP tsp;
     private Request request;
-    private ArrayList<Long> replacedRequestList;
+    private ArrayList<Long> replacedAddresses;
 
     private ArrayList<Long> lastAddressList;
     private ArrayList<Long> newAddressList;
@@ -29,16 +27,16 @@ public class AddCommand implements Command{
      * @param mission the Mission
      * @param tsp the TSP algorithm
      * @param request the concerned Request in one command (to be deleted or to be added)
-     * @param replacedRequestList
+     * @param replacedAddresses
      */
-    public AddCommand(Graph g, Mission mission, TSP tsp, Request request, ArrayList<Long> replacedRequestList) {
+    public AddCommand(Graph g, Mission mission, TSP tsp, Request request, ArrayList<Long> replacedAddresses) {
         this.g = g;
         this.mission = mission;
         this.tsp = tsp;
         this.request = new Request(request);
         this.lastAddressList = new ArrayList<>();
         this.newAddressList = new ArrayList<>();
-        this.replacedRequestList = new ArrayList<>(replacedRequestList);
+        this.replacedAddresses = new ArrayList<>(replacedAddresses);
         newOperation = true;
 
     }
@@ -49,7 +47,7 @@ public class AddCommand implements Command{
     @Override
     public void doCommand() {
         if(newOperation) {
-            lastAddressList = new ArrayList<>(mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3)));
+            lastAddressList = new ArrayList<>(mission.getPartialTour(replacedAddresses.get(0), replacedAddresses.get(3)));
             System.out.println("lastAdressList");
             System.out.println(lastAddressList.toString());
             System.out.println("lastAdressList");
@@ -57,7 +55,7 @@ public class AddCommand implements Command{
         }
 
         if (newOperation) {
-            g.setRecalculatedRequests(replacedRequestList, mission.getTour(), request);
+            g.setRecalculatedAddresses(replacedAddresses, mission.getTour(), request);
             mission.setNewRequest(request);
             g.dijkstra(true);
 
@@ -81,7 +79,7 @@ public class AddCommand implements Command{
 
 
         if(newOperation) {
-            newAddressList = new ArrayList<>(mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3)));
+            newAddressList = new ArrayList<>(mission.getPartialTour(replacedAddresses.get(0), replacedAddresses.get(3)));
             System.out.println("newAddressList");
             System.out.println(newAddressList.toString());
             System.out.println("newAddressList");
@@ -115,7 +113,7 @@ public class AddCommand implements Command{
     public void undoCommand() {
 
         if(newOperation) {
-            newAddressList = new ArrayList<>(mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3)));
+            newAddressList = new ArrayList<>(mission.getPartialTour(replacedAddresses.get(0), replacedAddresses.get(3)));
         }
 
         num = mission.deleteRequest(request);
@@ -176,7 +174,7 @@ public class AddCommand implements Command{
 
 
         if(newOperation) {
-            lastAddressList = new ArrayList<>(mission.getPartialTour(replacedRequestList.get(0), replacedRequestList.get(3)));
+            lastAddressList = new ArrayList<>(mission.getPartialTour(replacedAddresses.get(0), replacedAddresses.get(3)));
             newOperation = false;
         }
 

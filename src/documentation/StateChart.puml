@@ -47,6 +47,7 @@ state OperationalStates {
 
     CalculateState -down-> DeleteState1 : deleteRequest()
     DeleteState1 : do / selectRequest()
+    DeleteState1 -left-> CalculateState : cancel()
     DeleteState1 -up-> CalculateState : deleteSelectedRequest() / \n requestList.remove(selectedRequest)
 
     CalculateState -left-> CalculateState : generateRoadMap()

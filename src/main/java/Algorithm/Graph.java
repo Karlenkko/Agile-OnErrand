@@ -33,7 +33,7 @@ public interface Graph {
 	 * @param tour the current tour before the addition
 	 * @param newRequest the newly added Request
 	 */
-	void setRecalculatedRequests(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest);
+	void setRecalculatedAddresses(ArrayList<Long> addRequestAddressList, LinkedList<Long> tour, Request newRequest);
 
 	/**
 	 * reset the whole Graph
@@ -119,7 +119,7 @@ public interface Graph {
 	 * used by TSP2
 	 * @return the HashMap of smallest inbound costs
 	 */
-	HashMap<Long, Double> getMinHash();
+	HashMap<Long, Double> getMinArrivalCosts();
 
 	/**
 	 * get the id of the delivery address of a pickup address

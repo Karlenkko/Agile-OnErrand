@@ -17,7 +17,7 @@ public class TSP2 extends TSP1 {
     protected int bound(long currentVertex, Collection<Long> unvisited, Graph g) {
         double somme = 0;
         for (Long l : unvisited) {
-            somme += g.getMinHash().get(l);
+            somme += g.getMinArrivalCosts().get(l);
         }
         return (int)Math.round(somme);
     }
