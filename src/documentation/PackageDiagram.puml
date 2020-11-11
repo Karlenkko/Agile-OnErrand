@@ -54,7 +54,7 @@ Package Algorithm{
     class MinFirstIter
 
 
-    TSP2 -> TSP1
+    TSP2 --|> TSP1
     TemplateTSP -> MapGraph
     Controller -up-> TSP
     TSP1 --|> TemplateTSP
@@ -70,12 +70,12 @@ Package Model{
     class Request
     class Segment
 
-    CompleteGraph --|> Mission
-    CompleteGraph --|> Map
+    CompleteGraph --> Mission
+    CompleteGraph --> Map
 
-    TourSerializer --|> Map
-    TourSerializer --|> Mission
-    TourSerializer --|> Segment
+    TourSerializer --> Map
+    TourSerializer --> Mission
+    TourSerializer --> Segment
 
     Map --> Intersection
     Map --> Segment
@@ -90,12 +90,17 @@ Package Model{
 
 }
 Package Test{
-    class MapGraphTest
-    class XMLparserTest
+    class DijkstraTest
+    class TSPTest
     class TSP3
+    class XMLparserTest
 
-    TSP3 --> TSP1
+
+    TSP3 --|> TSP1
     XMLparserTest --> XMLParser
+    TSPTest --> TemplateTSP
+    TSPTest --> TSP3
+    DijkstraTest --> Graph
 }
 Package View{
     class Window
