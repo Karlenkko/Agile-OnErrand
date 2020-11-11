@@ -1,7 +1,6 @@
 package View;
 
 import Model.Mission;
-import Model.Observable;
 import Model.Request;
 
 import javax.swing.*;
@@ -14,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class TextualView extends JPanel implements Observer {
+public class TextualView extends JPanel {
 
     private Mission mission;
     private JTextArea textArea;
@@ -33,7 +32,6 @@ public class TextualView extends JPanel implements Observer {
      * @param window the instance window which contains the textualView
      */
     public TextualView(Mission mission, Window window) {
-        mission.addObserver(this);
         setLayout(boxLayout);
         this.mission = mission;
         setBackground(Color.white);
@@ -327,15 +325,6 @@ public class TextualView extends JPanel implements Observer {
         return requestTable;
     }
 
-    /**
-     * When the information in the model changed. The textualView changed also.
-     * @param observed an instance of Observable which is used to observe the information change in the model.
-     * @param arg the object which has the changed information
-     */
-    @Override
-    public void update(Observable observed, Object arg) {
-
-    }
 
     /**
      * Obtain the textArea in the window.
