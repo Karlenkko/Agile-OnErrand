@@ -180,6 +180,10 @@ public class Controller {
      */
     public void redo(){ currentState.redo(listOfCommands, window);}
 
+    /**
+     * get the object ListOfCommand from the Controller
+     * @return the object ListOfCommand
+     */
     public ListOfCommands getListOfCommands() {
         return listOfCommands;
     }

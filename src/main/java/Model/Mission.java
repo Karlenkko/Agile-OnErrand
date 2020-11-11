@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.*;
 
-public class Mission extends Observable {
+public class Mission {
     private static Intersection depot;
     private static LocalTime departureTime;
     private static ArrayList<Request> allRequests;
@@ -140,7 +140,7 @@ public class Mission extends Observable {
     }
 
     /**
-     * When the user chooses to add a request or delete a request in the mission, the system will update the tour calculated.
+     * When the user firstly calculates the tour, the system will update the tour calculated.
      * @param sequence
      * @param bestSolIntersection
      * @param interAddressLength
@@ -182,6 +182,13 @@ public class Mission extends Observable {
         arrivalTimeSchedule.put(depot.getId(), tempTime);
     }
 
+    /**
+     * When the user chooses to add a request or delete a request in the mission,
+     * the system will update part of the tour existed.
+     * @param sequence
+     * @param bestSolIntersection
+     * @param interAddressLength
+     */
     public void updatePartialTour(Long[] sequence, List<Long> bestSolIntersection, double[] interAddressLength) {
 
         //updateAllRequests();
@@ -240,15 +247,7 @@ public class Mission extends Observable {
             if (tourIntersections.get(i).equals(sequence[0]))
                 start = i;
         }
-        /*
-        for (int i= tourIntersections.size()-1; i > start; --i) {
-            if (sequence[sequence.length - 1].equals(tourIntersections.get(i))) {
-                end = i;
-                break;
-            }
-        }
 
-         */
         end = tourIntersections.indexOf(sequence[sequence.length - 1]);
         end = end == 0 ? tourIntersections.size(): end;
         for (int i = start+1; i<end; ++i) {
@@ -258,6 +257,17 @@ public class Mission extends Observable {
             tourIntersections.add(start+i, bestSolIntersection.get(i));
         }
 
+
+        System.out.println("Tour");
+        for(int i = 0; i < tour.size(); ++i) {
+            System.out.print(tour.get(i) +" ");
+        }
+        System.out.println("Tour");
+        System.out.println("Sequence");
+        for(int i = 0; i < sequence.length; ++i) {
+            System.out.print(sequence[i] +" ");
+        }
+        System.out.println("Sequence");
         LocalTime tempTime = departureTimeSchedule.get(sequence[0]);
 
         for (int i = 1; i < interAddressLength.length-1; i++) {
@@ -287,6 +297,9 @@ public class Mission extends Observable {
         arrivalTimeSchedule.put(depot.getId(), arrivalTimeSchedule.get(depot.getId()).plusSeconds(elapsedSeconds));
     }
 
+    /**
+     * when user loads the request, the system will initial the tour by default order
+     */
     public void initialTour() {
         tour.clear();
         if (depot != null) {
@@ -342,31 +355,60 @@ public class Mission extends Observable {
         return nearest;
     }
 
+    /**
+     * get the arrival time of the address offered
+     * @param addressId the id of the address
+     * @return
+     */
     public LocalTime getArrivalTime(Long addressId) {
         return arrivalTimeSchedule.getOrDefault(addressId, LocalTime.MIDNIGHT);
     }
 
-    // there is a overloading
+    /**
+     * get the departure time of the address offered
+     * @param addressId the id of the address
+     * @return
+     */
     public LocalTime getDepartureTime(Long addressId) {
         return departureTimeSchedule.getOrDefault(addressId, LocalTime.MIDNIGHT);
     }
 
+    /**
+     * get the list of all intersections for the tour calculated
+     * @return
+     */
     public LinkedList<Long> getTourIntersections() {
         return tourIntersections;
     }
 
+    /**
+     * get the list of addresses fpr the new added request
+     * @return
+     */
     public ArrayList<Long> getNewAddList(){
         return newAddList;
     }
 
+    /**
+     * add the id of the address into the newAddList
+     * @param id id of the address
+     */
     public void addNewAdd(Long id) {
         newAddList.add(id);
     }
 
+    /**
+     * clear the newAddList
+     */
     public void resetNewAdd() {
         newAddList.clear();
     }
 
+    /**
+     * put the address in the newAddList into the allRequest list,
+     * and increment the indexTable with the num offered or by default
+     * @param num the index of the request or -1 means use the default number
+     */
     public void updateAllRequests(int num) {
         allRequests.add(newRequest);
         if (num == -1) {
@@ -378,23 +420,39 @@ public class Mission extends Observable {
         setNewRequest(null);
     }
 
+    /**
+     * remove the last element in the newAddList
+     */
     public void removeAdd() {
         if (newAddList.size() != 0) {
             newAddList.remove(newAddList.size()-1);
         }
     }
 
+    /**
+     * get the newRequest
+     * @return the newRequest object
+     */
     public Request getNewRequest() {
         return newRequest;
     }
 
+    /**
+     * set the newRequest
+     * @param newRequest the request object to be set
+     */
     public void setNewRequest(Request newRequest) {
         Mission.newRequest = newRequest;
     }
 
+    /**
+     * to check whether the start address is not the delivery address corresponding to the end address
+     * @param idBefore the id of the start address
+     * @param idAfter the id of the end address
+     * @return true if it is not the correspondent delivery address of the end address, false if it is
+     */
     public boolean requestValid(Long idBefore, Long idAfter) {
         for (Request request : allRequests) {
-            System.out.println("checking" + request.getPickup().getId());
             if (idAfter.equals(request.getPickup().getId()) && idBefore.equals(request.getDelivery().getId())) {
                 return false;
             }
@@ -402,6 +460,11 @@ public class Mission extends Observable {
         return true;
     }
 
+    /**
+     * delete the request of the offered index in the allRequest list and in the indexTable
+     * @param index the index of the request to be deleted
+     * @return
+     */
     public Request deleteRequest(int index) {
         for (int i = 0; i < indexTable.size(); ++i) {
             if (indexTable.get(i).equals(index)) {
@@ -412,6 +475,11 @@ public class Mission extends Observable {
         return null;
     }
 
+    /**
+     * delete the request in the allRequest list and in the indexTable
+     * @param request the request to be deleted
+     * @return
+     */
     public int deleteRequest(Request request) {
         int num = -1;
         if (allRequests.contains(request)) {
@@ -422,6 +490,11 @@ public class Mission extends Observable {
         return num;
     }
 
+    /**
+     * get the before and after address of the address according to the order of the tour calculated
+     * @param id the id of the intersection
+     * @return
+     */
     public ArrayList<Long> getBeforeAfterAddress(Long id) {
         ArrayList<Long> addressToUpdate = new ArrayList<>();
         int i = tour.indexOf(id);
@@ -434,11 +507,19 @@ public class Mission extends Observable {
         return addressToUpdate;
     }
 
-
+    /**
+     * get the maxIndex, which corresponds to the default index number
+     * @return the maxIndex
+     */
     public int getMaxIndex() {
         return maxIndex;
     }
 
+    /**
+     * get the combination of the pickup and delivery address of the request, the before address of its pickup and the after address of its delivery
+     * @param request the request object
+     * @return the list of address
+     */
     public ArrayList<Long> getReplacedRequestsList(Request request) {
         ArrayList<Long> replacedRequestsList = new ArrayList<>();
         for (int i = 0; i < tour.size(); ++i) {
@@ -459,10 +540,12 @@ public class Mission extends Observable {
         return replacedRequestsList;
     }
 
-    public ArrayList<Integer> getIndexTable() {
-        return indexTable;
-    }
-
+    /**
+     * get the old tour between the start address and the end address
+     * @param startAddress the id of the start address
+     * @param arrivalAddress the id of the end address
+     * @return the list of address
+     */
     public ArrayList<Long> getPartialTour(Long startAddress, Long arrivalAddress) {
 
         int lastOccurrence = 0;
@@ -497,16 +580,23 @@ public class Mission extends Observable {
         return partialTour;
     }
 
+    /**
+     * add the address to be deleted in the requestsToDelete list
+     * @param intersection the intersection object
+     */
     public void setDelete(Intersection intersection) {
         requestsToDelete.clear();
         for (Request request : allRequests) {
             if (request.getPickup().getId().equals(intersection.getId()) || request.getDelivery().getId().equals(intersection.getId())) {
                 requestsToDelete.add(request);
-                System.out.println(request.toString());
             }
         }
     }
 
+    /**
+     * add the address to be deleted in the requestsToDelete list
+     * @param num the index of the address
+     */
     public void setDelete(int num) {
         requestsToDelete.clear();
         if(num == -1)
@@ -514,19 +604,30 @@ public class Mission extends Observable {
         requestsToDelete.add(allRequests.get(indexTable.indexOf(num)));
     }
 
+    /**
+     * clear the requestsToDelete list
+     */
     public void resetDelete() {
         requestsToDelete.clear();
     }
 
+    /**
+     * get the requestsToDelete list
+     * @return the requestsToDelete list
+     */
     public ArrayList<Request> getRequestsToDelete() {
         return requestsToDelete;
     }
 
+    /**
+     * the check whether the request is a request to be deleted
+     * @param s the string of the request with its index
+     * @return true it's the request to be deleted, false it is not
+     */
     public boolean isDeletedRequest(String s) {
         for (Request request : requestsToDelete) {
             int index = indexTable.get(allRequests.indexOf(request));
             if(s.contains(index+"")) {
-                System.out.println("isDeletedRequest");
                 return true;
             }
         }

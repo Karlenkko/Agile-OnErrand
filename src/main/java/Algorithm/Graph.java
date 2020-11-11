@@ -128,10 +128,25 @@ public interface Graph {
 	 */
 	Long getDelivery(Long pickup);
 
+	/**
+	 * get the shortest route that traverse all the addresses
+	 * @param bestSolAddress the addresses needed to be traversed
+	 * @return
+	 */
 	List<Long> getRoute(Long[] bestSolAddress);
 
+	/**
+	 * get the cost of the shortest route that traverse all the addresses
+	 * @param bestSolAddress the addresses needed to be traversed
+	 * @return
+	 */
 	double[] getSolutionCost(Long[] bestSolAddress);
 
+	/**
+	 * check whether the intersection is reachable by other intersections
+	 * @param id the id of the intersection to be checked
+	 * @return
+	 */
 	boolean isReachable(Long id);
 
 }

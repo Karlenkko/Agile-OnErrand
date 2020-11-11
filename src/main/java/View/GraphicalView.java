@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GraphicalView extends JPanel implements Observer {
+public class GraphicalView extends JPanel {
 
     private static final long serialVersionID = 1L;
     private static final int DEFAULT_SIZE = 600;
@@ -62,7 +62,6 @@ public class GraphicalView extends JPanel implements Observer {
      */
     public GraphicalView(Map map, Mission mission, Window window) {
         super();
-        mission.addObserver(this);
         setBackground(Color.white);
         window.getContentPane().add(this);
         this.map = map;
@@ -334,18 +333,6 @@ public class GraphicalView extends JPanel implements Observer {
         GraphicalView.paintAdd = paintAdd;
     }
 
-
-    /**
-     * When the information in the model changed. The graphicalView changed also.
-     * @param observed an instance of Observable which is used to observe the information change in the model.
-     * @param arg the object which has the changed information
-     */
-    @Override
-    public void update(Observable observed, Object arg) {
-        if (arg != null) {
-
-        }
-    }
 
     /**
      * Obtain the horizontal position of the mouse.

@@ -55,9 +55,6 @@ public class MapGraph implements Graph {
 
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public void reset() {
 		intersectionToIntersections.clear();
@@ -217,6 +214,11 @@ public class MapGraph implements Graph {
 	}
 
 
+	/**
+	 * update the cost of the address into the minHash hashmap
+	 * @param id the id of the address
+	 * @param length the cost of this address
+	 */
 	private void updateMinHash(Long id, Double length) {
 		if (minArrivalCosts.containsKey(id)) {
 			if (minArrivalCosts.get(id) > length) {
@@ -228,6 +230,10 @@ public class MapGraph implements Graph {
 	}
 
 
+	/**
+	 * get the id of address corresponding to the smallest cost in the gray points list
+	 * @return the id of the smallest cost address
+	 */
 	private Long getMinGray() {
 		Double min = toIntersectionCosts.get(gray.get(0));
 		Long id = gray.get(0);
@@ -240,6 +246,9 @@ public class MapGraph implements Graph {
 		return id;
 	}
 
+	/**
+	 * initial all the counter for the algorithm dijkstra
+	 */
 	private void initial() {
 		gray.clear();
 		black.clear();

@@ -12,6 +12,14 @@ import java.util.ArrayList;
 
 public class DeleteRequestState implements State {
 
+    /**
+     * the detailed implementation of the method leftClick for the DeleteRequestState
+     * that selects the request to be deleted
+     * @param controller the Controller
+     * @param window the main window of the application
+     * @param positionX the x position of the mouse on the window
+     * @param positionY the y position of the mouse on the window
+     */
     @Override
     public void leftClick(Controller controller, Window window, int positionX, int positionY){
         System.out.println("entering");
@@ -37,6 +45,12 @@ public class DeleteRequestState implements State {
 
     }
 
+    /**
+     * the detailed implementation of the method rightClick for the DeleteRequestState
+     * that cancels the selection of the request
+     * @param controller the Controller
+     * @param window the main window of the application
+     */
     @Override
     public void rightClick(Controller controller, Window window) {
 
@@ -58,8 +72,6 @@ public class DeleteRequestState implements State {
     public void deleteRequest(Controller controller, Window window, ListOfCommands listOfCommands){
         JTable table = window.getTextualView().getRequestTable();
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-        //TODO: set the last request to be undeletable
 
         if (table.getSelectedRowCount() > 2) {
             JOptionPane.showMessageDialog(null, "choose one request to be deleted on the request table", "alert", JOptionPane.ERROR_MESSAGE);

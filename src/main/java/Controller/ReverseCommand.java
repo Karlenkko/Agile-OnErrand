@@ -11,11 +11,17 @@ public class ReverseCommand implements Command {
         this.cmd = cmd;
     }
 
+    /**
+     * the executive method that deletes a selected Request
+     */
     @Override
     public void doCommand() {
         cmd.undoCommand();
     }
 
+    /**
+     * the executive method that add a new Request
+     */
     @Override
     public void undoCommand() {
         cmd.doCommand();
