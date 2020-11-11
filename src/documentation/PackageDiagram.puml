@@ -13,6 +13,7 @@ Package Controller{
     class listOfCommand
     class ReverseCommmande
     class AddCommande
+    class DeleteRequestState
 
     interface State
     Controller --> State
@@ -25,6 +26,7 @@ Package Controller{
     AddRequestState3..|> State
     AddRequestState4..|> State
     AddRequestState5..|> State
+    DeleteRequestState..|> State
 
     listOfCommand ..|> Command
     ReverseCommmande ..|> Command
@@ -49,6 +51,7 @@ Package Algorithm{
     class CompleteGraph
     class MapGraph
     class Seqlter
+    class MinFirstIter
 
 
     TSP2 -> TSP1
@@ -66,11 +69,10 @@ Package Model{
     class Mission
     class Request
     class Segment
-    class Observable
 
     CompleteGraph --|> Mission
     CompleteGraph --|> Map
-    Mission --|> Observable
+
     TourSerializer --|> Map
     TourSerializer --|> Mission
     TourSerializer --|> Segment
@@ -101,11 +103,8 @@ Package View{
     class GraphicalView
     class ButtonListener
     class MouseListener
-    interface Observer
     class PopupWindow
 
-    TextualView ..|> Observer
-    GraphicalView ..|> Observer
     State --> PopupWindow
     Controller --> Window
     Window --> TextualView
