@@ -87,7 +87,7 @@ public abstract class TemplateTSP implements TSP {
 			Collection<Long> visited, double currentCost){
 		if (System.currentTimeMillis() - startTime > timeLimit) {
 			if (until){
-				String time = (String) JOptionPane.showInputDialog(null,"continue to calculate for (seconds)：","Input", JOptionPane.ERROR_MESSAGE,null,null,30);
+				String time = (String) JOptionPane.showInputDialog(null,"continue to calculate for (seconds):","Input", JOptionPane.ERROR_MESSAGE,null,null,30);
 				if (time == null || time.equals("null")) {
 					until = false;
 					return;
