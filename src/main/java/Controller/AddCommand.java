@@ -86,24 +86,6 @@ public class AddCommand implements Command{
             newOperation = false;
         }
 
-
-        System.out.println("doCommand");
-        System.out.println("Tour");
-        for(int i = 0; i < mission.getTour().size(); ++i) {
-            System.out.print(mission.getTour().get(i) +" ");
-        }
-        System.out.println("Tour");
-        System.out.println("TourIntersection");
-        for(int i = 0; i < mission.getTourIntersections().size(); ++i) {
-            System.out.print(mission.getTourIntersections().get(i) +" ");
-        }
-        System.out.println("TourIntersection");
-        System.out.println("all Requests");
-        for(int i = 0; i < mission.getAllRequests().size(); ++i) {
-            System.out.println(mission.getAllRequests().get(i).getPickup().getId());
-        }
-        System.out.println("all Requests");
-        System.out.println("doCommand");
     }
 
     /**
@@ -117,9 +99,12 @@ public class AddCommand implements Command{
         }
 
         num = mission.deleteRequest(request);
+        /*
         if (num == -1){
             return;
         }
+
+         */
 
         if (newOperation) {
             // delete the pickup of the request
@@ -129,7 +114,6 @@ public class AddCommand implements Command{
             sequence[1] = addressToUpdate.get(1);
             ArrayList<Long> bestSolIntersection = new ArrayList<>();
 
-            System.out.println(sequence[0]+" "+sequence[1]);
 
             if(!g.getShortestPaths(false).containsKey(sequence[0]+" "+sequence[1])) {
                 Long origin = sequence[0];
@@ -149,7 +133,6 @@ public class AddCommand implements Command{
             sequence[1] = addressToUpdate.get(1);
             bestSolIntersection = new ArrayList<>();
 
-            System.out.println(sequence[0]+" "+sequence[1]);
 
             if(!g.getShortestPaths(false).containsKey(sequence[0]+" "+sequence[1])) {
                 Long origin = sequence[0];
@@ -178,17 +161,5 @@ public class AddCommand implements Command{
             newOperation = false;
         }
 
-        System.out.println("undoCommand");
-        System.out.println("Tour");
-        for(int i = 0; i < mission.getTour().size(); ++i) {
-            System.out.print(mission.getTour().get(i) +" ");
-        }
-        System.out.println("Tour");
-        System.out.println("TourIntersection");
-        for(int i = 0; i < mission.getTourIntersections().size(); ++i) {
-            System.out.print(mission.getTourIntersections().get(i) +" ");
-        }
-        System.out.println("TourIntersection");
-        System.out.println("undoCommand");
     }
 }

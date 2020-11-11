@@ -63,7 +63,6 @@ public class CalculatedState implements State{
                 "then click the delete request button, \n" +
                 "or right click to cancel the deletion");
         window.getTextualView().setLockInstruction(true);
-        System.out.println("addRequest");
     }
 
     /**

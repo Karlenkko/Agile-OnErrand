@@ -257,6 +257,17 @@ public class Mission {
             tourIntersections.add(start+i, bestSolIntersection.get(i));
         }
 
+
+        System.out.println("Tour");
+        for(int i = 0; i < tour.size(); ++i) {
+            System.out.print(tour.get(i) +" ");
+        }
+        System.out.println("Tour");
+        System.out.println("Sequence");
+        for(int i = 0; i < sequence.length; ++i) {
+            System.out.print(sequence[i] +" ");
+        }
+        System.out.println("Sequence");
         LocalTime tempTime = departureTimeSchedule.get(sequence[0]);
 
         for (int i = 1; i < interAddressLength.length-1; i++) {

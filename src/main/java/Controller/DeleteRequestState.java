@@ -73,8 +73,6 @@ public class DeleteRequestState implements State {
         JTable table = window.getTextualView().getRequestTable();
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 
-        //TODO: set the last request to be undeletable
-
         if (table.getSelectedRowCount() > 2) {
             JOptionPane.showMessageDialog(null, "choose one request to be deleted on the request table", "alert", JOptionPane.ERROR_MESSAGE);
             return;
